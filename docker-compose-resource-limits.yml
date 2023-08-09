@@ -1,0 +1,11 @@
+version: '1.0'
+
+services:
+
+  db:
+    mem_limit: 5g
+    cpus: 3
+
+  web:
+    mem_limit: 5g
+    cpus: 3

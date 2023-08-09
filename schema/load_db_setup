@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkdir -p /home/postgres/EGD
+cp -Rv /app/schema/data /home/postgres/EGD/
+cp -Rv /app/schema/sql  /home/postgres/EGD/
