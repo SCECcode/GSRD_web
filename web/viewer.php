@@ -1,15 +1,15 @@
 <?php
 require_once("php/navigation.php");
-require_once("php/CPD_SLIPRATE.php");
+require_once("php/EGD_SLIPRATE.php");
 $header = getHeader("Viewer");
 
-$cpd_sliprate = new SLIPRATE();
+$egd_sliprate = new SLIPRATE();
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Community Paleoseismic Database (Provisional)</title>
+    <title>Earthquake Geology Database (Provisional)</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/vendor/font-awesome.min.css">
@@ -67,12 +67,12 @@ $cpd_sliprate = new SLIPRATE();
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/edit/handler/Edit.CircleMarker.js"></script>
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/edit/handler/Edit.Circle.js"></script>
 
-<!-- cpd js -->
+<!-- egd js -->
     <script type="text/javascript" src="js/debug.js?v=1"></script>
-    <script type="text/javascript" src="js/cpd_main.js?v=1"></script>
-    <script type="text/javascript" src="js/cpd_sliprate.js?v=1"></script>
-    <script type="text/javascript" src="js/cpd_leaflet.js?v=1"></script>
-    <script type="text/javascript" src="js/cpd_ui.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_main.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_leaflet.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_ui.js?v=1"></script>
 
 <!-- cxm js -->
     <script type="text/javascript" src="js/cxm_kml.js?v=1"></script>
@@ -111,7 +111,7 @@ $cpd_sliprate = new SLIPRATE();
 <body>
 <?php echo $header; ?>
 
-<div class="container main" id="cpdMain">
+<div class="container main" id="egdMain">
 
 <!-- trace dumping buttons 
     <div style="display:none">
@@ -123,7 +123,7 @@ $cpd_sliprate = new SLIPRATE();
 <!-- top-intro -->
    <div id="top-intro" style="display:">
 <p>
-The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community PaleoSeismic Database Model</a> are 
+The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geology Database Model</a> are 
 ...  See the <a href="guide">user guide</a> for more details and usage instructions.
 </p>
    </div>
@@ -137,13 +137,13 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
 
 <!-- top-control -->
    <div id="top-control" class="row">
-      <div id="cpd-controls-container" class="col" >
+      <div id="egd-controls-container" class="col" >
 <!-- control-row-1 -->
         <div id="top-control-row-1" class="col-12">
 
           <div class="row mb-1">
              <form id="id_select_dataset">
-               <label for="dataset"> Choose CPD Dataset : </label>
+               <label for="dataset"> Choose EGD Dataset : </label>
                <label><input type="radio" id="dataset_sliprate" name=dataset />
                         <span>Sliprate sites</span></label>
 <!--
@@ -154,9 +154,9 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
           </div>
 
 <!-- SLIPRATE select -->
-          <div id="cpd-sliprate-search-control" class="row mt-1 container-control" style="margin-left:-30px">
+          <div id="egd-sliprate-search-control" class="row mt-1 container-control" style="margin-left:-30px">
             <div class="col-4 input-group filters mb-3">
-              <select id="cpd-search-type" class="custom-select">
+              <select id="egd-search-type" class="custom-select">
                   <option value="">Search the Slip Rate Sites</option>
                   <option value="faultname">Fault Name</option>
                   <option value="sitename">Site Name</option>
@@ -165,7 +165,7 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                   <option value="maxrate">maxRate</option>
               </select>
 	      <div class="input-group-append">
-                  <button id="refresh-all-button" onclick="CPD_SLIPRATE.reset();"
+                  <button id="refresh-all-button" onclick="EGD_SLIPRATE.reset();"
                            class="btn btn-dark pl-4 pr-4" type="button">Reset</button>
               </div>
             </div>
@@ -173,30 +173,30 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
 <!-- SLIPRATE option expand -->
             <div class="col-8">
               <ul>
-                <li id='cpd-fault-name' class='navigationLi' style="display:none">
+                <li id='egd-fault-name' class='navigationLi' style="display:none">
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="cpd-faultnameTxt" placeholder="Enter Fault Name" type="text"
+                           <input id="egd-faultnameTxt" placeholder="Enter Fault Name" type="text"
                                   onfocus="this.value=''"
-                                  class="cpd-faultname-item form-control">
+                                  class="egd-faultname-item form-control">
                       </div>
                     </div>
                   </div>
                 </li>
-                <li id='cpd-site-name' class='navigationLi ' style="display:none">
+                <li id='egd-site-name' class='navigationLi ' style="display:none">
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="cpd-sitenameTxt" placeholder="Enter Site Name" type="text"
+                           <input id="egd-sitenameTxt" placeholder="Enter Site Name" type="text"
                                   onfocus="this.value=''"
-                                  class="cpd-sitename-item form-control">
+                                  class="egd-sitename-item form-control">
                       </div>
                     </div>
                   </div>
                 </li>
-                <li id='cpd-latlon' class='navigationLi ' style="display:none">
-                  <div id='cpd-latlonMenu' class='menu'>
+                <li id='egd-latlon' class='navigationLi ' style="display:none">
+                  <div id='egd-latlonMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
                           <p>Draw a rectangle on the map or enter latitudes and longitudes</p>
@@ -205,28 +205,28 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                         <div class="form-inline latlon-input-boxes">
                             <input type="text"
                                    placeholder="Latitude"
-                                   id="cpd-firstLatTxt"
+                                   id="egd-firstLatTxt"
                                    title="first lat"
                                    onfocus="this.value=''"
-                                   class="cpd-latlon-item form-control">
+                                   class="egd-latlon-item form-control">
                             <input type="text" 
                                    placeholder='Longitude' 
-                                   id="cpd-firstLonTxt" 
+                                   id="egd-firstLonTxt" 
                                    title="first lon"
                                    onfocus="this.value=''" 
-                                   class="cpd-latlon-item form-control">
+                                   class="egd-latlon-item form-control">
                             <input type="text"
-                                   id="cpd-secondLatTxt"
+                                   id="egd-secondLatTxt"
                                    title="second lat"
                                    placeholder='2nd Latitude'
                                    onfocus="this.value=''"
-                                   class="cpd-latlon-item form-control">
+                                   class="egd-latlon-item form-control">
                             <input type="text"
-                                   id="cpd-secondLonTxt"
+                                   id="egd-secondLonTxt"
                                    title="second lon"
                                    placeholder='2nd Longitude'
                                    onfocus="this.value=''"
-                                   class="cpd-latlon-item form-control">
+                                   class="egd-latlon-item form-control">
                         </div>
                       </div>
                     </div>
@@ -234,8 +234,8 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                 </li>
 
 <!-- minrate slider -->
-                <li id='cpd-minrate-slider' class='navigationLi' style="display:none;">
-                  <div id='cpd-minrate-sliderMenu' class='menu'>
+                <li id='egd-minrate-slider' class='navigationLi' style="display:none;">
+                  <div id='egd-minrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
                           <p>Select a range on the minRate slider or enter the two boundaries</p>
@@ -243,28 +243,28 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                       <div class="col-8">
                         <div class="form-inline vector-slider-input-boxes">
                           <input type="text"
-                              id="cpd-minMinrateSliderTxt"
+                              id="egd-minMinrateSliderTxt"
                               title="min minrate slider"
                               onfocus="this.value=''"
-                              class="cpd-minrate-item form-control">
+                              class="egd-minrate-item form-control">
                           <div class="col-5">
                             <div id="slider-minrate-range" style="border:2px solid black"></div>
 		            <div id="min-minrate-slider-handle" class="ui-slider-handle"></div>
 		            <div id="max-minrate-slider-handle" class="ui-slider-handle"></div>
                           </div>
                           <input type="text"
-                              id="cpd-maxMinrateSliderTxt"
+                              id="egd-maxMinrateSliderTxt"
                               title="max minrate slider"
                               onfocus="this.value=''"
-                              class="cpd-minrate-item form-control">
+                              class="egd-minrate-item form-control">
                         </div>
                       </div>
                     </div>
                   </div>
                 </li>
 <!-- maxrate slider -->
-                <li id='cpd-maxrate-slider' class='navigationLi' style="display:none">
-                  <div id='cpd-maxrate-sliderMenu' class='menu'>
+                <li id='egd-maxrate-slider' class='navigationLi' style="display:none">
+                  <div id='egd-maxrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
                           <p>Select a range on the maxRate slider or enter the two boundaries</p>
@@ -272,20 +272,20 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                       <div class="col-8">
                         <div class="form-inline vector-slider-input-boxes">
                           <input type="text"
-                              id="cpd-minMaxrateSliderTxt"
+                              id="egd-minMaxrateSliderTxt"
                               title="min maxrate slider"
                               onfocus="this.value=''"
-                              class="cpd-maxrate-item form-control">
+                              class="egd-maxrate-item form-control">
                           <div class="col-5">
                             <div id="slider-maxrate-range" style="border:2px solid black"></div>
 		            <div id="min-maxrate-slider-handle" class="ui-slider-handle"></div>
 		            <div id="max-maxrate-slider-handle" class="ui-slider-handle"></div>
                           </div>
                           <input type="text"
-                              id="cpd-maxMaxrateSliderTxt"
+                              id="egd-maxMaxrateSliderTxt"
                               title="max maxrate slider"
                               onfocus="this.value=''"
-                              class="cpd-maxrate-item form-control">
+                              class="egd-maxrate-item form-control">
                         </div>
                       </div>
                     </div>
@@ -293,7 +293,7 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
                 </li>
               </ul>
             </div> <!-- SLIPRATE option expand -->
-         </div> <!-- cpd-sliprate-search-control -->
+         </div> <!-- egd-sliprate-search-control -->
 
         </div> <!-- top-control-row-1 -->
 
@@ -303,18 +303,18 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
           <div id='model-options' class="form-check-inline">
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
-                               for="cpd-model-cfm">
+                               for="egd-model-cfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"
-			       id="cpd-model-cfm" value="1" />CFM6.0
+			       id="egd-model-cfm" value="1" />CFM6.0
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
-                               for="cpd-model-gfm">
+                               for="egd-model-gfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"
-			       id="cpd-model-gfm" value="1" />GFM
+			       id="egd-model-gfm" value="1" />GFM
                 </label>
             </div>
           </div>
@@ -348,7 +348,7 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
           </div>
         </div> <!-- top-control-row-2 -->
 
-      </div> <!-- cpd-controls-container -->
+      </div> <!-- egd-controls-container -->
     </div> <!-- top-control -->
 
 <!-- map space -->
@@ -366,7 +366,7 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
       </div>
 
       <div id="top-map" class="col-7 pl-1">
-        <div class="w-100 mb-1" id='CPD_plot'
+        <div class="w-100 mb-1" id='EGD_plot'
              style="position:relative;border:solid 1px #ced4da; height:576px;">
              <div  id='wait-spinner' style="">
                <div class="d-flex justify-content-center" >
@@ -441,7 +441,7 @@ The sites of the <a href="https://www.scec.org/research/cpd">SCEC Community Pale
 
 <!--call php directly-->
     <script type="text/javascript">
-            cpd_sliprate_site_data = <?php print $cpd_sliprate->getAllStationData()->outputJSON(); ?>;
+            egd_sliprate_site_data = <?php print $egd_sliprate->getAllStationData()->outputJSON(); ?>;
     </script>
 </body>
 </html>

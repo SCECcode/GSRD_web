@@ -19,7 +19,7 @@ $header = getHeader("Contact");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Community Paleoseismic Database Viewer: Contact</title>
+    <title>Earthquake Geology Database Viewer: Contact</title>
 </head>
 <body>
 <?php echo $header; ?>
