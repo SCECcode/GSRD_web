@@ -19,7 +19,7 @@ then
   EGDPATH=${PWD}"/../EGD_1_slip_rates/"
   EGDTYPE="EGD1_sliprates"
   EXCEL_NM="EGD_SlipRatesSites"
-  DATATYPE="sliprate1"
+  DATATYPE="sliprate"
   EXCEL_NM_SHEET="EGD1 Slip Rates"
 #  EXCEL_NM_FILE=${EGDPATH}"/EGD_SlipRates.xlsx"
 fi
