@@ -1182,18 +1182,9 @@ window.console.log("calling download..");
 ***/
         }
 
-/**
-        var zipfname="CPD_SLIPRATE_"+timestamp+".zip"; 
-        nzip.generateAsync({type:"blob"}).then(function (content) {
-          // see FileSaver.js
-          saveAs(content, zipfname);
-        })
-***/
-
         if(mlist.length != 0) {
-//        saveAsJSONBlobFile(mlist, timestamp)
           var data=getCSVFromMeta(mlist);
-          saveAsCSVBlobFile(data, timestamp);
+          saveAsCSVBlobFile("EGD_sliprate_", data, timestamp);
         }
     };
 

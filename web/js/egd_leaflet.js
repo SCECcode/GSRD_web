@@ -1,7 +1,7 @@
 /***
-   cpd_leaflet.js
+   egd_leaflet.js
 
-This is leaflet specific utilities for CPD
+This is leaflet specific utilities for EGD
 ***/
 
 var init_map_zoom_level = 10;
@@ -29,8 +29,8 @@ var rectangleDrawer;
 var mymap, baseLayers, layerControl, currentLayer;
 var mylegend;
 
-var cpd_latlon_area_list=[];
-var cpd_latlon_point_list=[];
+var egd_latlon_area_list=[];
+var egd_latlon_point_list=[];
 
 /*****************************************************************/
 
@@ -85,9 +85,12 @@ function get_map()
 function setup_viewer()
 {
 // esri
-  var esri_topographic = L.esri.basemapLayer("Topographic");
-  var esri_imagery = L.esri.basemapLayer("Imagery");
-  var esri_ng = L.esri.basemapLayer("NationalGeographic");
+  // web@scec.org  - ArcGIS apiKey, https://leaflet-extras.github.io/leaflet-providers/preview/
+  var esri_apiKey = "AAPK2ee0c01ab6d24308b9e833c6b6752e69Vo4_5Uhi_bMaLmlYedIB7N-3yuFv-QBkdyjXZZridaef1A823FMPeLXqVJ-ePKNy";
+  var esri_topographic = L.esri.Vector.vectorBasemapLayer("ArcGIS:Topographic", {apikey: esri_apiKey});
+  var esri_imagery = L.esri.Vector.vectorBasemapLayer("ArcGIS:Imagery", {apikey: esri_apiKey});
+  var osm_streets_relief= L.esri.Vector.vectorBasemapLayer("OSM:StreetsRelief", {apikey: esri_apiKey});
+  var esri_terrain = L.esri.Vector.vectorBasemapLayer("ArcGIS:Terrain", {apikey: esri_apiKey});
 
 // otm topo
   var topoURL='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
@@ -96,28 +99,46 @@ function setup_viewer()
 
   var otm_topographic = L.tileLayer(topoURL, { detectRetina: true, attribution: topoAttribution, maxZoom:18});
 
+  var jawg_dark = L.tileLayer('https://{s}.tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+        attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        minZoom: 0,
+        maxZoom: 18,
+        accessToken: 'hv01XLPeyXg9OUGzUzaH4R0yA108K1Y4MWmkxidYRe5ThWqv2ZSJbADyrhCZtE4l'});
+
+  var jawg_light = L.tileLayer('https://{s}.tile.jawg.io/jawg-light/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+        attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        minZoom: 0,
+        maxZoom: 18,
+        accessToken: 'hv01XLPeyXg9OUGzUzaH4R0yA108K1Y4MWmkxidYRe5ThWqv2ZSJbADyrhCZtE4l' });
+
 // osm street
   var openURL='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var openAttribution ='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   var osm_street=L.tileLayer(openURL, {attribution: openAttribution, maxZoom:18});
-  var shaded_relief =  L.esri.basemapLayer("ShadedRelief");
 
   baseLayers = {
     "esri topo" : esri_topographic,
-    "esri NG" : esri_ng,
     "esri imagery" : esri_imagery,
+    "jawg light" : jawg_light,
+    "jawg dark" : jawg_dark,
+    "osm streets relief" : osm_streets_relief,
     "otm topo": otm_topographic,
     "osm street" : osm_street,
-    "shaded relief": shaded_relief
+    "esri terrain": esri_terrain
   };
+
   var overLayer = {};
   var basemap = L.layerGroup();
   currentLayer = esri_topographic;
 
+
 // ==> mymap <==
-  mymap = L.map('CPD_plot', { drawControl:false, layers: [esri_topographic, basemap], zoomControl:true} );
+  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true} );
+
   mymap.setView(init_map_coordinates, init_map_zoom_level);
   mymap.attributionControl.addAttribution(scecAttribution);
+
+  esri_topographic.addTo(mymap);
 
 // basemap selection
   var ctrl_div=document.getElementById('external_leaflet_control');
@@ -140,30 +161,21 @@ function setup_viewer()
   span.innerHTML = 'Select background';
   parent_div.insertBefore(span, forms_div[0]);
 
+
+
 // ==> scalebar <==
   L.control.scale({metric: 'false', imperial:'false', position: 'bottomleft'}).addTo(mymap);
 
-// ==> mouse location popup <==
-//   var popup = L.popup();
-// function onMapClick(e) {
-//   if(!skipPopup) { // suppress if in latlon search ..
-//     popup
-//       .setLatLng(e.latlng)
-//       .setContent("You clicked the map at " + e.latlng.toString())
-//       .openOn(mymap);
-//   }
-// }
-// mymap.on('click', onMapClick);
-
   function onMapMouseOver(e) {
-    if(CPD_SLIPRATE.toDraw()) {
+    if(EGD_SLIPRATE.toDraw()) {
       drawRectangle();
     }
   }
 
   function onMapZoom(e) { 
     var zoom=mymap.getZoom();
-//window.console.log("map got zoomed..>>",zoom);
+window.console.log("map got zoomed..>>",zoom);
+//XXX   need to resize the marker circle
     }
 
   mymap.on('mouseover', onMapMouseOver);
@@ -188,12 +200,12 @@ function setup_viewer()
 // like hand inputed rectangle. Maybe some property needs to be set
 // For now, just redraw the rectangle
 	    //
-        CPD_SLIPRATE.searchLatlon(1,latlngs);        
+        EGD_SLIPRATE.searchLatlon(1,latlngs);        
     }
   });
 
 // enable the expand view key
-$("#CPD_plot").prepend($("#expand-view-key-container").html());
+$("#EGD_plot").prepend($("#expand-view-key-container").html());
 let tmp=$(".leaflet-control-attribution");
 // should  only have 1, adjust the attribution's location
 let v= document.getElementsByClassName("leaflet-control-attribution")[0];
@@ -217,52 +229,6 @@ function drawRectangle(){
 function skipRectangle(){
   rectangleDrawer.disable();
 }
-
-// ==> feature popup on each layer <==
-function popupDetails(layer) {
-   layer.openPopup(layer);
-}
-
-function closeDetails(layer) {
-   layer.closePopup();
-}
-
-// https://gis.stackexchange.com/questions/148554/disable-feature-popup-when-creating-new-simple-marker
-function unbindPopupEachFeature(layer) {
-    layer.unbindPopup();
-    layer.off('click');
-}
-
-// binding the 'detail' fault content
-function bindPopupEachFeature(feature, layer) {
-    var popupContent="";
-    layer.on({
-        mouseover: function(e) {
-          layer.setStyle({weight: 5});
-          if (feature.properties != undefined) {
-//XXX         popupContent = feature.properties.name;
-popupContent='<a href="https://www.scec.org">'+feature.properties.name+'</a>';
-		  window.console.log("HERE...",popupContent);
-          }
-          layer.bindPopup(popupContent);
-        },
-        mouseout: function(e) {
-          layer.setStyle({weight: 1});
-        },
-        click: function(e) {
-window.console.log("HERE..");
-          if (feature.properties != undefined) {
-//            popupContent = feature.properties.name;
-popupContent='<a href="https://www.scec.org">'+feature.properties.name+'</a>';
-              } else { 
-window.console.log("HERE 2");
-          }
-          layer.bindPopup(popupContent);
-        },
-    });
-
-}
-
 
 function addRectangleLayer(latA,lonA,latB,lonB) {
   var bounds = [[latA, lonA], [latB, lonB]];
@@ -322,13 +288,13 @@ function add_bounding_rectangle(a,b,c,d) {
   remove_bounding_rectangle_layer();
   var layer=addRectangleLayer(a,b,c,d);
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]};
-  cpd_latlon_area_list.push(tmp);
+  egd_latlon_area_list.push(tmp);
   return layer;
 }
 
 function remove_bounding_rectangle_layer() {
-   if(cpd_latlon_area_list.length == 1) {
-     var area=cpd_latlon_area_list.pop();
+   if(egd_latlon_area_list.length == 1) {
+     var area=egd_latlon_area_list.pop();
      var l=area["layer"];
      viewermap.removeLayer(l);
    }
@@ -339,7 +305,7 @@ function add_bounding_rectangle_layer(layer, a,b,c,d) {
   // remove old one and add a new one
   remove_bounding_rectangle_layer();
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]};
-  cpd_latlon_area_list.push(tmp);
+  egd_latlon_area_list.push(tmp);
 }
 
 function add_marker_point(a,b) {
@@ -347,13 +313,13 @@ function add_marker_point(a,b) {
   remove_marker_point_layer();
   var layer=addMarkerLayer(a,b);
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b}]};
-  cpd_latlon_point_list.push(tmp);
+  egd_latlon_point_list.push(tmp);
   return layer;
 }
 
 function remove_marker_point_layer() {
-   if(cpd_latlon_point_list.length == 1) {
-     var point=cpd_latlon_point_list.pop();
+   if(egd_latlon_point_list.length == 1) {
+     var point=egd_latlon_point_list.pop();
      var l=point["layer"];
      viewermap.removeLayer(l);
    }
@@ -363,7 +329,7 @@ function add_marker_point_layer(layer, a,b) {
   // remove old one and add a new one
   remove_marker_point_layer();
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b}]};
-  cpd_latlon_point_list.push(tmp);
+  egd_latlon_point_list.push(tmp);
 }
 
 

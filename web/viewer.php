@@ -68,7 +68,6 @@ $egd_sliprate = new SLIPRATE();
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/edit/handler/Edit.Circle.js"></script>
 
 <!-- egd js -->
-    <script type="text/javascript" src="js/debug.js?v=1"></script>
     <script type="text/javascript" src="js/egd_main.js?v=1"></script>
     <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
     <script type="text/javascript" src="js/egd_leaflet.js?v=1"></script>

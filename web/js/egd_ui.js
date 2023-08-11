@@ -1,5 +1,5 @@
 /***
-   cpd_ui.js
+   egd_ui.js
 ***/
 
 var showing_key = false;
@@ -18,20 +18,16 @@ window.console.log("calling showing key");
     let min=Math.round(minv * 100) / 100;
     let max=Math.round(maxv * 100) / 100;
 
-    $("#CPD_plot").prepend($("#plot-range-key-container").html());
+    $("#EGD_plot").prepend($("#plot-range-key-container").html());
     $("#plot-range-key span.min").html(min);
     $("#plot-range-key span.max").html(max);
     $('#plot-range-label').css("display", "");
-/** ??? 
-    let elt = document.getElementById('plot-range-label-string');
-    elt.innerHTML=label;
-***/
 }
 
 function removeKey() {
 window.console.log("calling removing key");
     if(showing_key) {
-      $("#CPD_plot #plot-range-key").remove();
+      $("#EGD_plot #plot-range-key").remove();
       $('#plot-range-label').css("display", "none");
       showing_key = false;
     }
@@ -48,7 +44,7 @@ let h=576+c_height;
 
 $('#top-intro').css("display", "none");
 $('#searchResult').css("display", "none");
-$('#CPD_plot').css("height", h);
+$('#EGD_plot').css("height", h);
 $('#infoData').removeClass('col-5').addClass('col-0');
 $('#top-map').removeClass('col-7').addClass('row');
 $('#top-map').removeClass('pl-1').addClass('pl-0');
@@ -74,8 +70,8 @@ let h = height - c_height-4.5;
 let w = width - 15;
 //window.console.log( "height: %d, %d > %d \n",height, c_height,h);
 //window.console.log( "width: %d, %d  \n",width, w);
-$('#CPD_plot').css("height", h);
-$('#CPD_plot').css("width", w);
+$('#EGD_plot').css("height", h);
+$('#EGD_plot').css("width", w);
 resize_map();
 }
 
@@ -83,8 +79,8 @@ function _toNormalView()
 {
 $('#top-control').css("display", "");
 $('#top-select').css("display", "");
-$('#CPD_plot').css("height", "576px");
-$('#CPD_plot').css("width", "635px");
+$('#EGD_plot').css("height", "576px");
+$('#EGD_plot').css("width", "635px");
 $('.navbar').css("margin-bottom", "20px");
 $('.container').css("max-width", "1140px");
 $('.container').css("padding-left", "15px");
@@ -119,23 +115,6 @@ function toggleBigMap()
 
 /************************************************************************************/
 
-function disable_record_btn() {
-  $('#recordReferenceBtn').attr("disabled", true);
-}
-
-function enable_record_btn() {
-  $('#recordReferenceBtn').attr("disabled", false);
-}
-
-function disable_last_record_btn() {
-  $('#lastRecordedReferenceBtn').attr("disabled", true);
-}
-
-function enable_last_record_btn() {
-  $('#lastRecordedReferenceBtn').attr("disabled", false);
-}
-
-/************************************************************************************/
 
 // https://www.w3schools.com/howto/howto_js_sort_table.asp
 // n is which column to sort-by
@@ -209,53 +188,3 @@ function sortMetadataTableByRow(n,type) {
       t.removeClass("fa-angle-up").addClass("fa-angle-down");
   }
 }
-
-function saveAsJSONBlobFile(data, timestamp)
-{
-//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-//   var rnd= Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    var fname="CPD_metadata_"+timestamp+".json";
-    var blob = new Blob([data], {
-        type: "text/plain;charset=utf-8"
-    });
-    //FileSaver.js
-    saveAs(blob, fname);
-}
-
-function saveAsCSVBlobFile(data, timestamp)
-{
-//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-//   var rnd= Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    var fname="CPD_metadata_"+timestamp+".csv";
-    var blob = new Blob([data], {
-        type: "text/plain;charset=utf-8"
-    });
-    //FileSaver.js
-    saveAs(blob, fname);
-}
-
-function saveAsBlobFile(data)
-{
-    let timestamp = $.now();
-    let fname="CPD_link_"+timestamp+".txt";
-    let blob = new Blob([data], {
-        type: "text/plain;charset=utf-8"
-    });
-    //FileSaver.js
-    saveAs(blob, fname);
-}
-
-function saveAsURLFile(gid,url) {
-  var dname=url.substring(url.lastIndexOf('/')+1);
-  var dload = document.createElement('a');
-  dload.href = url;
-  dload.download = dname;
-  dload.type="application/octet-stream";
-  dload.style.display='none';
-  document.body.appendChild(dload);
-  dload.click();
-  document.body.removeChild(dload);
-  delete dload;
-}
-
-

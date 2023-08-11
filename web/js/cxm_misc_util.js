@@ -5,6 +5,29 @@ contains utilities used by cxm based functions
 
 **/
 
+//"latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]
+function sameLatlngs(first, second) {
+   let lat1_f=first[0].lat; let lon1_f=first[0].lon;
+   let lat2_f=first[1].lat; let lon2_f=first[1].lon;
+   let lat1_s=second[0].lat; let lon1_s=second[0].lon;
+   let lat2_s=second[1].lat; let lon2_s=second[1].lon;
+
+   if( (lat1_f == lat1_s) && (lat2_f == lat2_s) && 
+          (lon1_f == lon1_s) && (lon2_f == lon2_s) ) {
+     return 1;
+   }
+   return 0;
+}
+
+// pop up the notify model with a timeout
+function notify(msg) {
+  let html=document.getElementById('notify-container');
+  html.innerHTML=msg;
+  $('#modalnotify').modal('show');
+  setTimeout(function() {$('#modalnotify').modal('hide')}, 2000);
+}
+
+
 function calculateDistanceMeter(start_latlng, end_latlng) {
     let start_lat = start_latlng.lat;
     let start_lng = start_latlng.lng;
@@ -39,6 +62,11 @@ function isObject(objV) {
   return objV && typeof objV === 'object' && objV.constructor === Object;
 }
 
+//  dict={}.  dict={"key1":val1}
+function isEmptyDictionary(dicV) {
+  return Object.keys(dicV).length === 0;
+}
+
 // color from blue to red
 //                     red, green, blue
 // Orig: red to blue (255,0,0) -> (0,0,255)
@@ -60,6 +88,19 @@ function makeRGB(val, maxV, minV) {
     let blue = Math.round(B1+ (v * (B2-B1)));
     let color="RGB(" + red + "," + green + "," + blue + ")";
     return color;
+}
+
+
+function getRnd(stub="") {
+//https://stackoverflow.com/questions/221294/how-do-you-get-a-timestamp-in-javascript
+    let timestamp = $.now();
+    let rnd;
+    if(stub == "") { 
+      rnd=timestamp;
+      } else {
+        rnd=stub+"_"+timestamp;
+    }
+    return rnd;
 }
 
 // should be a very small file and used for testing and so can ignore
@@ -117,18 +158,14 @@ function inList(target, glist) {
 
 
 function updateDownloadCounter(select_count) {
-//    window.console.log("download counter updated.."+select_count);
     let downloadCounterElem = $("#download-counter");
     let downloadBtnElem = $("#download-all");
-    let placeholderTextElem = $("#placeholder-row");
     if (select_count <= 0) {
         downloadCounterElem.hide();
         downloadBtnElem.prop("disabled", true);
-        placeholderTextElem.show();
     } else {
        downloadCounterElem.show();
        downloadBtnElem.prop("disabled", false);
-       placeholderTextElem.hide();
     }
     downloadCounterElem.html("(" + select_count + ")");
 }
@@ -148,7 +185,7 @@ function sortMetadataTableByRow(n,type) {
   // Set the sorting direction to ascending:
   dir = "asc"; 
 
-window.console.log("Calling sortMetadataTableByRow..",n);
+//window.console.log("Calling sortMetadataTableByRow..",n);
 
   while (switching) {
     switching = false;
@@ -190,13 +227,13 @@ window.console.log("Calling sortMetadataTableByRow..",n);
       }
     }
     if (shouldSwitch) {
-window.console.log("need switching..");
+//window.console.log("need switching..");
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
       switching = true;
       switchcount ++; 
     } else {
 
-      window.console.log("done switching..");
+//window.console.log("done switching..");
       if(switchcount != 0) {
 
       }
@@ -217,3 +254,52 @@ window.console.log("need switching..");
 }
 
 
+/************************************************************************************/
+function saveAsJSONBlobFile(fstub, data, timestamp)
+{
+//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+//   var rnd= Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    var fname=fstub+timestamp+".json";
+    var blob = new Blob([data], {
+        type: "text/plain;charset=utf-8"
+    });
+    //FileSaver.js
+    saveAs(blob, fname);
+}
+
+function saveAsCSVBlobFile(fstub, data, timestamp)
+{
+//http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+//   var rnd= Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    var fname=fstub+timestamp+".csv";
+    var blob = new Blob([data], {
+        type: "text/plain;charset=utf-8"
+    });
+    //FileSaver.js
+    saveAs(blob, fname);
+//window.console.log("saving csv file", fname);
+}
+
+function saveAsBlobFile(fstub,data)
+{
+    let timestamp = $.now();
+    let fname=fstub+timestamp+".txt";
+    let blob = new Blob([data], {
+        type: "text/plain;charset=utf-8"
+    });
+    //FileSaver.js
+    saveAs(blob, fname);
+}
+
+function saveAsURLFile(url) {
+  var dname=url.substring(url.lastIndexOf('/')+1);
+  var dload = document.createElement('a');
+  dload.href = url;
+  dload.download = dname;
+  dload.type="application/octet-stream";
+  dload.style.display='none';
+  document.body.appendChild(dload);
+  dload.click();
+  document.body.removeChild(dload);
+  delete dload;
+}
