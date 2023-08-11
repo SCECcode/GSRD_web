@@ -103,7 +103,7 @@ reference: 'Reference'
     this.searchingType=this.searchType.none;
 
     var tablePlaceholderRow = `<tr id="placeholder-row">
-                        <td colspan="10">Metadata for selected sliprate sites will appear here.</td>
+                        <td colspan="8">Metadata for selected sliprate sites will appear here.</td>
                     </tr>`;
 
     this.activateData = function() {
@@ -730,7 +730,10 @@ numevents
 rateage
 qbinmin
 qbinmax
-reference
+ucerf3appb
+shortreferences
+links
+fullreferences
 */
     function createMetaData(properties) {
         var meta={};
@@ -758,8 +761,10 @@ reference
         meta.rate_age = properties.rateage;
         meta.q_bin_min = properties.qbinmin;
         meta.q_bin_max = properties.qbinmax;
-        meta.reference = properties.reference;
-
+        meta.ucerf3_appb = properties.ucerf3appb;
+        meta.short_references = properties.shortreferences;
+        meta.links = properties.links;
+        meta.full_references = properties.fullreferences;
         return meta;
     }
 
@@ -787,12 +792,10 @@ reference
         html += `<td class="meta-data">${layer.scec_properties.egd_id}</td>`;
         html += `<td class="meta-data" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
-        html += `<td class="meta-data">${layer.scec_properties.latitude} </td>`;
-        html += `<td class="meta-data">${layer.scec_properties.longitude} </td>`;
 
         html += `<td class="meta-data" align='center' >${layer.scec_properties.low_rate} </td>`;
         html += `<td class="meta-data" align='center' >${layer.scec_properties.high_rate}</td>`;
-        html += `<td class="meta-data">${layer.scec_properties.reference}</td>`;
+        html += `<td class="meta-data">${layer.scec_properties.short_references}</td>`;
 
         html += `<td class="meta-data">......</td>`;
         html += `</tr>`;
@@ -810,11 +813,9 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" style="width:4rem" >Id&nbsp<span></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')">Fault Name&nbsp<span id='sortCol_2' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')">Site Name&nbsp<span id='sortCol_3' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:9rem">Longitude&nbsp<span id='sortCol_4' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:9rem">Latitude&nbsp<span id='sortCol_5' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">Low<br>Rate&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'n')" style="width:4rem">High<br>Rate&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:9rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem">Low<br>Rate&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High<br>Rate&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:9rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
         <th style="width:12%;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
