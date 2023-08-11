@@ -1,29 +1,29 @@
 /***
-   cpd_sliprate.js
+   egd_sliprate.js
 ***/
 
-var CPD_SLIPRATE = new function () {
-    window.console.log("in CPD_SLIPRATE..");
+var EGD_SLIPRATE = new function () {
+    window.console.log("in EGD_SLIPRATE..");
 
     // complete set of sliprate layers, one marker layer for one site, 
     // setup once from viewer.php
-    this.cpd_layers;
-    this.cpd_markerLocations = [];
+    this.egd_layers;
+    this.egd_markerLocations = [];
 
     // searched layers being actively looked at -- result of a search
-    this.cpd_active_layers= new L.FeatureGroup();
-    this.cpd_markerLocations = [];
-    this.cpd_active_gid = [];
+    this.egd_active_layers= new L.FeatureGroup();
+    this.egd_markerLocations = [];
+    this.egd_active_gid = [];
 
     // selected some layers from active layers
     // to be displayed at the metadata_table
-    this.cpd_selected_gid = [];
+    this.egd_selected_gid = [];
 
     // locally used, floats
-    var cpd_minrate_min=undefined;
-    var cpd_minrate_max=undefined;
-    var cpd_maxrate_min=undefined;
-    var cpd_maxrate_max=undefined;
+    var egd_minrate_min=undefined;
+    var egd_minrate_max=undefined;
+    var egd_maxrate_min=undefined;
+    var egd_maxrate_max=undefined;
 
     var site_colors = {
         normal: '#006E90', // original
@@ -77,7 +77,7 @@ fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
 state: 'State',
 site_name: 'Site Name',
-cpd_id: 'CPD ID',
+egd_id: 'EGD ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
 latitud: 'Latitude',
@@ -110,35 +110,35 @@ reference: 'Reference'
         activeProduct = Products.SLIPRATE;
         this.showOnMap();
         $("div.control-container").hide();
-        $("#cpd-controls-container").show();
+        $("#egd-controls-container").show();
 
     };
 
 /********** show layer/select functions *********************/
 
-// cpd_sliprate_site_data is from viewer.php, which is the JSON 
+// egd_sliprate_site_data is from viewer.php, which is the JSON 
 // result from calling php getAllSiteData script
     this.generateLayers = function () {
 
-window.console.log( "generate the initial cpd_layers");
-        this.cpd_layers = [];
-        this.cpd_markerLocations = [];
-        this.cpd_active_markerLocations = [];
+window.console.log( "generate the initial egd_layers");
+        this.egd_layers = [];
+        this.egd_markerLocations = [];
+        this.egd_active_markerLocations = [];
 
 // SELECT * FROM tb ORDER BY gid ASC;
-        for (const index in cpd_sliprate_site_data) {
-          if (cpd_sliprate_site_data.hasOwnProperty(index)) {
-                let gid = cpd_sliprate_site_data[index].gid;
-                let cpd_id = cpd_sliprate_site_data[index].cpdid;
-                let sliprate_id = cpd_sliprate_site_data[index].sliprateid;
-                let longitude = parseFloat(cpd_sliprate_site_data[index].longitude);
-                let latitude = parseFloat(cpd_sliprate_site_data[index].latitude);
-                let fault_name = cpd_sliprate_site_data[index].faultname;
-                let state = cpd_sliprate_site_data[index].state;
-                let site_name = cpd_sliprate_site_data[index].sitename;
-                let low_rate = parseFloat(cpd_sliprate_site_data[index].lowrate);
-                let high_rate = parseFloat(cpd_sliprate_site_data[index].highrate);
-                let reference = cpd_sliprate_site_data[index].reference;
+        for (const index in egd_sliprate_site_data) {
+          if (egd_sliprate_site_data.hasOwnProperty(index)) {
+                let gid = egd_sliprate_site_data[index].gid;
+                let egd_id = egd_sliprate_site_data[index].egdid;
+                let sliprate_id = egd_sliprate_site_data[index].sliprateid;
+                let longitude = parseFloat(egd_sliprate_site_data[index].longitude);
+                let latitude = parseFloat(egd_sliprate_site_data[index].latitude);
+                let fault_name = egd_sliprate_site_data[index].faultname;
+                let state = egd_sliprate_site_data[index].state;
+                let site_name = egd_sliprate_site_data[index].sitename;
+                let low_rate = parseFloat(egd_sliprate_site_data[index].lowrate);
+                let high_rate = parseFloat(egd_sliprate_site_data[index].highrate);
+                let reference = egd_sliprate_site_data[index].reference;
 
                 let marker = L.circleMarker([latitude, longitude], site_marker_style.normal);
 
@@ -153,7 +153,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
                     active: true,
                     selected: false,
                     gid: gid,
-                    cpd_id: cpd_id,
+                    egd_id: egd_id,
                     sliprate_id:sliprate_id,
                     longitude: longitude,
                     latitude: latitude,
@@ -166,50 +166,50 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
                 };
 
 // all layers
-                this.cpd_layers.push(marker);
-                this.cpd_markerLocations.push(marker.getLatLng())                      
+                this.egd_layers.push(marker);
+                this.egd_markerLocations.push(marker.getLatLng())                      
 // current active layers
-                this.cpd_active_layers.addLayer(marker);
-                this.cpd_active_gid.push(gid);
-                this.cpd_active_markerLocations.push(marker.getLatLng())                      
+                this.egd_active_layers.addLayer(marker);
+                this.egd_active_gid.push(gid);
+                this.egd_active_markerLocations.push(marker.getLatLng())                      
 
-                if(cpd_minrate_min == undefined) {
-                   cpd_minrate_min = low_rate;
-                   cpd_minrate_max = low_rate;
+                if(egd_minrate_min == undefined) {
+                   egd_minrate_min = low_rate;
+                   egd_minrate_max = low_rate;
                   } else {
-                    if(low_rate < cpd_minrate_min) {
-                      cpd_minrate_min=low_rate;  
+                    if(low_rate < egd_minrate_min) {
+                      egd_minrate_min=low_rate;  
                     }
-                    if(low_rate > cpd_minrate_max) {
-                      cpd_minrate_max=low_rate;
+                    if(low_rate > egd_minrate_max) {
+                      egd_minrate_max=low_rate;
                     }
                 }
-                if(cpd_maxrate_min == undefined) {
-                   cpd_maxrate_min = high_rate;
-                   cpd_maxrate_max = high_rate;
+                if(egd_maxrate_min == undefined) {
+                   egd_maxrate_min = high_rate;
+                   egd_maxrate_max = high_rate;
                   } else {
-                    if(high_rate < cpd_maxrate_min) {
-                      cpd_maxrate_min=high_rate;  
+                    if(high_rate < egd_maxrate_min) {
+                      egd_maxrate_min=high_rate;  
                     }
-                    if(high_rate > cpd_maxrate_max) {
-                      cpd_maxrate_max=high_rate;
+                    if(high_rate > egd_maxrate_max) {
+                      egd_maxrate_max=high_rate;
                     }
                 }
             }
         }
 
-        this.cpd_active_layers.on('click', function(event) {
+        this.egd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
-               CPD_SLIPRATE.toggleSiteSelected(event.layer, true);
+               EGD_SLIPRATE.toggleSiteSelected(event.layer, true);
             }
         });
 
-        this.cpd_active_layers.on('mouseover', function(event) {
+        this.egd_active_layers.on('mouseover', function(event) {
             let layer = event.layer;
             layer.setRadius(site_marker_style.hover.radius);
         });
 
-        this.cpd_active_layers.on('mouseout', function(event) {
+        this.egd_active_layers.on('mouseout', function(event) {
             let layer = event.layer;
             layer.setRadius(site_marker_style.normal.radius);
         });
@@ -220,30 +220,30 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
 
 // recreate a new active_layers using a glist
 // glist is a sorted ascending list
-// this.cpd_layers should be also ascending
+// this.egd_layers should be also ascending
     this.createActiveLayerGroupWithGids = function(glist) {
 
         // remove the old ones and remove from result table
         this.clearAllSelections()
-        this.cpd_active_layers.remove();
-        this.cpd_active_layers= new L.FeatureGroup();
-        this.cpd_active_gid=[];
-        this.cpd_active_markerLocations = [];
+        this.egd_active_layers.remove();
+        this.egd_active_layers= new L.FeatureGroup();
+        this.egd_active_gid=[];
+        this.egd_active_markerLocations = [];
 
         let gsz=glist.length;
-        let lsz= this.cpd_layers.length;
+        let lsz= this.egd_layers.length;
         let i_start=0;
 
         for (let j=0; j<gsz; j++) {
           let gid=glist[j];
           for (let i=i_start; i< lsz; i++) {
-            let layer = this.cpd_layers[i];
+            let layer = this.egd_layers[i];
             if (layer.hasOwnProperty("scec_properties")) {
                if (gid == layer.scec_properties.gid) {
                   this.replaceColor(layer);
-                  this.cpd_active_layers.addLayer(layer);
-                  this.cpd_active_gid.push(gid);
-                  this.cpd_active_markerLocations.push(layer.getLatLng())                      
+                  this.egd_active_layers.addLayer(layer);
+                  this.egd_active_gid.push(gid);
+                  this.egd_active_markerLocations.push(layer.getLatLng())                      
                   i_start=i+1;
                   break;
                }
@@ -251,10 +251,10 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
           }
         }
         replaceResultTableBodyWithGids(glist);
-        this.cpd_active_layers.addTo(viewermap);
+        this.egd_active_layers.addTo(viewermap);
 
-        if(this.cpd_active_markerLocations.length > 0) {
-          let bounds = L.latLngBounds(this.cpd_active_markerLocations);
+        if(this.egd_active_markerLocations.length > 0) {
+          let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
           viewermap.flyToBounds(bounds);
         }
@@ -264,39 +264,39 @@ window.console.log("flyingBounds --new list");
 // original state  toOriginal use normal color
     this.recreateActiveLayerGroup = function(toOriginal) {
 
-        if(this.cpd_active_gid.length != this.cpd_layers.length 
+        if(this.egd_active_gid.length != this.egd_layers.length 
                || this.searchingType == this.searchType.minrate
                || this.searchingType == this.searchType.maxrate) {
-          this.cpd_active_layers= new L.FeatureGroup();
-          this.cpd_active_gid=[];
+          this.egd_active_layers= new L.FeatureGroup();
+          this.egd_active_gid=[];
         
-          for (let i=0; i< this.cpd_layers.length; i++) {
-            let marker = this.cpd_layers[i];
+          for (let i=0; i< this.egd_layers.length; i++) {
+            let marker = this.egd_layers[i];
             if (marker.hasOwnProperty("scec_properties")) {
                let gid = marker.scec_properties.gid;
                if(!toOriginal) {
                  this.replaceColor(marker);
                }
-               this.cpd_active_layers.addLayer(marker);
-               this.cpd_active_gid.push(gid);
-               this.cpd_active_markerLocations.push(marker.getLatLng())                      
+               this.egd_active_layers.addLayer(marker);
+               this.egd_active_gid.push(gid);
+               this.egd_active_markerLocations.push(marker.getLatLng())                      
             }
           }
-          replaceResultTableBodyWithGids(this.cpd_active_gid);
-          this.cpd_active_layers.addTo(viewermap);
+          replaceResultTableBodyWithGids(this.egd_active_gid);
+          this.egd_active_layers.addTo(viewermap);
           } else {
-            this.cpd_active_layers.addTo(viewermap);
+            this.egd_active_layers.addTo(viewermap);
        }
 window.console.log("flyingBounds --recreateActiveLayer");
-       let bounds = L.latLngBounds(this.cpd_active_markerLocations);
+       let bounds = L.latLngBounds(this.egd_active_markerLocations);
        viewermap.flyToBounds(bounds);
     }
 
 // search for a layer from master list by gid
     this.getLayerByGid = function(gid) {
         let foundLayer = false;
-        for (let i=0; i< this.cpd_layers.length; i++) {
-          let layer = this.cpd_layers[i];
+        for (let i=0; i< this.egd_layers.length; i++) {
+          let layer = this.egd_layers[i];
           if (layer.hasOwnProperty("scec_properties")) {
              if (gid == layer.scec_properties.gid) {
                  return layer;     
@@ -410,9 +410,9 @@ window.console.log("toggleSiteSlected from tables");
     this.toggleSelectAll = function() {
         var sliprate_object = this;
 
-        let $selectAllButton = $("#cpd-allBtn span");
+        let $selectAllButton = $("#egd-allBtn span");
         if (!$selectAllButton.hasClass('glyphicon-check')) {
-            this.cpd_active_layers.eachLayer(function(layer){
+            this.egd_active_layers.eachLayer(function(layer){
                 sliprate_object.selectSiteByLayer(layer);
             });
             $selectAllButton.addClass('glyphicon-check').removeClass('glyphicon-unchecked');
@@ -424,73 +424,73 @@ window.console.log("toggleSiteSlected from tables");
 // selectAll button  - clear
     this.clearSelectAll = function() {
         this.clearAllSelections();
-        let $selectAllButton = $("#cpd-allBtn span");
+        let $selectAllButton = $("#egd-allBtn span");
         $selectAllButton.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
     };
 
 // unselect every active layer
     this.clearAllSelections = function() {
         var sliprate_object = this;
-        this.cpd_active_layers.eachLayer(function(layer){
+        this.egd_active_layers.eachLayer(function(layer){
             sliprate_object.unselectSiteByLayer(layer);
         });
-        let $selectAllButton = $("#cpd-allBtn span");
+        let $selectAllButton = $("#egd-allBtn span");
         $selectAllButton.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
     };
 
     this.upSelectedCount = function(gid) {
-       let i=this.cpd_selected_gid.indexOf(gid); 
+       let i=this.egd_selected_gid.indexOf(gid); 
        if(i != -1) {
          window.console.log("this is bad.. already in selected list "+gid);
          return;
        }
        window.console.log("=====adding to list "+gid);
-       this.cpd_selected_gid.push(gid);
-       updateDownloadCounter(this.cpd_selected_gid.length);
+       this.egd_selected_gid.push(gid);
+       updateDownloadCounter(this.egd_selected_gid.length);
     };
 
     this.downSelectedCount = function(gid) {
-       if(this.cpd_selected_gid.length == 0) { // just ignore..
+       if(this.egd_selected_gid.length == 0) { // just ignore..
          return;
        }
-       let i=this.cpd_selected_gid.indexOf(gid); 
+       let i=this.egd_selected_gid.indexOf(gid); 
        if(i == -1) {
          window.console.log("this is bad.. not in selected list "+gid);
          return;
        }
        window.console.log("=====remove from list "+gid);
-       this.cpd_selected_gid.splice(i,1);
-       updateDownloadCounter(this.cpd_selected_gid.length);
+       this.egd_selected_gid.splice(i,1);
+       updateDownloadCounter(this.egd_selected_gid.length);
     };
 
     this.zeroSelectedCount = function() {
-       this.cpd_selected_gid = [];
+       this.egd_selected_gid = [];
        updateDownloadCounter(0);
     };
 
 
 /********** search/layer  functions *********************/
     this.showSearch = function (type) {
-        const $all_search_controls = $("#cpd-sliprate-search-control ul li");
+        const $all_search_controls = $("#egd-sliprate-search-control ul li");
         $all_search_controls.hide();
         switch (type) {
             case this.searchType.faultname:
-                $("#cpd-fault-name").show();
+                $("#egd-fault-name").show();
                 break;
             case this.searchType.sitename:
-                $("#cpd-site-name").show();
+                $("#egd-site-name").show();
                 break;
             case this.searchType.latlon:
-                $("#cpd-latlon").show();
+                $("#egd-latlon").show();
                 drawRectangle();
                 break;
             case this.searchType.minrate:
-                $("#cpd-minrate-slider").show();
-                showKey(cpd_minrate_min, cpd_minrate_max, "Min Slip Rate");
+                $("#egd-minrate-slider").show();
+                showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                 break;
             case this.searchType.maxrate:
-                $("#cpd-maxrate-slider").show();
-                showKey(cpd_maxrate_min, cpd_maxrate_max, "Max Slip Rate");
+                $("#egd-maxrate-slider").show();
+                showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                 break;
             default:
                 // no action
@@ -498,11 +498,11 @@ window.console.log("toggleSiteSlected from tables");
     };
 
     this.showOnMap = function () {
-        this.cpd_active_layers.addTo(viewermap);
+        this.egd_active_layers.addTo(viewermap);
     };
 
     this.hideOnMap = function () {
-        this.cpd_active_layers.remove();
+        this.egd_active_layers.remove();
     };
 
 // reset from the reset button
@@ -513,19 +513,19 @@ window.console.log("toggleSiteSlected from tables");
 window.console.log("calling reset");
         this.resetSearch();
 
-        if ($("#cpd-model-cfm").prop('checked')) {
+        if ($("#egd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
           CXM.hideCFMFaults(viewermap);
         }
 
-        if ($("#cpd-model-gfm").prop('checked')) {
+        if ($("#egd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
           CXM.hideGFMRegions(viewermap);
         }
 
-        $("#cpd-search-type").val("");
+        $("#egd-search-type").val("");
         this.searchingType = this.searchType.none;
     };
 
@@ -552,37 +552,37 @@ window.console.log("sliprate calling --->> resetSearch.");
 
         this.resetSearch();
 
-        const $all_search_controls = $("#cpd-controls-container ul li")
+        const $all_search_controls = $("#egd-controls-container ul li")
 window.console.log("sliprate --- calling freshSearch..");
         switch (t) {
             case "faultname": 
                this.searchingType = this.searchType.faultname;
                $all_search_controls.hide();
-               $("#cpd-fault-name").show();
+               $("#egd-fault-name").show();
                break;
             case "sitename": 
                this.searchingType = this.searchType.sitename;
                $all_search_controls.hide();
-               $("#cpd-site-name").show();
+               $("#egd-site-name").show();
                break;
             case "minrate": 
                this.searchingType = this.searchType.minrate;
                $all_search_controls.hide();
-               $("#cpd-minrate-slider").show();
-               showKey(cpd_minrate_min, cpd_minrate_max, "Min Slip Rate");
+               $("#egd-minrate-slider").show();
+               showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "maxrate": 
                this.searchingType = this.searchType.maxrate;
                $all_search_controls.hide();
-               $("#cpd-maxrate-slider").show();
-               showKey(cpd_maxrate_min, cpd_maxrate_max, "Max Slip Rate");
+               $("#egd-maxrate-slider").show();
+               showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "latlon": 
                this.searchingType = this.searchType.latlon;
                $all_search_controls.hide();
-               $("#cpd-latlon").show();
+               $("#egd-latlon").show();
                drawRectangle();
                break;
             default:
@@ -590,13 +590,13 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
         }
 
-        if ($("#cpd-model-cfm").prop('checked')) {
+        if ($("#egd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
           CXM.hideCFMFaults(viewermap);
         }
 
-        if ($("#cpd-model-gfm").prop('checked')) {
+        if ($("#egd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
           CXM.hideGFMRegions(viewermap);
@@ -604,9 +604,9 @@ window.console.log("sliprate --- calling freshSearch..");
     };
 
     this.getMarkerBySiteId = function (site_id) {
-        for (const index in cpd_sliprate_site_data) {
-            if (cpd_sliprate_site_data[index].cpd_id == site_id) {
-                return cpd_sliprate_site_data[index];
+        for (const index in egd_sliprate_site_data) {
+            if (egd_sliprate_site_data[index].egd_id == site_id) {
+                return egd_sliprate_site_data[index];
             }
         }
 
@@ -639,11 +639,11 @@ window.console.log("sliprate --- calling freshSearch..");
 window.console.log("Did not find any PHP result");
             } else {
                 let tmp=JSON.parse(sliprate_result); 
-                if(type == CPD_SLIPRATE.searchType.faultname
-                     ||  type == CPD_SLIPRATE.searchType.sitename
-                     ||  type == CPD_SLIPRATE.searchType.minrate
-                     ||  type == CPD_SLIPRATE.searchType.maxrate
-                     ||  type == CPD_SLIPRATE.searchType.latlon) {
+                if(type == EGD_SLIPRATE.searchType.faultname
+                     ||  type == EGD_SLIPRATE.searchType.sitename
+                     ||  type == EGD_SLIPRATE.searchType.minrate
+                     ||  type == EGD_SLIPRATE.searchType.maxrate
+                     ||  type == EGD_SLIPRATE.searchType.latlon) {
 //expected [{'gid':'2'},{'gid':'10'}]
                     let sz=tmp.length;
                     for(let i=0; i<sz; i++) {
@@ -654,7 +654,7 @@ window.console.log("Did not find any PHP result");
 window.console.log( "BAD, unknown search type \n");
                 }
             }
-            CPD_SLIPRATE.createActiveLayerGroupWithGids(glist);
+            EGD_SLIPRATE.createActiveLayerGroupWithGids(glist);
         });
     };
 
@@ -664,10 +664,10 @@ window.console.log( "BAD, unknown search type \n");
     this.searchLatlon = function (fromWhere, rect) {
         let criteria = [];
         if( fromWhere == 0) {
-            let lat1=$("#cpd-firstLatTxt").val();
-            let lon1=$("#cpd-firstLonTxt").val();
-            let lat2=$("#cpd-secondLatTxt").val();
-            let lon2=$("#cpd-secondLonTxt").val();
+            let lat1=$("#egd-firstLatTxt").val();
+            let lon1=$("#egd-firstLonTxt").val();
+            let lat2=$("#egd-secondLatTxt").val();
+            let lon2=$("#egd-secondLonTxt").val();
             if(lat1=='' || lon1=='' || lat2=='' || lon2=='') return;
             remove_bounding_rectangle_layer();
             add_bounding_rectangle(lat1,lon1,lat2,lon2);
@@ -684,13 +684,13 @@ window.console.log( "BAD, unknown search type \n");
                 criteria.push(ne['lat']);
                 criteria.push(ne['lng']);
 
-                $("#cpd-firstLatTxt").val(criteria[0]);
-                $("#cpd-firstLonTxt").val(criteria[1]);
-                $("#cpd-secondLatTxt").val(criteria[2]);
-                $("#cpd-secondLonTxt").val(criteria[3]);
+                $("#egd-firstLatTxt").val(criteria[0]);
+                $("#egd-firstLonTxt").val(criteria[1]);
+                $("#egd-secondLatTxt").val(criteria[2]);
+                $("#egd-secondLonTxt").val(criteria[3]);
         }
                  
-        this.search(CPD_SLIPRATE.searchType.latlon, criteria);
+        this.search(EGD_SLIPRATE.searchType.latlon, criteria);
 
         let markerLocations = [];
         markerLocations.push(L.latLng(criteria[0],criteria[1]));
@@ -703,14 +703,14 @@ window.console.log("flyingBounds --latlon");
 
 /********** metadata  functions *********************/
 /* create a metadata list using selected gid list
-FaultName,FaultID,State,SiteName,CPDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,Reference
+FaultName,FaultID,State,SiteName,EGDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,Reference
 
 gid
 faultname
 faultid
 state
 sitename
-cpdid
+egdid
 sliprateid
 longitude
 latitud
@@ -738,7 +738,7 @@ reference
         meta.fault_id = properties.faultid;
         meta.state = properties.state;
         meta.site_name = properties.sitename;
-        meta.cpd_id= properties.cpdid;
+        meta.egd_id= properties.egdid;
         meta.sliprate_id= properties.sliprateid;
         meta.longitude = properties.longitude;
         meta.latitude = properties.latitude;
@@ -783,9 +783,9 @@ reference
 
         html += `<tr sliprate-metadata-gid="${layer.scec_properties.gid}">`;
 
-        html += `<td><button class=\"btn btn-sm cxm-small-btn\" id=\"button_meta_${layer.scec_properties.gid}\" title=\"remove the site\" onclick=CPD_SLIPRATE.unselectSiteByGid("${layer.scec_properties.gid}") onmouseover=CPD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=CPD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}") ><span id=\"sliprate_metadata_${layer.scec_properties.gid}\" class=\"glyphicon glyphicon-trash\"></span></button></td>`;
-        html += `<td class="meta-data">${layer.scec_properties.cpd_id}</td>`;
-        html += `<td class="meta-data" onmouseover=CPD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=CPD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
+        html += `<td><button class=\"btn btn-sm cxm-small-btn\" id=\"button_meta_${layer.scec_properties.gid}\" title=\"remove the site\" onclick=EGD_SLIPRATE.unselectSiteByGid("${layer.scec_properties.gid}") onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}") ><span id=\"sliprate_metadata_${layer.scec_properties.gid}\" class=\"glyphicon glyphicon-trash\"></span></button></td>`;
+        html += `<td class="meta-data">${layer.scec_properties.egd_id}</td>`;
+        html += `<td class="meta-data" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
         html += `<td class="meta-data">${layer.scec_properties.latitude} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.longitude} </td>`;
@@ -820,7 +820,7 @@ window.console.log("generateMetadataTable..");
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
 		            style="padding:0 0.5rem 0 0.5rem;" 
-                            onclick="CPD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
+                            onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
                             DOWNLOAD&nbsp<span id="download-counter"></span>
                     </button>
 <!--
@@ -830,7 +830,7 @@ window.console.log("generateMetadataTable..");
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                        <button class="dropdown-item" type="button" value="metadata"
-                            onclick="CPD_SLIPRATE.downloadURLsAsZip(this.value);">metadata
+                            onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);">metadata
                        </button>
                     </div>
 -->
@@ -881,45 +881,45 @@ window.console.log("generateMetadataTable..");
 
         this.resetLatLon = function () {
           if( this.searchingType != this.searchType.latlon) return;
-          $("#cpd-firstLatTxt").val("");
-          $("#cpd-firstLonTxt").val("");
-          $("#cpd-secondLatTxt").val("");
-          $("#cpd-scecondLonTxt").val("");
+          $("#egd-firstLatTxt").val("");
+          $("#egd-firstLonTxt").val("");
+          $("#egd-secondLatTxt").val("");
+          $("#egd-scecondLonTxt").val("");
           skipRectangle();
           remove_bounding_rectangle_layer();
-          $("#cpd-latlon").hide();
+          $("#egd-latlon").hide();
         }
 
         this.resetFaultname = function () {
           if( this.searchingType != this.searchType.faultname) return;
-          $("#cpd-faultnameTxt").val("");
-          $("#cpd-fault-name").hide();
+          $("#egd-faultnameTxt").val("");
+          $("#egd-fault-name").hide();
         }
         this.resetSitename = function () {
           if( this.searchingType != this.searchType.sitename) return;
-          $("#cpd-sitenameTxt").val("");
-          $("#cpd-site-name").hide();
+          $("#egd-sitenameTxt").val("");
+          $("#egd-site-name").hide();
         }
 
         this.resetMinrate = function () {
           if( this.searchingType != this.searchType.minrate) return;
           this.resetMinrateSlider();
-          resetMinrateRangeColor(cpd_minrate_min, cpd_minrate_max);
+          resetMinrateRangeColor(egd_minrate_min, egd_minrate_max);
           removeKey(); 
-	  $("#cpd-minrate-slider").hide();
+	  $("#egd-minrate-slider").hide();
         }
 
         this.resetMaxrate = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           this.resetMaxrateSlider();
-          resetMaxrateRangeColor(cpd_maxrate_min, cpd_maxrate_max);
+          resetMaxrateRangeColor(egd_maxrate_min, egd_maxrate_max);
           removeKey();
-	  $("#cpd-maxrate-slider").hide();
+	  $("#egd-maxrate-slider").hide();
         }
 
         var resetMinrateRangeColor = function (target_min, target_max){
-          let minRGB= makeRGB(target_min, cpd_minrate_max, cpd_minrate_min );
-          let maxRGB= makeRGB(target_max, cpd_minrate_max, cpd_minrate_min );
+          let minRGB= makeRGB(target_min, egd_minrate_max, egd_minrate_min );
+          let maxRGB= makeRGB(target_max, egd_minrate_max, egd_minrate_min );
           let myColor="linear-gradient(to right, "+minRGB+","+maxRGB+")";
           $("#slider-minrate-range .ui-slider-range" ).css( "background", myColor );
         }
@@ -927,14 +927,14 @@ window.console.log("generateMetadataTable..");
         this.resetMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
           $("#slider-minrate-range").slider('values', 
-                              [cpd_minrate_min, cpd_minrate_max]);
-          $("#cpd-minMinrateSliderTxt").val(cpd_minrate_min);
-          $("#cpd-maxMinrateSliderTxt").val(cpd_minrate_max);
+                              [egd_minrate_min, egd_minrate_max]);
+          $("#egd-minMinrateSliderTxt").val(egd_minrate_min);
+          $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
         }
 
         var resetMaxrateRangeColor = function (target_min, target_max){
-          let minRGB= makeRGB(target_min, cpd_maxrate_max, cpd_maxrate_min );
-          let maxRGB= makeRGB(target_max, cpd_maxrate_max, cpd_maxrate_min );
+          let minRGB= makeRGB(target_min, egd_maxrate_max, egd_maxrate_min );
+          let maxRGB= makeRGB(target_max, egd_maxrate_max, egd_maxrate_min );
           let myColor="linear-gradient(to right, "+minRGB+","+maxRGB+")";
           $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColor );
         }
@@ -942,23 +942,23 @@ window.console.log("generateMetadataTable..");
         this.resetMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           $("#slider-maxrate-range").slider('values', 
-                              [cpd_maxrate_min, cpd_maxrate_max]);
-          $("#cpd-minMaxrateSliderTxt").val(cpd_maxrate_min);
-          $("#cpd-maxMaxrateSliderTxt").val(cpd_maxrate_max);
+                              [egd_maxrate_min, egd_maxrate_max]);
+          $("#egd-minMaxrateSliderTxt").val(egd_maxrate_min);
+          $("#egd-maxMaxrateSliderTxt").val(egd_maxrate_max);
         }
 
         this.refreshMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
-          let maxrate_min=$("#cpd-minMaxrateSliderTxt").val();
-          let maxrate_max=$("#cpd-maxMaxrateSliderTxt").val();
+          let maxrate_min=$("#egd-minMaxrateSliderTxt").val();
+          let maxrate_max=$("#egd-maxMaxrateSliderTxt").val();
           $("#slider-maxrate-range").slider('values', 
                               [maxrate_min, maxrate_max]);
         }
 
         this.refreshMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
-          let minrate_min=$("#cpd-minMinrateSliderTxt").val();
-          let minrate_max=$("#cpd-maxMinrateSliderTxt").val();
+          let minrate_min=$("#egd-minMinrateSliderTxt").val();
+          let minrate_max=$("#egd-maxMinrateSliderTxt").val();
           $("#slider-minrate-range").slider('values', 
                               [minrate_min, minrate_max]);
         }
@@ -967,13 +967,13 @@ window.console.log("generateMetadataTable..");
 // marker.scec_properties.high_rate_color, marker.sce_properties.low_rate_color
 // toMake == 1, set the scec_properties color values
         this.makeLayerColors = function() {
-            let lsz = this.cpd_layers.length;
+            let lsz = this.egd_layers.length;
             for(let i=0; i<lsz; i++) {
-                let layer=this.cpd_layers[i];
+                let layer=this.egd_layers[i];
                 let hr = layer.scec_properties.high_rate;
                 let lr = layer.scec_properties.low_rate;
-                layer.scec_properties.low_rate_color = makeRGB(lr, cpd_minrate_max, cpd_minrate_min );
-                layer.scec_properties.high_rate_color = makeRGB(hr, cpd_maxrate_max, cpd_maxrate_min );
+                layer.scec_properties.low_rate_color = makeRGB(lr, egd_minrate_max, egd_minrate_min );
+                layer.scec_properties.high_rate_color = makeRGB(hr, egd_maxrate_max, egd_maxrate_min );
             }
         }
 
@@ -996,25 +996,25 @@ window.console.log("generateMetadataTable..");
        }
 
        this.resetActiveLayerColor = function () {
-            this.cpd_active_layers.remove();
+            this.egd_active_layers.remove();
 
 window.console.log(" ==> here in replace color");
-            let layers=this.cpd_active_layers;
+            let layers=this.egd_active_layers;
 
             layers.eachLayer(function(layer) {
               layer.resetStyle();
             });
 
-            this.cpd_active_layers.addTo(viewermap);
+            this.egd_active_layers.addTo(viewermap);
        }
 
 
 /********************* sliprate INTERFACE function **************************/
-        this.setupCPDInterface = function() {
+        this.setupEGDInterface = function() {
 
             var $result_table = $('#result-table');
             $result_table.floatThead('destroy');
-            $("#result-table").html(makeResultTable(cpd_sliprate_site_data));
+            $("#result-table").html(makeResultTable(egd_sliprate_site_data));
             $result_table.floatThead({
                  scrollContainer: function ($table) {
                      return $table.closest('div#result-table-container');
@@ -1024,8 +1024,8 @@ window.console.log(" ==> here in replace color");
             let elt=document.getElementById("dataset_sliprate");
             elt.click();
 
-            $("#cpd-controlers-container").css('display','');
-            $("#cpd-sliprate-controlers-container").css('display','none');
+            $("#egd-controlers-container").css('display','');
+            $("#egd-sliprate-controlers-container").css('display','none');
 
             $("div.mapData div.map-container").css('padding-left','30px');
 
@@ -1042,58 +1042,58 @@ window.console.log(" ==> here in replace color");
             this.activateData();
 
             viewermap.invalidateSize();
-            let bounds = L.latLngBounds(this.cpd_markerLocations);
+            let bounds = L.latLngBounds(this.egd_markerLocations);
             viewermap.fitBounds(bounds);
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 
-                  range:true, step:0.01, min:cpd_minrate_min, max:cpd_minrate_max, values:[cpd_minrate_min, cpd_minrate_max],
+                  range:true, step:0.01, min:egd_minrate_min, max:egd_minrate_max, values:[egd_minrate_min, egd_minrate_max],
               slide: function( event, ui ) {
-                           $("#cpd-minMinrateSliderTxt").val(ui.values[0]);
-                           $("#cpd-maxMinrateSliderTxt").val(ui.values[1]);
+                           $("#egd-minMinrateSliderTxt").val(ui.values[0]);
+                           $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
                            resetMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
-                           $("#cpd-minMinrateSliderTxt").val(ui.values[0]);
-                           $("#cpd-maxMinrateSliderTxt").val(ui.values[1]);
+                           $("#egd-minMinrateSliderTxt").val(ui.values[0]);
+                           $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
                            resetMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
-                           let searchType = CPD_SLIPRATE.searchType.minrate;
-                           CPD_SLIPRATE.search(searchType, ui.values);
+                           let searchType = EGD_SLIPRATE.searchType.minrate;
+                           EGD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
-                          $("#cpd-minMinrateSliderTxt").val(cpd_minrate_min);
-                          $("#cpd-maxMinrateSliderTxt").val(cpd_minrate_max);
+                          $("#egd-minMinrateSliderTxt").val(egd_minrate_min);
+                          $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
                     }
             });
-            $('#slider-minrate-range').slider("option", "min", cpd_minrate_min);
-            $('#slider-minrate-range').slider("option", "max", cpd_minrate_max);
+            $('#slider-minrate-range').slider("option", "min", egd_minrate_min);
+            $('#slider-minrate-range').slider("option", "max", egd_minrate_max);
 
 /* setup  sliders */
             $("#slider-maxrate-range").slider({ 
-                  range:true, step:0.01, min:cpd_maxrate_min, max:cpd_maxrate_max, values:[cpd_maxrate_min, cpd_maxrate_max],
+                  range:true, step:0.01, min:egd_maxrate_min, max:egd_maxrate_max, values:[egd_maxrate_min, egd_maxrate_max],
               slide: function( event, ui ) {
-                           $("#cpd-minMaxrateSliderTxt").val(ui.values[0]);
-                           $("#cpd-maxMaxrateSliderTxt").val(ui.values[1]);
+                           $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
+                           $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            resetMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
-                           $("#cpd-minMaxrateSliderTxt").val(ui.values[0]);
-                           $("#cpd-maxMaxrateSliderTxt").val(ui.values[1]);
+                           $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
+                           $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            resetMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
-                           let searchType = CPD_SLIPRATE.searchType.maxrate;
-                           CPD_SLIPRATE.search(searchType, ui.values);
+                           let searchType = EGD_SLIPRATE.searchType.maxrate;
+                           EGD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
-                          $("#cpd-minMaxrateSliderTxt").val(cpd_maxrate_min);
-                          $("#cpd-maxMaxrateSliderTxt").val(cpd_maxrate_max);
+                          $("#egd-minMaxrateSliderTxt").val(egd_maxrate_min);
+                          $("#egd-maxMaxrateSliderTxt").val(egd_maxrate_max);
                     }
             });
-            $('#slider-maxrate-range').slider("option", "min", cpd_maxrate_min);
-            $('#slider-maxrate-range').slider("option", "max", cpd_maxrate_max);
+            $('#slider-maxrate-range').slider("option", "min", egd_maxrate_min);
+            $('#slider-maxrate-range').slider("option", "max", egd_maxrate_max);
     };
 
 /******************  Result table functions **************************/
@@ -1102,13 +1102,13 @@ window.console.log(" ==> here in replace color");
         var html="<tbody id=\"result-table-body\">";
         var sz=json.length;
 
-//onmouseover=CPD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=CPD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")
+//onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")
         var tmp="";
         for( var i=0; i< sz; i++) {
            var s=json[i];
            var gid=parseInt(s.gid);
            var name=s.faultname + " | " +s.sitename;
-           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=CPD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\" onmouseover=CPD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=CPD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")>" + name + "</label></td></tr>";
+           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")>" + name + "</label></td></tr>";
            tmp=tmp+t;
         }
         html=html+ tmp + "</tbody>";
@@ -1123,11 +1123,11 @@ window.console.log(" ==> here in replace color");
 
         for( var i=0; i< sz; i++) {
            let gid=glist[i];
-           let layer=CPD_SLIPRATE.getLayerByGid(gid);
+           let layer=EGD_SLIPRATE.getLayerByGid(gid);
            let s=layer.scec_properties;
            let name= s.fault_name + " | " +s.site_name;
 
-           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=CPD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
+           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
            html=html+t;
         }
 
@@ -1140,8 +1140,8 @@ window.console.log(" ==> here in replace color");
         html+=`
 <thead>
 <tr>
-   <th class='text-center'><button id=\"cpd-allBtn\" class=\"btn btn-sm cxm-small-btn\" title=\"select all visible sliprate sites\" onclick=\"CPD_SLIPRATE.toggleSelectAll();\"><span class=\"glyphicon glyphicon-unchecked\"></span></button></th>
-<th class='myheader'>CPD Site Location ( fault | site )</th>
+   <th class='text-center'><button id=\"egd-allBtn\" class=\"btn btn-sm cxm-small-btn\" title=\"select all visible sliprate sites\" onclick=\"EGD_SLIPRATE.toggleSelectAll();\"><span class=\"glyphicon glyphicon-unchecked\"></span></button></th>
+<th class='myheader'>EGD Site Location ( fault | site )</th>
 </tr>
 </thead>`;
         var body=makeResultTableBody(json);
@@ -1154,7 +1154,7 @@ window.console.log(" ==> here in replace color");
     this.downloadURLsAsZip = function(ftype) {
 window.console.log("calling download..");
         var nzip=new JSZip();
-        var layers=CPD_SLIPRATE.cpd_active_layers.getLayers();
+        var layers=EGD_SLIPRATE.egd_active_layers.getLayers();
         let timestamp=$.now();
         let mlist=[];
       
@@ -1168,13 +1168,13 @@ window.console.log("calling download..");
 
           if(ftype == "metadata" || ftype == "all") {
           // create metadata from layer.scec_properties
-            let m=createMetaData(cpd_sliprate_site_data[layer.scec_properties.idx]);
+            let m=createMetaData(egd_sliprate_site_data[layer.scec_properties.idx]);
             mlist.push(m);
           }
       
 /***** this is for downloading some generated file from the result directory..
           if(ftype == "extra") {
-            let downloadURL = getDataDownloadURL(layer.scec_properties.cpd_id);
+            let downloadURL = getDataDownloadURL(layer.scec_properties.egd_id);
             let dname=downloadURL.substring(downloadURL.lastIndexOf('/')+1);
             let promise = $.get(downloadURL);
             nzip.file(dname,promise);
