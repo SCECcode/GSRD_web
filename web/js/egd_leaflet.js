@@ -176,7 +176,8 @@ function setup_viewer()
     var zoom=mymap.getZoom();
 window.console.log("map got zoomed..>>",zoom);
 //XXX   need to resize the marker circle
-    }
+    EGD_SLIPRATE.gotZoomed(zoom);
+  }
 
   mymap.on('mouseover', onMapMouseOver);
   mymap.on('zoomend dragend', onMapZoom);

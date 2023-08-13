@@ -11,7 +11,7 @@ var EGD_SLIPRATE = new function () {
     this.egd_markerLocations = [];
 
     // searched layers being actively looked at -- result of a search
-    this.egd_active_layers= new L.FeatureGroup();
+    this.egd_active_layers = new L.FeatureGroup();
     this.egd_markerLocations = [];
     this.egd_active_gid = [];
 
@@ -201,6 +201,21 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
                 }
             }
         }
+
+        this.gotZoomed = function (zoom) {
+            if(this.egd_active_gid.length == 0) return;
+	    this.egd_active_layers.eachLayer(function(layer){
+
+window.console.log("this DOT got zoomend..");
+              site_marker_style.normal.radius=(zoom - 6)+ 3;
+
+              if(zoom <=6) { layer.setRadius(3); return; }
+              if( zoom <=7) { layer.setRadius(4); return; };
+              if( zoom <=8) { layer.setRadius(5); return; };
+              if( zoom <=9) { layer.setRadius(6); return; };
+              { layer.setRadius(7); return; };
+            });
+        };
 
         this.egd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
