@@ -57,10 +57,9 @@ var EGD_SLIPRATE = new function () {
         },
     };
 
-// coordinates: [34.28899, -118.399],
     this.defaultMapView = {
-        coordinates: [37.73, -119.9],
-        zoom: 10 
+        coordinates: [37.73, -119.89],
+        zoom: 6 
     };
 
     this.searchType = {
@@ -1061,7 +1060,16 @@ window.console.log(" ==> here in replace color");
 
             viewermap.invalidateSize();
             let bounds = L.latLngBounds(this.egd_markerLocations);
+window.console.log("fit bounds to all marker");
             viewermap.fitBounds(bounds);
+/*
+{
+let center=viewermap.getCenter();
+let zoom=viewermap.getZoom();
+window.console.log(center, zoom);
+}
+*/
+
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 

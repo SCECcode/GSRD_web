@@ -342,11 +342,13 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
               <select id="mapLayer" class="custom-select custom-select-sm"
                                                onchange="switchLayer(this.value);">
                   <option selected value="esri topo">ESRI Topographic</option>
-                  <option value="esri NG">ESRI National Geographic</option>
                   <option value="esri imagery">ESRI Imagery</option>
+                  <option value="jawg light">Jawg Light</option>
+                  <option value="jawg dark">Jawg Dark</option>
+                  <option value="osm streets relief">OSM Streets Relief</option>
                   <option value="otm topo">OTM Topographic</option>
                   <option value="osm street">OSM Street</option>
-                  <option value="shaded relief">Shaded Relief</option>
+                  <option value="esri terrain">ESRI Terrain</option>
               </select>
           </div>
         </div> <!-- top-control-row-2 -->

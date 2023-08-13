@@ -4,8 +4,8 @@
 This is leaflet specific utilities for EGD
 ***/
 
-var init_map_zoom_level = 10;
-var init_map_coordinates =  [37.73, -119.9];
+var init_map_zoom_level = 6;
+var init_map_coordinates =  [37.73, -119.89];
 var drawing_rectangle = false;
 
 var scecAttribution ='<a href="https://www.scec.org">SCEC</a>';
