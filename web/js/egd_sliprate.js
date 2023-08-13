@@ -97,7 +97,10 @@ num_events: 'Num Events',
 rate_age: 'Rate Age',
 q_bin_min: 'Qbin Min',
 q_bin_max: 'Qbin Max',
-reference: 'Reference'
+ucerf3_appb: 'UCERF3 AppB',
+short_references: 'Short References',
+links: 'DOI/Web Links',
+full_references: 'Full References'
         };
 
     this.searchingType=this.searchType.none;
@@ -138,7 +141,8 @@ window.console.log( "generate the initial egd_layers");
                 let site_name = egd_sliprate_site_data[index].sitename;
                 let low_rate = parseFloat(egd_sliprate_site_data[index].lowrate);
                 let high_rate = parseFloat(egd_sliprate_site_data[index].highrate);
-                let reference = egd_sliprate_site_data[index].reference;
+                let links = egd_sliprate_site_data[index].links;
+                let short_references = egd_sliprate_site_data[index].shortreferences;
 
                 let marker = L.circleMarker([latitude, longitude], site_marker_style.normal);
 
@@ -162,8 +166,9 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
                     site_name: site_name,
                     low_rate: low_rate,
                     high_rate: high_rate,
-                    reference: reference
-                };
+                    short_references: short_references,
+                    links: links
+		};
 
 // all layers
                 this.egd_layers.push(marker);
@@ -613,10 +618,19 @@ window.console.log("sliprate --- calling freshSearch..");
         return [];
     };
 
+    this.startWaitSpin = function() {
+      $("#egd-wait-spin").css('display','');
+    }
+    this.removeWaitSpin = function() {
+      $("#egd-wait-spin").css('display','none');
+    }
+
     this.search = function(type, criteria) {
 
         if(type != this.searchingType)
           return;
+
+        EGD_SLIPRATE.startWaitSpin();
 
         $searchResult = $("#searchResult");
         if (!type || !criteria) {
@@ -628,8 +642,6 @@ window.console.log("sliprate --- calling freshSearch..");
 
         let JSON_criteria = JSON.stringify(criteria);
 
-// not used:        $("#wait-spinner").show();
-
         $.ajax({
             url: "php/search.php",
             data: {t: type, q: JSON_criteria},
@@ -637,6 +649,7 @@ window.console.log("sliprate --- calling freshSearch..");
             let glist=[];
             if(sliprate_result === "[]") {
 window.console.log("Did not find any PHP result");
+              EGD_SLIPRATE.removeWaitSpin();
             } else {
                 let tmp=JSON.parse(sliprate_result); 
                 if(type == EGD_SLIPRATE.searchType.faultname
@@ -654,7 +667,9 @@ window.console.log("Did not find any PHP result");
 window.console.log( "BAD, unknown search type \n");
                 }
             }
+
             EGD_SLIPRATE.createActiveLayerGroupWithGids(glist);
+            EGD_SLIPRATE.removeWaitSpin();
         });
     };
 
@@ -703,7 +718,9 @@ window.console.log("flyingBounds --latlon");
 
 /********** metadata  functions *********************/
 /* create a metadata list using selected gid list
-FaultName,FaultID,State,SiteName,EGDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,Reference
+FaultName,FaultID,State,SiteName,EGDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
+UCERF3AppB
+ShortReferences,Links,FullReferences
 
 gid
 faultname
@@ -793,8 +810,8 @@ fullreferences
         html += `<td class="meta-data" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
 
-        html += `<td class="meta-data" align='center' >${layer.scec_properties.low_rate} </td>`;
-        html += `<td class="meta-data" align='center' >${layer.scec_properties.high_rate}</td>`;
+        html += `<td class="meta-data" >${layer.scec_properties.low_rate} </td>`;
+        html += `<td class="meta-data" >${layer.scec_properties.high_rate}</td>`;
         html += `<td class="meta-data">${layer.scec_properties.short_references}</td>`;
 
         html += `<td class="meta-data">......</td>`;
@@ -811,11 +828,11 @@ window.console.log("generateMetadataTable..");
         <th class="text-center button-container" style="width:2rem">
         </th>
         <th class="hoverColor" style="width:4rem" >Id&nbsp<span></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')">Fault Name&nbsp<span id='sortCol_2' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')">Site Name&nbsp<span id='sortCol_3' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem">Low<br>Rate&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High<br>Rate&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:9rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:10rem">Fault Name&nbsp<span id='sortCol_2' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:10rem">Site Name&nbsp<span id='sortCol_3' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:16rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
         <th style="width:12%;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">

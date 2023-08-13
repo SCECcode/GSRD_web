@@ -83,12 +83,15 @@ jQuery(document).ready(function() {
      $('.egd-faultname-item').on("blur mouseout", function() {
        $('.egd-faultname-item').off("mouseout");
        $('.egd-faultname-item').off("blur");
+//window.console.log("            trigger a call..on faultname..");
        if( $(this).val() != '' ) {
+//window.console.log("            with("+$(this).val()+")");
+
 	 let criteria = [];
          criteria.push($(this).val());
          EGD_SLIPRATE.search(EGD_SLIPRATE.searchType.faultname, criteria);
        }
-       $(this).blur();
+ //      $(this).blur();
      });
   });
 
@@ -129,6 +132,3 @@ jQuery(document).ready(function() {
   EGD_SLIPRATE.setupEGDInterface();
 
 }); // end of MAIN
-
-
-

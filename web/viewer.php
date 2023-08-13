@@ -29,6 +29,8 @@ $egd_sliprate = new SLIPRATE();
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
     <script type='text/javascript' src='js/vendor/esri-leaflet.js'></script>
+    <script type='text/javascript' src='js/vendor/esri-leaflet-vector.js' crossorigin=""></script>
+
     <script type='text/javascript' src='js/vendor/FileSaver.js'></script>
     <script type='text/javascript' src='js/vendor/jszip.js'></script>
     <script type='text/javascript' src='js/vendor/jquery.floatThead.min.js'></script>
@@ -178,6 +180,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                       <div class="d-flex">
                            <input id="egd-faultnameTxt" placeholder="Enter Fault Name" type="text"
                                   onfocus="this.value=''"
+				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-faultname-item').mouseout();"
                                   class="egd-faultname-item form-control">
                       </div>
                     </div>
@@ -189,6 +192,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                       <div class="d-flex">
                            <input id="egd-sitenameTxt" placeholder="Enter Site Name" type="text"
                                   onfocus="this.value=''"
+				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-sitename-item').mouseout();"
                                   class="egd-sitename-item form-control">
                       </div>
                     </div>
@@ -367,13 +371,11 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
       <div id="top-map" class="col-7 pl-1">
         <div class="w-100 mb-1" id='EGD_plot'
              style="position:relative;border:solid 1px #ced4da; height:576px;">
-             <div  id='wait-spinner' style="">
-               <div class="d-flex justify-content-center" >
-                 <div class="spinner-border text-light" role="status">
-                   <span class="sr-only">Loading...</span>
-                 </div>
-               </div>
+
+             <div class="spinDialog" style="position:absolute;top:40%;left:50%; z-index:9999;">
+               <div id="egd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
              </div>
+
         </div>
       </div>
     </div>
