@@ -304,10 +304,10 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"
         replaceResultTableBodyWithGids(glist);
         this.egd_active_layers.addTo(viewermap);
 
-        if(this.egd_active_markerLocations.length > 0) {
+        if(this.egd_active_markerLocations.length > 1) {
           let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
-          viewermap.flyToBounds(bounds);
+          viewermap.flyToBounds(bounds, {maxZoom:18});
         }
     };
 
@@ -340,7 +340,7 @@ window.console.log("flyingBounds --new list");
        }
 window.console.log("flyingBounds --recreateActiveLayer");
        let bounds = L.latLngBounds(this.egd_active_markerLocations);
-       viewermap.flyToBounds(bounds);
+       viewermap.flyToBounds(bounds, {maxZoom:18});
     }
 
 // search for a layer from master list by gid
@@ -738,6 +738,7 @@ window.console.log( "BAD, unknown search type \n");
                 criteria.push(sw['lng']);
                 criteria.push(ne['lat']);
                 criteria.push(ne['lng']);
+window.console.log("HERE, making a box from map..");
 
                 $("#egd-firstLatTxt").val(criteria[0]);
                 $("#egd-firstLonTxt").val(criteria[1]);
@@ -752,7 +753,7 @@ window.console.log( "BAD, unknown search type \n");
         markerLocations.push(L.latLng(criteria[2],criteria[3]));
         let bounds = L.latLngBounds(markerLocations);
 window.console.log("flyingBounds --latlon");
-        viewermap.flyToBounds(bounds);
+        viewermap.flyToBounds(bounds, {maxZoom:18});
 //        setTimeout(skipRectangle, 500);
     };
 
@@ -947,6 +948,13 @@ window.console.log("generateMetadataTable..");
           skipRectangle();
           remove_bounding_rectangle_layer();
           $("#egd-latlon").hide();
+        }
+        this.clearLatLon = function () {
+          if( this.searchingType != this.searchType.latlon) return;
+          $("#egd-firstLatTxt").val("");
+          $("#egd-firstLonTxt").val("");
+          $("#egd-secondLatTxt").val("");
+          $("#egd-scecondLonTxt").val("");
         }
 
         this.resetFaultname = function () {
