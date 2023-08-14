@@ -120,8 +120,7 @@ full_references: 'Full References'
 
     function _makeLinks(links) {
         let rc="";
-        // how many https ???
-        let terms=links.split(";");
+        let terms=links.split("; ");
         let sz=terms.length;
         for(let i=0; i<sz; i++) {
             if(terms[i] == "N/A") {
