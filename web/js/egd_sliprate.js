@@ -118,6 +118,21 @@ full_references: 'Full References'
 
 /********** show layer/select functions *********************/
 
+    function _makeLinks(links) {
+        let rc="";
+        // how many https ???
+        let terms=links.split(";");
+        let sz=terms.length;
+        for(let i=0; i<sz; i++) {
+            if(terms[i] == "N/A") {
+                rc=rc+"N/A";
+                } else {
+                rc = rc + "&nbsp;<a href=\""+terms[i]+"\"><span class=\"glyphicon glyphicon-share\"></span></a> ";
+            }
+        }
+        return rc;
+    }
+
 // egd_sliprate_site_data is from viewer.php, which is the JSON 
 // result from calling php getAllSiteData script
     this.generateLayers = function () {
@@ -149,7 +164,9 @@ window.console.log( "generate the initial egd_layers");
 
 marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
-marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 500});
+		  //
+		 let linkstr= _makeLinks(links); 
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>Links: </strong>"+linkstr, {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,
@@ -205,15 +222,14 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
         this.gotZoomed = function (zoom) {
             if(this.egd_active_gid.length == 0) return;
 	    this.egd_active_layers.eachLayer(function(layer){
-
-window.console.log("this DOT got zoomend..");
-              site_marker_style.normal.radius=(zoom - 6)+ 3;
               let normal=3;
               let target = normal;
               if(zoom > 6)  {
                  target = (zoom > 9) ? 7 : (zoom - 6)+target;
               }
               layer.setRadius(target);
+              site_marker_style.normal.radius=target;
+              site_marker_style.hover.radius = (target *2) ;
             });
         };
 
@@ -828,7 +844,7 @@ fullreferences
         html += `<td class="meta-data" >${layer.scec_properties.high_rate}</td>`;
         html += `<td class="meta-data">${layer.scec_properties.short_references}</td>`;
 
-        html += `<td class="meta-data">......</td>`;
+        html += `<td class="meta-data">${layer.scec_properties.links}</td>`;
         html += `</tr>`;
         return html;
     };
@@ -847,7 +863,7 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:16rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
-        <th style="width:12%;"><div class="text-center">
+        <th style="width:12rem;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
