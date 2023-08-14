@@ -182,7 +182,7 @@ marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
 		  //
 		 let linkstr= _makeLinks(links); 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>Links: </strong>"+linkstr, {maxWidth: 500});
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>References: </strong>"+linkstr, {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,
@@ -365,11 +365,6 @@ window.console.log("flyingBounds --recreateActiveLayer");
 // select from currently active sites
     this.toggleSiteSelected = function(layer, clickFromMap=false) {
 
-if(clickFromMap) {
-window.console.log("toggleSiteSlected from map");             
-} else {
-window.console.log("toggleSiteSlected from tables");             
-}
         if (typeof layer.scec_properties.selected === 'undefined') {
             layer.scec_properties.selected = true;
         } else {
@@ -495,7 +490,6 @@ window.console.log("toggleSiteSlected from tables");
          window.console.log("this is bad.. already in selected list "+gid);
          return;
        }
-       window.console.log("=====adding to list "+gid);
        this.egd_selected_gid.push(gid);
        updateDownloadCounter(this.egd_selected_gid.length);
     };
@@ -879,7 +873,7 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:10rem">Site Name&nbsp<span id='sortCol_3' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:16rem">Reference&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:16rem">References&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
         <th style="width:12rem;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
