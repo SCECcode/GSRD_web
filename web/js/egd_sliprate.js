@@ -307,7 +307,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"
         if(this.egd_active_markerLocations.length > 1) {
           let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
-          viewermap.flyToBounds(bounds, {maxZoom:18});
+          viewermap.flyToBounds(bounds, {maxZoom:18, padding:[10,10]});
         }
     };
 
@@ -340,7 +340,7 @@ window.console.log("flyingBounds --new list");
        }
 window.console.log("flyingBounds --recreateActiveLayer");
        let bounds = L.latLngBounds(this.egd_active_markerLocations);
-       viewermap.flyToBounds(bounds, {maxZoom:18});
+       viewermap.flyToBounds(bounds, {maxZoom:18, padding:[10,10]});
     }
 
 // search for a layer from master list by gid
@@ -753,7 +753,7 @@ window.console.log("HERE, making a box from map..");
         markerLocations.push(L.latLng(criteria[2],criteria[3]));
         let bounds = L.latLngBounds(markerLocations);
 window.console.log("flyingBounds --latlon");
-        viewermap.flyToBounds(bounds, {maxZoom:18});
+        viewermap.flyToBounds(bounds, {maxZoom:18, padding:[10,10]});
 //        setTimeout(skipRectangle, 500);
     };
 
