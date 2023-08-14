@@ -844,7 +844,7 @@ fullreferences
         html += `<td class="meta-data" >${layer.scec_properties.high_rate}</td>`;
         html += `<td class="meta-data">${layer.scec_properties.short_references}</td>`;
 
-        html += `<td class="meta-data">${layer.scec_properties.links}</td>`;
+        html += `<td class="meta-data">_makeLinks(${layer.scec_properties.links})</td>`;
         html += `</tr>`;
         return html;
     };
