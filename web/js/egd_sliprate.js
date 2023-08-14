@@ -208,12 +208,12 @@ marker.bindPopup("<strong>"+site_info+"</strong><br>I am a popup.", {maxWidth: 5
 
 window.console.log("this DOT got zoomend..");
               site_marker_style.normal.radius=(zoom - 6)+ 3;
-
-              if(zoom <=6) { layer.setRadius(3); return; }
-              if( zoom <=7) { layer.setRadius(4); return; };
-              if( zoom <=8) { layer.setRadius(5); return; };
-              if( zoom <=9) { layer.setRadius(6); return; };
-              { layer.setRadius(7); return; };
+              let normal=3;
+              let target = normal;
+              if(zoom > 6)  {
+                 target = (zoom > 9) ? 7 : (zoom - 6)+target;
+              }
+              layer.setRadius(target);
             });
         };
 
