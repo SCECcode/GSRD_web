@@ -6,6 +6,12 @@ var showing_key = false;
 var big_map=0; // 0,1(some control),2(none)
 
 /************************************************************************************/
+function trimFaultString(str) {
+   const regex = / Fault/gi;
+   let nstr=str.replace(regex, "");
+   return nstr;
+}
+/************************************************************************************/
 
 function showKey(minv,maxv,label) {
 window.console.log("calling showing key");
