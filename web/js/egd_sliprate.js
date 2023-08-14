@@ -124,9 +124,26 @@ full_references: 'Full References'
         let sz=terms.length;
         for(let i=0; i<sz; i++) {
             if(terms[i] == "N/A") {
-                rc=rc+"N/A";
+                rc=rc+"&nbsp;N/A";
                 } else {
                 rc = rc + "&nbsp;<a href=\""+terms[i]+"\"><span class=\"glyphicon glyphicon-share\"></span></a> ";
+            }
+        }
+        return rc;
+    }
+    function _makeLinksWithReferences(links,refs) {
+        let rc="";
+        let terms=links.split("; ");
+        let rterms=refs.split(";");
+        let sz=terms.length;
+        for(let i=0; i<sz; i++) {
+            if(i!=0)
+		rc=rc+"<br>";
+
+            if(terms[i] == "N/A") {
+		rc = rc+rterms[i];
+                } else {
+                    rc = rc + rterms[i] + "&nbsp;<a href=\""+terms[i]+"\"><span class=\"glyphicon glyphicon-share\"></span></a> ";
             }
         }
         return rc;
@@ -831,6 +848,7 @@ fullreferences
     var generateMetadataTableRow = function(layer) {
         let $table = $("#metadata-table");
         let html = "";
+        let reflinkstr= _makeLinksWithReferences(layer.scec_properties.links,layer.scec_properties.short_references);
 
         html += `<tr sliprate-metadata-gid="${layer.scec_properties.gid}">`;
 
@@ -841,9 +859,9 @@ fullreferences
 
         html += `<td class="meta-data" >${layer.scec_properties.low_rate} </td>`;
         html += `<td class="meta-data" >${layer.scec_properties.high_rate}</td>`;
-        html += `<td class="meta-data">${layer.scec_properties.short_references}</td>`;
+        html += `<td class="meta-data">${reflinkstr}</td>`;
 
-        html += `<td class="meta-data">_makeLinks(${layer.scec_properties.links})</td>`;
+        html += `<td class="meta-data"></td>`;
         html += `</tr>`;
         return html;
     };
