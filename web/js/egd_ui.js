@@ -14,7 +14,7 @@ function trimFaultString(str) {
 /************************************************************************************/
 
 function showKey(minv,maxv,label) {
-window.console.log("calling showing key");
+window.console.log(" --- calling showing key");
     if (showing_key) {
         removeKey();
     } else {
@@ -24,17 +24,15 @@ window.console.log("calling showing key");
     let min=Math.round(minv * 100) / 100;
     let max=Math.round(maxv * 100) / 100;
 
-    $("#EGD_plot").prepend($("#plot-range-key-container").html());
-    $("#plot-range-key span.min").html(min);
-    $("#plot-range-key span.max").html(max);
-    $('#plot-range-label').css("display", "");
+    $('#minKey').html(min);
+    $('#maxKey').html(max);
+    $('#plot-range-container').css("display", "");
 }
 
 function removeKey() {
-window.console.log("calling removing key");
+window.console.log(" --- calling removing key");
     if(showing_key) {
-      $("#EGD_plot #plot-range-key").remove();
-      $('#plot-range-label').css("display", "none");
+      $('#plot-range-container').css("display", "none");
       showing_key = false;
     }
 }
@@ -51,6 +49,7 @@ let h=576+c_height;
 $('#top-intro').css("display", "none");
 $('#searchResult').css("display", "none");
 $('#EGD_plot').css("height", h);
+$('.leaflet-control-attribution').css("width", "70rem");
 $('#infoData').removeClass('col-5').addClass('col-0');
 $('#top-map').removeClass('col-7').addClass('row');
 $('#top-map').removeClass('pl-1').addClass('pl-0');
@@ -66,7 +65,10 @@ let width=window.innerWidth;
 $('#top-control').css("display", "none");
 $('#top-select').css("display", "none");
 $('.navbar').css("margin-bottom", "0px");
+
 $('.container').css("max-width", "100%");
+$('.leaflet-control-attribution').css("width", "100rem");
+
 $('.container').css("padding-left", "0px");
 $('.container').css("padding-right", "0px");
 // minus the height of the container top 
@@ -88,7 +90,10 @@ $('#top-select').css("display", "");
 $('#EGD_plot').css("height", "576px");
 $('#EGD_plot').css("width", "635px");
 $('.navbar').css("margin-bottom", "20px");
+
 $('.container').css("max-width", "1140px");
+$('.leaflet-control-attribution').css("width", "35rem");
+
 $('.container').css("padding-left", "15px");
 $('.container').css("padding-right", "15px");
 

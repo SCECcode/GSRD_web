@@ -69,18 +69,18 @@ function isEmptyDictionary(dicV) {
 
 // color from blue to red
 //                     red, green, blue
-// Orig: red to blue (255,0,0) -> (0,0,255)
+//     : red to blue (255,0,0) -> (0,0,255)
 // new :  (R1,G1,B1) -> (R2,G2,B2)
 
 function makeRGB(val, maxV, minV) {
     // blue
     let R2=0;
-    let G2=110;
-    let B2=144;
-    // light orange
+    let G2=0;
+    let B2=255;
+    // red
     let R1=255;
-    let G1=80;
-    let B1=26;
+    let G1=0;
+    let B1=0;
 
     let v= (val-minV) / (maxV-minV);
     let red = Math.round(R1+ (v * (R2-R1)));

@@ -146,7 +146,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
              <form id="id_select_dataset">
                <label for="dataset"> Choose EGD Dataset : </label>
                <label><input type="radio" id="dataset_sliprate" name=dataset />
-                        <span>Sliprate sites</span></label>
+                        <span>Slip Rate Sites</span></label>
 <!--
                <label><input type="radio" id="dataset_chronology" name=dataset />
                         <span>Chronology sites</span></label>
@@ -178,7 +178,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="egd-faultnameTxt" placeholder="Enter Fault Name" type="text"
+                           <input id="egd-faultnameTxt" placeholder="Enter Fault Name Followed by Enter Key" type="text"
                                   onfocus="this.value=''"
 				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-faultname-item').mouseout();"
                                   class="egd-faultname-item form-control">
@@ -190,7 +190,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="egd-sitenameTxt" placeholder="Enter Site Name" type="text"
+                           <input id="egd-sitenameTxt" placeholder="Enter Site Name Followed by Enter Key" type="text"
                                   onfocus="this.value=''"
 				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-sitename-item').mouseout();"
                                   class="egd-sitename-item form-control">
@@ -210,25 +210,21 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                                    placeholder="Latitude"
                                    id="egd-firstLatTxt"
                                    title="first lat"
-                                   onfocus="this.value=''"
                                    class="egd-latlon-item form-control">
                             <input type="text" 
                                    placeholder='Longitude' 
                                    id="egd-firstLonTxt" 
                                    title="first lon"
-                                   onfocus="this.value=''" 
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLatTxt"
                                    title="second lat"
                                    placeholder='2nd Latitude'
-                                   onfocus="this.value=''"
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLonTxt"
                                    title="second lon"
                                    placeholder='2nd Longitude'
-                                   onfocus="this.value=''"
                                    class="egd-latlon-item form-control">
                         </div>
                       </div>
@@ -248,7 +244,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-minMinrateSliderTxt"
                               title="min minrate slider"
-                              onfocus="this.value=''"
                               class="egd-minrate-item form-control">
                           <div class="col-5">
                             <div id="slider-minrate-range" style="border:2px solid black"></div>
@@ -258,7 +253,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-maxMinrateSliderTxt"
                               title="max minrate slider"
-                              onfocus="this.value=''"
                               class="egd-minrate-item form-control">
                         </div>
                       </div>
@@ -277,7 +271,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-minMaxrateSliderTxt"
                               title="min maxrate slider"
-                              onfocus="this.value=''"
                               class="egd-maxrate-item form-control">
                           <div class="col-5">
                             <div id="slider-maxrate-range" style="border:2px solid black"></div>
@@ -287,7 +280,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-maxMaxrateSliderTxt"
                               title="max maxrate slider"
-                              onfocus="this.value=''"
                               class="egd-maxrate-item form-control">
                         </div>
                       </div>
@@ -374,9 +366,23 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
         <div class="w-100 mb-1" id='EGD_plot'
              style="position:relative;border:solid 1px #ced4da; height:576px;">
 
+<!-- spinner -->
              <div class="spinDialog" style="position:absolute;top:40%;left:50%; z-index:9999;">
                <div id="egd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
              </div>
+
+<!-- rate range legend -->
+             <div id="plot-range-container" class="geometry top center" style="display:none;bottom:10%;background-color: rgba(255,255,255,0.5);">
+                  <div class="row" style="margin:4px 2px 0px 2px">
+	            <div id="minKey" style="width:2rem; height:1.2rem;">0</div>
+	            <div class="ui-slider-range" style="border:1px solid grey; width:55px;height:15px;"></div>
+	            <div id="maxKey" align="right" style="width:2rem;height:1.2rem;">0</div>
+                  </div>
+
+                  <div id="plot-range-label" align="center">mm/yr</div>
+             </div> <!-- legend -->
+
+
 
         </div>
       </div>
@@ -398,20 +404,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
     </div> <!-- top-select -->
 
 </div> <!-- main -->
-
-<div id="plot-range-key-container" style="display:none;">
-    <div id="plot-range-key" class="row" style="opacity:0.8">
-        <div class="col" style="width:110px;height:24px;">
-           <span class="min" style="width:1.3rem"></span>
-           <span class="ui-slider-range" style="border:1px solid grey; width:55px;height:15px;"></span>
-           <span class="max"></span>
-        </div>
-    </div>
-    <div id="plot-range-label" class="row" style="display:;opacity:0.8">
-	<label><span id="plot-range-label-string"></span></label>
-    </div>
-</div>
-
 
 <div id="expand-view-key-container" style="display:none;">
   <div id="expand-view-key" class="row" style="opacity:0.8; height:1.4rem;">

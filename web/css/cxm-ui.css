@@ -8,7 +8,7 @@
 }
 
 .ui-slider-range {
-    background: linear-gradient(to right, rgb(255, 80, 26), rgb(0, 110, 144));
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255));
 }
 
 #min-minrate-handle, #max-minrate-handle, #min-maxrate-handle, #max-maxrate-handle {
@@ -22,45 +22,25 @@
     line-height: 1.2em;
 }   
     
-#plot-range-label {
+#plot-range-container {
     z-index: 8000;
     position: absolute;
-    right: 50px;
-    top: 25px;
+    left: 5px;
     background-color: transparent;
     padding-left: 5px;
     padding-right: 5px;
 }
 
-#plot-range-key {
+#pplot-range-label {
     z-index: 8000;
     position: absolute;
-    right: 30px;
-    top: 10px;
+    left: 30px;
     background-color: transparent;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
-#plot-range-key .ui-slider-range {
+#plot-range-container .ui-slider-range {
     display: inline-flex;
-    background: linear-gradient(to right, rgb(255, 80, 26), rgb(0, 110, 144));
-}
-
-#plot-range-key div {
-    padding:0;
-}
-
-#plot-range-key span.min {
-    display: inline-flex;
-    width: 1ch;
-    margin-right:3px;
-}
-
-#plot-range-key span.max {
-    display: inline-flex;
-    width: 1ch;
-    margin-left:3px;
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255));
 }
 
 /* cxm viewer required styles */

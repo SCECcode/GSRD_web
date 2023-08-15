@@ -105,7 +105,7 @@ full_references: 'Full References'
     this.searchingType=this.searchType.none;
 
     var tablePlaceholderRow = `<tr id="placeholder-row">
-                        <td colspan="8">Metadata for selected sliprate sites will appear here.</td>
+                        <td colspan="10">Metadata for selected sliprate sites will appear here.</td>
                     </tr>`;
 
     this.activateData = function() {
@@ -117,25 +117,18 @@ full_references: 'Full References'
     };
 
 /********** show layer/select functions *********************/
-
-    function _makeLinks(links) {
-        let rc="";
-        let terms=links.split("; ");
-        let sz=terms.length;
-        for(let i=0; i<sz; i++) {
-            if(terms[i] == "N/A") {
-                rc=rc+"&nbsp;N/A";
-                } else {
-                rc = rc + "&nbsp;<a href=\""+terms[i]+"\"><span class=\"glyphicon glyphicon-share\"></span></a> ";
-            }
-        }
-        return rc;
-    }
     function _makeLinksWithReferences(links,refs) {
-        let rc="";
+        let rc="<div class=\'col\' style=\"max-width:30rem\">";
         let terms=links.split("; ");
         let rterms=refs.split(";");
         let sz=terms.length;
+        let rsz=rterms.length;
+	// special case,
+        // "Blisniuk et al. (2010); Blisniuk and Rockwell (in prep; written communication to UCERF3, 2012)"
+        if(sz != rsz) { 
+	  rc = rc+refs+"<div>";
+          return rc;
+        }
         for(let i=0; i<sz; i++) {
             if(i!=0)
 		rc=rc+"<br>";
@@ -143,9 +136,10 @@ full_references: 'Full References'
             if(terms[i] == "N/A") {
 		rc = rc+rterms[i];
                 } else {
-                    rc = rc + rterms[i] + "&nbsp;<a href=\""+terms[i]+"\"><span class=\"glyphicon glyphicon-share\"></span></a> ";
+                    rc = rc + "<a href=\""+terms[i]+"\">"+rterms[i]+"</span></a>";
             }
         }
+        rc=rc+"<div>";
         return rc;
     }
 
@@ -167,8 +161,10 @@ window.console.log( "generate the initial egd_layers");
                 let longitude = parseFloat(egd_sliprate_site_data[index].longitude);
                 let latitude = parseFloat(egd_sliprate_site_data[index].latitude);
                 let fault_name = egd_sliprate_site_data[index].faultname;
+                let cfm_name = egd_sliprate_site_data[index].cfm6objectname;
                 let state = egd_sliprate_site_data[index].state;
                 let site_name = egd_sliprate_site_data[index].sitename;
+                let rate_type = egd_sliprate_site_data[index].ratetype;
                 let low_rate = parseFloat(egd_sliprate_site_data[index].lowrate);
                 let high_rate = parseFloat(egd_sliprate_site_data[index].highrate);
                 let links = egd_sliprate_site_data[index].links;
@@ -181,8 +177,9 @@ window.console.log( "generate the initial egd_layers");
 marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
 		  //
-		 let linkstr= _makeLinks(links); 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>References: </strong>"+linkstr, {maxWidth: 500});
+                 let reflinkstr= _makeLinksWithReferences(links,short_references);
+
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>References: </strong><br>"+reflinkstr, {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,
@@ -194,10 +191,12 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"
                     longitude: longitude,
                     latitude: latitude,
                     fault_name: fault_name,
+                    cfm_name: cfm_name,
                     state: state,
                     site_name: site_name,
                     low_rate: low_rate,
                     high_rate: high_rate,
+                    rate_type: rate_type,
                     short_references: short_references,
                     links: links
 		};
@@ -237,15 +236,21 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Low Rate: </strong>"
 
         this.gotZoomed = function (zoom) {
             if(this.egd_active_gid.length == 0) return;
+
+            let normal=3;
+            let target = normal;
+            if(zoom > 6)  {
+               target = (zoom > 9) ? 7 : (zoom - 6)+target;
+            }
+            if(site_marker_style.normal.radius == target) { // no changes..
+               return;
+            }
+            site_marker_style.normal.radius=target;
+            site_marker_style.hover.radius = (target *2) ;
+
 	    this.egd_active_layers.eachLayer(function(layer){
-              let normal=3;
-              let target = normal;
-              if(zoom > 6)  {
-                 target = (zoom > 9) ? 7 : (zoom - 6)+target;
-              }
               layer.setRadius(target);
-              site_marker_style.normal.radius=target;
-              site_marker_style.hover.radius = (target *2) ;
+window.console.log("got Zoomed");
             });
         };
 
@@ -740,10 +745,10 @@ window.console.log( "BAD, unknown search type \n");
                 criteria.push(ne['lng']);
 window.console.log("HERE, making a box from map..");
 
-                $("#egd-firstLatTxt").val(criteria[0]);
-                $("#egd-firstLonTxt").val(criteria[1]);
-                $("#egd-secondLatTxt").val(criteria[2]);
-                $("#egd-secondLonTxt").val(criteria[3]);
+                $("#egd-firstLatTxt").val( parseFloat(criteria[0]).toFixed(5));
+                $("#egd-firstLonTxt").val( parseFloat(criteria[1]).toFixed(5));
+                $("#egd-secondLatTxt").val( parseFloat(criteria[2]).toFixed(5));
+                $("#egd-secondLonTxt").val( parseFloat(criteria[3]).toFixed(5));
         }
                  
         this.search(EGD_SLIPRATE.searchType.latlon, criteria);
@@ -841,6 +846,8 @@ fullreferences
     };
 
     var generateMetadataTableRow = function(layer) {
+window.console.log("HERE..");
+let t=layer.scec_properties;
         let $table = $("#metadata-table");
         let html = "";
         let reflinkstr= _makeLinksWithReferences(layer.scec_properties.links,layer.scec_properties.short_references);
@@ -852,11 +859,11 @@ fullreferences
         html += `<td class="meta-data" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
 
+        html += `<td class="meta-data" >${layer.scec_properties.rate_type} </td>`;
         html += `<td class="meta-data" >${layer.scec_properties.low_rate} </td>`;
         html += `<td class="meta-data" >${layer.scec_properties.high_rate}</td>`;
-        html += `<td class="meta-data">${reflinkstr}</td>`;
-
-        html += `<td class="meta-data"></td>`;
+        html += `<td class="meta-data" >${layer.scec_properties.cfm_name}</td>`;
+        html += `<td class="meta-data" colspan=2>${reflinkstr}</td>`;
         html += `</tr>`;
         return html;
     };
@@ -869,31 +876,22 @@ window.console.log("generateMetadataTable..");
 <tr>
         <th class="text-center button-container" style="width:2rem">
         </th>
-        <th class="hoverColor" style="width:4rem" >Id&nbsp<span></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:10rem">Fault Name&nbsp<span id='sortCol_2' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:10rem">Site Name&nbsp<span id='sortCol_3' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'a')" style="width:16rem">References&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
-        <th style="width:12rem;"><div class="text-center">
+        <th class="hoverColor" style="width:3rem" >EGD ID<span></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:8rem">Fault Name&nbsp;<span id='sortCol_2' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:8rem">Site Name&nbsp;<span id='sortCol_3' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:8rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:10rem">CFM6 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:8rem; border-right:0px;">References&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th style="width:6em;border-left:0px;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
 		            style="padding:0 0.5rem 0 0.5rem;" 
                             onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
-                            DOWNLOAD&nbsp<span id="download-counter"></span>
+                            DOWNLOAD All DATA&nbsp<span id="download-counter"></span>
                     </button>
-<!--
-                    <button id="download-all" type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false" disabled>
-                            DOWNLOAD&nbsp<span id="download-counter"></span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                       <button class="dropdown-item" type="button" value="metadata"
-                            onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);">metadata
-                       </button>
-                    </div>
--->
                 </div>
         </th>
 </tr>
