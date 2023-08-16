@@ -202,7 +202,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div id='egd-latlonMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
-                          <p>Draw a rectangle on the map or enter latitudes and longitudes</p>
+                          <p style="margin-bottom:0;">Draw a rectangle on the map or enter latitudes and longitudes</p>
                       </div>
                       <div class="col-8">
                         <div class="form-inline latlon-input-boxes">
@@ -237,7 +237,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div id='egd-minrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
-                          <p>Select a range on the minRate slider or enter the two boundaries</p>
+                          <p style="margin-bottom:0">Select a range on the minRate slider or enter the two boundaries</p>
                       </div>
                       <div class="col-8">
                         <div class="form-inline vector-slider-input-boxes">
@@ -264,7 +264,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div id='egd-maxrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
-                          <p>Select a range on the maxRate slider or enter the two boundaries</p>
+                          <p style="margin-bottom:0">Select a range on the maxRate slider or enter the two boundaries</p>
                       </div>
                       <div class="col-8">
                         <div class="form-inline vector-slider-input-boxes">

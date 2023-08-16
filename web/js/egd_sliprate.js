@@ -136,7 +136,7 @@ full_references: 'Full References'
             if(terms[i] == "N/A") {
 		rc = rc+rterms[i];
                 } else {
-                    rc = rc + "<a href=\""+terms[i]+"\">"+rterms[i]+"</span></a>";
+                    rc = rc + "<a href=\""+terms[i]+"\" target=\"_blank\">"+rterms[i]+"</span></a>";
             }
         }
         rc=rc+"<div>";
@@ -743,7 +743,6 @@ window.console.log( "BAD, unknown search type \n");
                 criteria.push(sw['lng']);
                 criteria.push(ne['lat']);
                 criteria.push(ne['lng']);
-window.console.log("HERE, making a box from map..");
 
                 $("#egd-firstLatTxt").val( parseFloat(criteria[0]).toFixed(5));
                 $("#egd-firstLonTxt").val( parseFloat(criteria[1]).toFixed(5));
@@ -839,15 +838,20 @@ fullreferences
         }
         let html = generateMetadataTableRow(layer);
         $table.prepend(html);
+	$(`#metadata-table tbody tr[id='placeholder-row']`).remove();
     };
 
     this.removeFromMetadataTable = function (gid) {
+        let $table = $("#metadata-table tbody");
+// prepend it if there is only no more 
+        if(this.egd_selected_gid.length == 0) {
+          $table.prepend(tablePlaceholderRow);
+        }
+
         $(`#metadata-table tbody tr[sliprate-metadata-gid='${gid}']`).remove();
     };
 
     var generateMetadataTableRow = function(layer) {
-window.console.log("HERE..");
-let t=layer.scec_properties;
         let $table = $("#metadata-table");
         let html = "";
         let reflinkstr= _makeLinksWithReferences(layer.scec_properties.links,layer.scec_properties.short_references);
@@ -880,17 +884,17 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:8rem">Fault Name&nbsp;<span id='sortCol_2' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:8rem">Site Name&nbsp;<span id='sortCol_3' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:8rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp<span id='sortCol_6' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:10rem">CFM6 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:8rem; border-right:0px;">References&nbsp<span id='sortCol_8' class="fas fa-angle-down"></span></th>
-        <th style="width:6em;border-left:0px;"><div class="text-center">
+        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:8rem; border-right-color:transparent;">&nbsp;&nbsp;References&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th style="width:6em;border-left-color:transparent;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
 		            style="padding:0 0.5rem 0 0.5rem;" 
                             onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
-                            DOWNLOAD All DATA&nbsp<span id="download-counter"></span>
+                            DOWNLOAD All DATA&nbsp;<span id="download-counter"></span>
                     </button>
                 </div>
         </th>
