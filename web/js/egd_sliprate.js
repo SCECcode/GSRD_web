@@ -139,7 +139,7 @@ full_references: 'Full References'
                     rc = rc + "<a href=\""+terms[i]+"\" target=\"_blank\">"+rterms[i]+"</span></a>";
             }
         }
-        rc=rc+"<div>";
+        rc=rc+"</div>";
         return rc;
     }
 
@@ -179,7 +179,7 @@ marker.bindTooltip(site_info).openTooltip();
 		  //
                  let reflinkstr= _makeLinksWithReferences(links,short_references);
 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate+"<br><strong>References: </strong><br>"+reflinkstr, {maxWidth: 500});
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,

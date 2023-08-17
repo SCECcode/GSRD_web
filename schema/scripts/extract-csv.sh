@@ -20,7 +20,7 @@ csvcut -n ${EXCEL_NM}.csv > ${EXCEL_NM}_column_labels
 #"> my_tb.csv 
 
 #csvcut -c "27" ${EXCEL_NM}.csv |csvcut -K 1 | sort -n|uniq | sed "1i\\
-csvcut -c "10" ${EXCEL_NM}.csv |csvcut -K 1 | sed "1i\\
+csvcut -c "17" ${EXCEL_NM}.csv |csvcut -K 1 | sed "1i\\
 id,target
 "> id_test_tb.csv 
 
