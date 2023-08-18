@@ -49,13 +49,21 @@ function calculateDistanceMeter(start_latlng, end_latlng) {
     return d;
 }
 
-function truncateNumber(num, digits) {
+function truncateNumberStr(num, digits) {
     let numstr = num.toString();
+    let nstr;
     if (numstr.indexOf('.') > -1) {
-        return numstr.substr(0 , numstr.indexOf('.') + digits+1 );
+        nstr=numstr.substr(0 , numstr.indexOf('.') + digits+1 );
     } else {
-        return numstr;
+        nstr=numstr;
     }
+    return nstr;
+}
+
+function truncateNumber(num, digits) {
+     let str=truncateNumberStr(num,digits);
+     let newnum=parseFloat(str);
+     return newnum;
 }
 
 function isObject(objV) {

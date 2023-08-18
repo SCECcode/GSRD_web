@@ -74,6 +74,7 @@ $egd_sliprate = new SLIPRATE();
     <script type="text/javascript" src="js/egd_main.js?v=1"></script>
     <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
     <script type="text/javascript" src="js/egd_leaflet.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_cmap.js?v=1"></script>
 
 <!-- cxm js -->
     <script type="text/javascript" src="js/cxm_kml.js?v=1"></script>
@@ -162,8 +163,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <option value="faultname">Fault Name</option>
                   <option value="sitename">Site Name</option>
                   <option value="latlon">Latitude &amp; Longitude</option>
-                  <option value="minrate">minRate</option>
-                  <option value="maxrate">maxRate</option>
+                  <option value="minrate">Low Rate</option>
+                  <option value="maxrate">High Rate</option>
               </select>
 	      <div class="input-group-append">
                   <button id="refresh-all-button" onclick="EGD_SLIPRATE.reset();"
@@ -436,6 +437,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
 
 <!--call php directly-->
     <script type="text/javascript">
+            window.console.log("GRAB the station data..");
             egd_sliprate_site_data = <?php print $egd_sliprate->getAllStationData()->outputJSON(); ?>;
     </script>
 </body>

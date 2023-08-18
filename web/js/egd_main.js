@@ -36,6 +36,7 @@ jQuery(document).ready(function() {
      $('.egd-minrate-item').on("blur mouseout", function() {
        $('.egd-minrate-item').off("mouseout");
        $('.egd-minrate-item').off("blur");
+window.console.log("minrate-item got updated ...HERE..");
        if( $(this).val() != '' ) {
          EGD_SLIPRATE.refreshMinrateSlider();
        }

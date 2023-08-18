@@ -11,7 +11,7 @@ CREATE TABLE SLIPRATE_tb (
    DistToCFMFault float DEFAULT 0.0,
    CFM6ObjectName VARCHAR(100) NOT NULL,
    DataType      VARCHAR(100) NOT NULL,
-   Observation   VARCHAR(400),
+   Observation   VARCHAR(1000),
    PrefRate      VARCHAR(50),
    LowRate       float default 0.0,
    HighRate      float default 0.0,

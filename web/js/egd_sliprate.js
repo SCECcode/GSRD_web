@@ -117,6 +117,35 @@ full_references: 'Full References'
     };
 
 /********** show layer/select functions *********************/
+    function  _makeExtra(r,rmin,rmax) {
+
+       let N=12;
+
+       let trmin= (rmin==0)? (1.0E-9) : Math.log(rmin).toFixed(3);
+       let trmax=Math.log(rmax);
+       let target=Math.log(r);
+
+   trmin=truncateNumber(trmin,3);
+   trmax=truncateNumber(trmax,3);
+   target=truncateNumber(target,3);
+
+
+       let idx=0;
+       if(target <= trmin) {
+         idx=0;
+       } else if ( target >= trmax) {
+         idx= N-1;
+       } else {
+          let step = (trmax - trmin)/N;
+          idx= Math.floor((target-trmin)/step);
+       }
+if(idx < 0) {
+    window.console.log("BAD..");
+}
+       let rc=" "+idx+", ln="+target;
+       return rc;
+    }
+
     function _makeLinksWithReferences(links,refs) {
         let rc="<div class=\'col\' style=\"max-width:30rem\">";
         let terms=links.split("; ");
@@ -178,8 +207,10 @@ marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
 		  //
                  let reflinkstr= _makeLinksWithReferences(links,short_references);
+                 let extrastr= cmapDebugString(low_rate,12,egd_minrate_min,egd_minrate_max);
+                 let extrastr2= cmapDebugString(high_rate,12,egd_maxrate_min,egd_maxrate_max);
 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"("+extrastr+")<br><strong>High Rate: </strong>"+high_rate+"("+extrastr2+")", {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,
@@ -233,6 +264,8 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                 }
             }
         }
+        let foo1=cmapGetSliprateSegment(12, egd_minrate_min,egd_minrate_max);
+        let foo2=cmapGetSliprateSegment(12, egd_maxrate_min,egd_maxrate_max);
 
         this.gotZoomed = function (zoom) {
             if(this.egd_active_gid.length == 0) return;
@@ -1041,8 +1074,10 @@ window.console.log("generateMetadataTable..");
                 let layer=this.egd_layers[i];
                 let hr = layer.scec_properties.high_rate;
                 let lr = layer.scec_properties.low_rate;
-                layer.scec_properties.low_rate_color = makeRGB(lr, egd_minrate_max, egd_minrate_min );
-                layer.scec_properties.high_rate_color = makeRGB(hr, egd_maxrate_max, egd_maxrate_min );
+                layer.scec_properties.low_rate_color = cmapGetSliprateColor(lr,12,egd_minrate_min, egd_minrate_max );
+                layer.scec_properties.high_rate_color = cmapGetSliprateColor(hr,12,egd_maxrate_min, egd_maxrate_max );
+                //layer.scec_properties.low_rate_color = makeRGB(lr,egd_minrate_max, egd_minrate_min );
+                //layer.scec_properties.high_rate_color = makeRGB(hr,egd_maxrate_max, egd_maxrate_min );
             }
         }
 
@@ -1110,10 +1145,14 @@ window.console.log(" ==> here in replace color");
 
             this.activateData();
 
-            viewermap.invalidateSize();
-            let bounds = L.latLngBounds(this.egd_markerLocations);
+            if(this.egd_markerLocations.length == 0) {
+window.console.log("BAD.. no markers ???");
+              } else {
+                viewermap.invalidateSize();
+                let bounds = L.latLngBounds(this.egd_markerLocations);
 window.console.log("fit bounds to all marker");
-            viewermap.fitBounds(bounds);
+                viewermap.fitBounds(bounds);
+            }
 /*
 {
 let center=viewermap.getCenter();
