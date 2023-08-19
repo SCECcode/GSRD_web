@@ -50,7 +50,7 @@ function cmapGetSliprateLowRateIndex(v) {
 
    if(v==0) v=(1.0E-9);
    let target = Math.log(v);
-   target=truncateNumber(target,3);
+   target=polishNumber(target);
 
    let sz=sliprateLowRateSegments.length;
    if(target < sliprateLowRateSegments[0]) {
@@ -67,11 +67,17 @@ function cmapGetSliprateLowRateIndex(v) {
    return sz-1;
 }
 
+function polishNumber(v) {
+  let t=Math.floor( v*10000 )/1000; 
+  return t; 
+
+}
+
 function cmapGetSliprateHighRateIndex(v) {
 
    if(v==0) v=(1.0E-9);
    let target = Math.log(v);
-   target=truncateNumber(target,3);
+   target=polishNumber(target);
 
    let sz=sliprateHighRateSegments.length;
    if(target < sliprateHighRateSegments[0]) {
@@ -90,19 +96,19 @@ function cmapGetSliprateHighRateIndex(v) {
 
 function logscale(ea, eb, N) {
    let step= (eb - ea) / N;
-   step=truncateNumber(step,3);
+   step=polishNumber(step);
 
    let slist=[];
    let v=ea;
    for( let i=0; i<N; i++) {
      let s=v+(i * step);
      let ns=Math.pow(10, s);
-     ns=truncateNumber(ns,6);
+     ns=polishNumber(ns);
      slist.push(ns);
    }
    // last one
    let ss= Math.pow(10, eb);
-   ss=truncateNumber(ss,6);
+   ss=polishNumber(10);
    slist.push(ss);
    return slist;
 }
