@@ -68,7 +68,7 @@ function cmapGetSliprateLowRateIndex(v) {
 }
 
 function polishNumber(v) {
-  let t=Math.floor( v*10000 )/1000; 
+  let t=(Math.floor( v*1000 )) / 1000; 
   return t; 
 
 }
@@ -108,7 +108,7 @@ function logscale(ea, eb, N) {
    }
    // last one
    let ss= Math.pow(10, eb);
-   ss=polishNumber(10);
+   ss=polishNumber(ss);
    slist.push(ss);
    return slist;
 }
