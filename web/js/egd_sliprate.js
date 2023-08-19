@@ -207,10 +207,8 @@ marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
 		  //
                  let reflinkstr= _makeLinksWithReferences(links,short_references);
-                 let extrastr= cmapDebugString(low_rate,12,egd_minrate_min,egd_minrate_max);
-                 let extrastr2= cmapDebugString(high_rate,12,egd_maxrate_min,egd_maxrate_max);
 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"("+extrastr+")<br><strong>High Rate: </strong>"+high_rate+"("+extrastr2+")", {maxWidth: 500});
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
 
                 marker.scec_properties = {
                     idx: index,
@@ -244,7 +242,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                    egd_minrate_min = low_rate;
                    egd_minrate_max = low_rate;
                   } else {
-                    if(low_rate < egd_minrate_min) {
+                    if(low_rate != 0 && low_rate < egd_minrate_min) {
                       egd_minrate_min=low_rate;  
                     }
                     if(low_rate > egd_minrate_max) {
@@ -255,7 +253,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                    egd_maxrate_min = high_rate;
                    egd_maxrate_max = high_rate;
                   } else {
-                    if(high_rate < egd_maxrate_min) {
+                    if(high_rate !=0 && high_rate < egd_maxrate_min) {
                       egd_maxrate_min=high_rate;  
                     }
                     if(high_rate > egd_maxrate_max) {
@@ -264,8 +262,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                 }
             }
         }
-        let foo1=cmapGetSliprateSegment(12, egd_minrate_min,egd_minrate_max);
-        let foo2=cmapGetSliprateSegment(12, egd_maxrate_min,egd_maxrate_max);
+        cmapSetupSliprateSegments(egd_minrate_min,egd_minrate_max,egd_maxrate_min,egd_maxrate_max);
 
         this.gotZoomed = function (zoom) {
             if(this.egd_active_gid.length == 0) return;
@@ -1074,8 +1071,8 @@ window.console.log("generateMetadataTable..");
                 let layer=this.egd_layers[i];
                 let hr = layer.scec_properties.high_rate;
                 let lr = layer.scec_properties.low_rate;
-                layer.scec_properties.low_rate_color = cmapGetSliprateColor(lr,12,egd_minrate_min, egd_minrate_max );
-                layer.scec_properties.high_rate_color = cmapGetSliprateColor(hr,12,egd_maxrate_min, egd_maxrate_max );
+                layer.scec_properties.low_rate_color = cmapGetSliprateLowRateColor(lr);
+                layer.scec_properties.high_rate_color = cmapGetSliprateHighRateColor(hr);
                 //layer.scec_properties.low_rate_color = makeRGB(lr,egd_minrate_max, egd_minrate_min );
                 //layer.scec_properties.high_rate_color = makeRGB(hr,egd_maxrate_max, egd_maxrate_min );
             }

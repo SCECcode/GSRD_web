@@ -4,6 +4,14 @@
 
 **/
 
+/* How many segments to chunk a set of csm data */
+const EGD_DEFAULT_DATA_SEGMENT_COUNT= 12;
+
+/* there are 2 different log scale set.. */
+var sliprateHighRateSegments=[];
+var sliprateLowRateSegments=[];
+
+
 var egd_cmap_tb={
     sliprate_rgb:[ "rgb(52,16,60)",
                    "rgb(59,91,169)",
@@ -20,33 +28,8 @@ var egd_cmap_tb={
     };
 
 /*************************************************************************/
-
-function cmapLogAll(val,N,vmin,vmax) {
-
-   if(vmin==0) vmin=(1.0E-9);
-   let logmin= Math.log(vmin);
-   let logmax=Math.log(vmax);
-   let logval=Math.log(val);
-
-   logmin=truncateNumber(logmin,3);
-   logmax=truncateNumber(logmax,3);
-   logval=truncateNumber(logval,3);
-
-   let idx=0;
-   if(logval <= logmin) {
-     idx=0;
-   } else if ( logval >= logmax) {
-     idx= N-1;
-   } else { 
-      let step = (logmax - logmin)/N;
-      idx= Math.floor((logval-logmin)/step);
-   }
-
-   return logval, logmin, logmax, idx;
-}
-
-function cmapGetSliprateColor(v, N, vmin,vmax) {
-   let target, tmin, tmax, idx=cmapLogAll(v,N,vmin,vmax);
+function cmapGetSliprateLowRateColor(v) {
+   let idx=cmapGetSliprateLowRateIndex(v);
 
    let cset=egd_cmap_tb.sliprate_rgb;
    let color=cset[idx];
@@ -54,51 +37,87 @@ function cmapGetSliprateColor(v, N, vmin,vmax) {
    return color;
 }
 
+function cmapGetSliprateHighRateColor(v) {
+   let idx=cmapGetSliprateHighRateIndex(v);
+
+   let cset=egd_cmap_tb.sliprate_rgb;
+   let color=cset[idx];
+
+   return color;
+}
+
+function cmapGetSliprateLowRateIndex(v) {
+
+   if(v==0) v=(1.0E-9);
+   let target = Math.log(v);
+   target=truncateNumber(target,3);
+
+   let sz=sliprateLowRateSegments.length;
+   if(target < sliprateLowRateSegments[0]) {
+     return 0;
+   }
+   for(let i=1; i<sz; i++) {
+     let term=sliprateLowRateSegments[i];
+     if( target > term ) {
+       continue;
+       } else {
+          return i-1;
+     }
+   }
+   return sz-1;
+}
+
+function cmapGetSliprateHighRateIndex(v) {
+
+   if(v==0) v=(1.0E-9);
+   let target = Math.log(v);
+   target=truncateNumber(target,3);
+
+   let sz=sliprateHighRateSegments.length;
+   if(target < sliprateHighRateSegments[0]) {
+     return 0;
+   }
+   for(let i=1; i<sz; i++) {
+     let term=sliprateHighRateSegments[i];
+     if( target > term ) {
+       continue;
+       } else {
+          return i-1;
+     }
+   }
+   return sz-1;
+}
+
+function logscale(ea, eb, N) {
+   let step= (eb - ea) / N;
+   step=truncateNumber(step,3);
+
+   let slist=[];
+   let v=ea;
+   for( let i=0; i<N; i++) {
+     let s=v+(i * step);
+     let ns=Math.pow(10, s);
+     ns=truncateNumber(ns,6);
+     slist.push(ns);
+   }
+   // last one
+   let ss= Math.pow(10, eb);
+   ss=truncateNumber(ss,6);
+   slist.push(ss);
+   return slist;
+}
+
 // make N+1 segments -- for making color bar ticks
 // log = y, linear = x
-function cmapGetSliprateSegment(N, vmin,vmax) {
-   if(vmin==0) vmin=(1.0E-9);
-   let tmin=Math.log(vmin);
-   let tmax=Math.log(vmax);
+function cmapSetupSliprateSegments(lrmin,lrmax,hrmin,hrmax) {
+   let N=EGD_DEFAULT_DATA_SEGMENT_COUNT;
 
-   tmin=truncateNumber(tmin,3);
-   tmax=truncateNumber(tmax,3);
+window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);
+window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
 
-window.console.log("val RANGE :  "+vmin+" to "+vmax);
+   sliprateLowRateSegments=logscale(Math.log10(lrmin),Math.log10(lrmax), N);
+   sliprateHighRateSegments=logscale(Math.log10(hrmin),Math.log10(hrmax), N);
 
-window.console.log("log RANGE :  "+tmin+" to "+tmax);
-
-   let segments=[];
-   let isegments=[];
-   let vvsegments=[];
-
-   let step = (tmax - tmin)/N;
-   let vvstep = (vmax - vmin)/N;
-   let v,iv, vv;
-   for( let i=0; i<N+1; i++) {
-
-      v=(i*step + tmin);
-      vv=(i*vvstep + vmin);
-      iv=Math.exp(v); 
-
-      v=truncateNumber(v,3);
-      segments.push(v);
-      vv=truncateNumber(vv,3);
-      vvsegments.push(vv);
-      iv=truncateNumber(iv,3);
-      isegments.push(iv);
-   }
-window.console.log("linear", vvsegments.toString());
-window.console.log("log", segments.toString());
-window.console.log(isegments.toString());
-   return segments;
+window.console.log("lr log", sliprateLowRateSegments.toString());
+window.console.log("hr log", sliprateHighRateSegments.toString());
 }
-
-
-function  cmapDebugString(r,N,rmin,rmax) {
-
-   let target, tmin, tmax, idx=cmapLogAll(r,N,rmin,rmax);
-   let rc=" "+idx+", ln="+target;
-   return rc;
-}
-
