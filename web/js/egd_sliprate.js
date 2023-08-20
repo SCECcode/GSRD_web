@@ -116,36 +116,54 @@ full_references: 'Full References'
 
     };
 
-/********** show layer/select functions *********************/
-    function  _makeExtra(r,rmin,rmax) {
-
-       let N=12;
-
-       let trmin= (rmin==0)? (1.0E-9) : Math.log(rmin).toFixed(3);
-       let trmax=Math.log(rmax);
-       let target=Math.log(r);
-
-   trmin=truncateNumber(trmin,3);
-   trmax=truncateNumber(trmax,3);
-   target=truncateNumber(target,3);
-
-
-       let idx=0;
-       if(target <= trmin) {
-         idx=0;
-       } else if ( target >= trmax) {
-         idx= N-1;
-       } else {
-          let step = (trmax - trmin)/N;
-          idx= Math.floor((target-trmin)/step);
-       }
-if(idx < 0) {
-    window.console.log("BAD..");
+/********** create legend functions *********************/
+// a layer is always generated with the full set of legend bins
+function _legendoptioncolor(color) {
+    var html="<li><span class=\"color\" style=\"background-color: "+color+"\"></span></li>";
+    return html;
 }
-       let rc=" "+idx+", ln="+target;
-       return rc;
+// a layer is always generated with the full set of legend bins
+function _legendoptionlabel(label) {
+    var html="<li><label class=\"legend-label\"><span>"+label+"</span></label></li>";
+    return html;
+}
+
+this.setupSliprateLegend = function(legendinfo) {
+    if(jQuery.isEmptyObject(legendinfo)) {
+        $("#egd-legend").html("");
+        return;
     }
 
+    let labellist=legendinfo['labels']; // label includes the last extra one
+    let colorlist=legendinfo['colors'];
+    let chtml = "";
+    let lhtml = "";
+
+    let n=colorlist.length;
+      // include the top 'invisible' one
+    for(let i=0; i<n; i++) {
+       let color=colorlist[i];
+       let label=labellist[i]; // segment's label
+       if(i== Math.floor(n/2)) {
+         chtml=_legendoptioncolor(color, 1)+chtml;
+         } else {
+	   chtml=_legendoptioncolor(color, 0)+chtml;
+       }
+       lhtml=_legendoptionlabel(label)+lhtml;
+    }
+    // include the top 'invisible' one
+    lhtml=_legendoptionlabel(labellist[n])+lhtml;
+
+    chtml="<ul>"+chtml+"</ul>";
+    $("#egd-legend-color").html(chtml);
+
+    lhtml="<ul>"+lhtml+"</ul>";
+    $("#egd-legend-label").html(lhtml);
+
+    // update the title to legend,
+    $("#pixi-legend-title").html("mm/yr");
+}
+/********** show layer/select functions *********************/
     function _makeLinksWithReferences(links,refs) {
         let rc="<div class=\'col\' style=\"max-width:30rem\">";
         let terms=links.split("; ");
@@ -566,11 +584,15 @@ window.console.log("flyingBounds --recreateActiveLayer");
                 break;
             case this.searchType.minrate:
                 $("#egd-minrate-slider").show();
-                showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
+                let seginfo=cmapFindSegmentProperties(this.searchType.minrate);
+                setupSliprateLegend(seginfo);
+                //showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                 break;
             case this.searchType.maxrate:
                 $("#egd-maxrate-slider").show();
-                showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
+                let seginfo=cmapFindSegmentProperties(this.searchType.maxrate);
+                setupSliprateLegend(seginfo);
+                //showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                 break;
             default:
                 // no action
@@ -649,14 +671,18 @@ window.console.log("sliprate --- calling freshSearch..");
                this.searchingType = this.searchType.minrate;
                $all_search_controls.hide();
                $("#egd-minrate-slider").show();
-               showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
+               let seginfo=cmapFindSegmentProperties(this.searchType.minrate);
+               setupSliprateLegend(seginfo);
+               //showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "maxrate": 
                this.searchingType = this.searchType.maxrate;
                $all_search_controls.hide();
                $("#egd-maxrate-slider").show();
-               showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
+               let seginfo=cmapFindSegmentProperties(this.searchType.maxrate);
+               setupSliprateLegend(seginfo);
+               //showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "latlon": 

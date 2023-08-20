@@ -1,4 +1,47 @@
 /* egd */
+div.legend .legend-label {
+    margin-left: 8px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+div.legend .color {
+    position: relative;
+    height: 18px;
+    width: 18px;
+    float: left;
+    margin-left: 15px;
+    border:solid 1px black;
+}
+
+div.main-legend {
+        z-index: 9990;
+        position: absolute;
+        left: 10px;
+        font-size: 12px;
+        margin-right: 10px;
+}
+
+div.main-legend ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+}
+
+div.main-legend li {
+        padding-top: 0em;
+        padding-bottom: 0em;
+}
+
+div.main-legend label {
+        margin-bottom: 0;
+}
+
+div.main-legend label:hover {
+        color: #990000;
+}
+
 #expand-view-key {
     z-index: 8000;
     position: absolute;
@@ -8,7 +51,7 @@
 }
 
 .ui-slider-range {
-    background: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255));
+    background: linear-gradient(to right, rgb(52,16,60), rgb(59,91,169), rgb(78,132,196), rgb(130,210,225), rgb(253,245,166), rgb(247,237,65), rgb(232,216,25), rgb(220,183,38), rgb(242,101,34), rgb(239,60,35), rgb(217,34,38), rgb(131,21,23));
 }
 
 #min-minrate-handle, #max-minrate-handle, #min-maxrate-handle, #max-maxrate-handle {
@@ -29,13 +72,6 @@
     background-color: transparent;
     padding-left: 5px;
     padding-right: 5px;
-}
-
-#pplot-range-label {
-    z-index: 8000;
-    position: absolute;
-    left: 30px;
-    background-color: transparent;
 }
 
 #plot-range-container .ui-slider-range {

@@ -11,7 +11,6 @@ const EGD_DEFAULT_DATA_SEGMENT_COUNT= 12;
 var sliprateHighRateSegments=[];
 var sliprateLowRateSegments=[];
 
-
 var egd_cmap_tb={
     sliprate_rgb:[ "rgb(52,16,60)",
                    "rgb(59,91,169)",
@@ -67,12 +66,12 @@ function cmapGetSliprateLowRateIndex(v) {
    return sz-1;
 }
 
+// chop to 3 digits
 function polishNumber(v) {
   let t=(Math.floor( v*1000 )) / 1000; 
   return t; 
 
 }
-
 function cmapGetSliprateHighRateIndex(v) {
 
    if(v==0) v=(1.0E-9);
@@ -126,4 +125,17 @@ window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
 
 window.console.log("lr log", sliprateLowRateSegments.toString());
 window.console.log("hr log", sliprateHighRateSegments.toString());
+}
+
+
+function cmapFindSegmentProperties(searchType) {
+  var info={};
+  if(searchType == CSM.searchType.minrate) {
+    info.labels=sliprateLowRateSegments;
+    info.color=egd_cmap_tb.sliprate_rgb;
+    } else {
+      info.labels=sliprateHighRateSegments;
+      info.color=egd_cmap_tb.sliprate_rgb;
+  }
+  return info;
 }
