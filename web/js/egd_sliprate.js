@@ -161,7 +161,7 @@ this.setupSliprateLegend = function(legendinfo) {
     $("#egd-legend-label").html(lhtml);
 
     // update the title to legend,
-    $("#pixi-legend-title").html("mm/yr");
+    $("#egd-legend-title").html("mm/yr");
 }
 /********** show layer/select functions *********************/
     function _makeLinksWithReferences(links,refs) {
@@ -361,6 +361,10 @@ window.console.log("got Zoomed");
           let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
           viewermap.flyToBounds(bounds, {maxZoom:18, padding:[10,10]});
+          } else {
+            let bounds = L.latLngBounds(this.egd_active_markerLocations);
+window.console.log("flyingBounds --new list");
+            viewermap.flyToBounds(bounds, {zoom:6, padding:[10,10]});
         }
     };
 
@@ -1043,10 +1047,9 @@ window.console.log("generateMetadataTable..");
         }
 
         var resetMinrateRangeColor = function (target_min, target_max){
-          let minRGB= makeRGB(target_min, egd_minrate_max, egd_minrate_min );
-          let maxRGB= makeRGB(target_max, egd_minrate_max, egd_minrate_min );
-          let myColor="linear-gradient(to right, "+minRGB+","+maxRGB+")";
-          $("#slider-minrate-range .ui-slider-range" ).css( "background", myColor );
+          let myColor=cmapGetSegmentColors(this.searchingType);
+          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
+          $("#slider-minrate-range .ui-slider-range" ).css( "background", myColorString );
         }
 
         this.resetMinrateSlider = function () {
@@ -1058,10 +1061,9 @@ window.console.log("generateMetadataTable..");
         }
 
         var resetMaxrateRangeColor = function (target_min, target_max){
-          let minRGB= makeRGB(target_min, egd_maxrate_max, egd_maxrate_min );
-          let maxRGB= makeRGB(target_max, egd_maxrate_max, egd_maxrate_min );
-          let myColor="linear-gradient(to right, "+minRGB+","+maxRGB+")";
-          $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColor );
+          let myColor=cmapGetSegmentColors(this.searchingType);
+          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
+          $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColorString );
         }
 
         this.resetMaxrateSlider = function () {
@@ -1099,8 +1101,6 @@ window.console.log("generateMetadataTable..");
                 let lr = layer.scec_properties.low_rate;
                 layer.scec_properties.low_rate_color = cmapGetSliprateLowRateColor(lr);
                 layer.scec_properties.high_rate_color = cmapGetSliprateHighRateColor(hr);
-                //layer.scec_properties.low_rate_color = makeRGB(lr,egd_minrate_max, egd_minrate_min );
-                //layer.scec_properties.high_rate_color = makeRGB(hr,egd_maxrate_max, egd_maxrate_min );
             }
         }
 

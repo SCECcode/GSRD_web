@@ -247,7 +247,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                               title="min minrate slider"
                               class="egd-minrate-item form-control">
                           <div class="col-5">
-                            <div id="slider-minrate-range" style="border:2px solid black"></div>
+                            <div id="slider-minrate-range" style="border:1px solid black"></div>
 		            <div id="min-minrate-slider-handle" class="ui-slider-handle"></div>
 		            <div id="max-minrate-slider-handle" class="ui-slider-handle"></div>
                           </div>
@@ -274,7 +274,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                               title="min maxrate slider"
                               class="egd-maxrate-item form-control">
                           <div class="col-5">
-                            <div id="slider-maxrate-range" style="border:2px solid black"></div>
+                            <div id="slider-maxrate-range" style="border:1px solid black"></div>
 		            <div id="min-maxrate-slider-handle" class="ui-slider-handle"></div>
 		            <div id="max-maxrate-slider-handle" class="ui-slider-handle"></div>
                           </div>
@@ -372,25 +372,14 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                <div id="egd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
              </div>
 
-<!-- rate range legend  
-             <div id="plot-range-container" class="geometry top center" style="display:none;bottom:10%;background-color: rgba(255,255,255,0.5);">
-                  <div class="row" style="margin:4px 2px 0px 2px">
-	            <div id="minKey" style="width:2rem; height:1.2rem;">0</div>
-	            <div class="ui-slider-range" style="border:1px solid grey; width:55px;height:15px;"></div>
-	            <div id="maxKey" align="right" style="width:2rem;height:1.2rem;">0</div>
-                  </div>
-
-                  <div id="plot-range-label" align="center">mm/yr</div>
-             </div> 
--->
 <!-- color legend -->
              <div class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);">
                <div class="col">
                  <div class="row" style="margin:0px 2px 0px -20px">
                     <div class="legend mt-2" id="egd-legend-color"></div>
-                    <div class="legend" id="edg-legend-label"></div>
+                    <div class="legend" id="egd-legend-label"></div>
                  </div>
-                 <div id="edg-legend-title" align="center" class="legend content mt-1" style="border-top:2px solid grey">mm/y</div>
+                 <div id="egd-legend-title" align="center" class="legend content mt-1" style="border-top:2px solid grey">mm/y</div>
                </div>
              </div>
 

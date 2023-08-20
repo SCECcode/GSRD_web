@@ -128,14 +128,18 @@ window.console.log("hr log", sliprateHighRateSegments.toString());
 }
 
 
+function cmapGetSegmentColors(searchType) {
+  return egd_cmap_tb.sliprate_rgb;
+}
+
 function cmapFindSegmentProperties(searchType) {
   var info={};
   if(searchType == EGD_SLIPRATE.searchType.minrate) {
     info.labels=sliprateLowRateSegments;
-    info.color=egd_cmap_tb.sliprate_rgb;
+    info.colors=egd_cmap_tb.sliprate_rgb;
     } else {
       info.labels=sliprateHighRateSegments;
-      info.color=egd_cmap_tb.sliprate_rgb;
+      info.colors=egd_cmap_tb.sliprate_rgb;
   }
   return info;
 }
