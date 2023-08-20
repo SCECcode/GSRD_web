@@ -372,7 +372,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                <div id="egd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
              </div>
 
-<!-- rate range legend --> 
+<!-- rate range legend  
              <div id="plot-range-container" class="geometry top center" style="display:none;bottom:10%;background-color: rgba(255,255,255,0.5);">
                   <div class="row" style="margin:4px 2px 0px 2px">
 	            <div id="minKey" style="width:2rem; height:1.2rem;">0</div>
@@ -382,7 +382,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
 
                   <div id="plot-range-label" align="center">mm/yr</div>
              </div> 
-<!-- color legend 
+-->
+<!-- color legend -->
              <div class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);">
                <div class="col">
                  <div class="row" style="margin:0px 2px 0px -20px">
@@ -393,7 +394,6 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                </div>
              </div>
 
--->
 
 
         </div>
