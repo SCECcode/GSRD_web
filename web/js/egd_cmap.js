@@ -130,7 +130,7 @@ window.console.log("hr log", sliprateHighRateSegments.toString());
 
 function cmapFindSegmentProperties(searchType) {
   var info={};
-  if(searchType == CSM.searchType.minrate) {
+  if(searchType == EGD_SLIPRATE.searchType.minrate) {
     info.labels=sliprateLowRateSegments;
     info.color=egd_cmap_tb.sliprate_rgb;
     } else {
