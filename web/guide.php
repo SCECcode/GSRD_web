@@ -68,7 +68,7 @@ $header = getHeader("User Guide");
                used when querying the model for download.</p>
 
 	    <p>To report any bugs or issues, please see the contact page or contact
-               <a href="software@scec.org">software@scec.org</a>.</p>
+               <a href="mailto:software@scec.org">software@scec.org</a>.</p>
 
             <h4><strong>Searching/Querying the EGD</strong></h4>
 
@@ -114,7 +114,7 @@ $header = getHeader("User Guide");
 	       their own data to the EGD. The kml/kmz uploader currently supports point/line 
 	       data (kml/kmz), image overlays (kmz only), and remote links in kml/kmz file 
 	       are not supported. If you discover a kml/kmz file that will not display 
-               correctly, please contact us at <a href="software@scec.org">software@scec.org</a>.</p>
+               correctly, please contact us at <a href="mailto:software@scec.org">software@scec.org</a>.</p>
 
             <h4><strong>Browser Requirements</strong></h4>
 	    <p>This site supports the latest versions of

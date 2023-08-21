@@ -1088,6 +1088,7 @@ window.console.log(myColor.toString());
           let maxrate_max=$("#egd-maxMaxrateSliderTxt").val();
           $("#slider-maxrate-range").slider('values', 
                               [maxrate_min, maxrate_max]);
+          this.search(this.searchingType, [maxrate_min, maxrate_max]);
         }
 
         this.refreshMinrateSlider = function () {
@@ -1096,6 +1097,7 @@ window.console.log(myColor.toString());
           let minrate_max=$("#egd-maxMinrateSliderTxt").val();
           $("#slider-minrate-range").slider('values', 
                               [minrate_min, minrate_max]);
+          this.search(this.searchingType, [minrate_min, minrate_max]);
         }
 
 /********************* marker color function **************************/
@@ -1225,19 +1227,23 @@ window.console.log(center, zoom);
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+window.console.log("in minrate slider..-- slide");
                      },
               change: function( event, ui ) {
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+window.console.log("in minrate slider..-- change");
                      },
               stop: function( event, ui ) {
                            let searchType = EGD_SLIPRATE.searchType.maxrate;
                            EGD_SLIPRATE.search(searchType, ui.values);
+window.console.log("in minrate slider..-- stop");
                      },
               create: function() {
                           $("#egd-minMaxrateSliderTxt").val(egd_maxrate_min);
                           $("#egd-maxMaxrateSliderTxt").val(egd_maxrate_max);
+window.console.log("in minrate slider..-- create");
                     }
             });
             $('#slider-maxrate-range').slider("option", "min", egd_maxrate_min);

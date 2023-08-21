@@ -245,7 +245,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-minMinrateSliderTxt"
                               title="min minrate slider"
-                              class="egd-minrate-item form-control">
+			      class="egd-minrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-minrate-item').mouseout();">
                           <div class="col-5">
 			    <div id="slider-minrate-range" style="border:1px solid black">
 		              <div id="min-minrate-handle" class="ui-slider-handle"></div>
@@ -255,7 +256,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-maxMinrateSliderTxt"
                               title="max minrate slider"
-                              class="egd-minrate-item form-control">
+			      class="egd-minrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-minrate-item').mouseout();">
                         </div>
                       </div>
                     </div>
@@ -273,7 +275,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-minMaxrateSliderTxt"
                               title="min maxrate slider"
-                              class="egd-maxrate-item form-control">
+                              class="egd-maxrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-maxrate-item').mouseout();">
                           <div class="col-5">
 			    <div id="slider-maxrate-range" style="border:1px solid black">
 		              <div id="min-maxrate-handle" class="ui-slider-handle"></div>
@@ -283,7 +286,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                           <input type="text"
                               id="egd-maxMaxrateSliderTxt"
                               title="max maxrate slider"
-                              class="egd-maxrate-item form-control">
+			      class="egd-maxrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-maxrate-item').mouseout();">
                         </div>
                       </div>
                     </div>
