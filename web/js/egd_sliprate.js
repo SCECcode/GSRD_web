@@ -360,7 +360,7 @@ window.console.log("got Zoomed");
         if(this.egd_active_markerLocations.length > 1) {
           let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
-          viewermap.flyToBounds(bounds, {maxZoom:18, padding:[10,10]});
+          viewermap.flyToBounds(bounds, { maxZoom:18, padding:[10,10]});
           } else {
             let bounds = L.latLngBounds(this.egd_active_markerLocations);
 window.console.log("flyingBounds --new list");
@@ -590,13 +590,11 @@ window.console.log("flyingBounds --recreateActiveLayer");
                 $("#egd-minrate-slider").show();
                 let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                 this.setupSliprateLegend(segminrateinfo);
-                //showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                 break;
             case this.searchType.maxrate:
                 $("#egd-maxrate-slider").show();
                 let segmaxrteinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                 this.setupSliprateLegend(segmaxrateinfo);
-                //showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                 break;
             default:
                 // no action
@@ -677,7 +675,6 @@ window.console.log("sliprate --- calling freshSearch..");
                $("#egd-minrate-slider").show();
                let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                this.setupSliprateLegend(segminrateinfo);
-               //showKey(egd_minrate_min, egd_minrate_max, "Min Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "maxrate": 
@@ -686,7 +683,6 @@ window.console.log("sliprate --- calling freshSearch..");
                $("#egd-maxrate-slider").show();
                let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                this.setupSliprateLegend(segmaxrateinfo);
-               //showKey(egd_maxrate_min, egd_maxrate_max, "Max Slip Rate");
                this.recreateActiveLayerGroup(false);
                break;
             case "latlon": 
@@ -1033,24 +1029,30 @@ window.console.log("generateMetadataTable..");
         this.resetMinrate = function () {
           if( this.searchingType != this.searchType.minrate) return;
           this.resetMinrateSlider();
-          resetMinrateRangeColor(egd_minrate_min, egd_minrate_max);
-          removeKey(); 
+          this.resetMinrateRangeColor();
 	  $("#egd-minrate-slider").hide();
         }
 
         this.resetMaxrate = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           this.resetMaxrateSlider();
-          resetMaxrateRangeColor(egd_maxrate_min, egd_maxrate_max);
-          removeKey();
+          this.resetMaxrateRangeColor();
 	  $("#egd-maxrate-slider").hide();
         }
 
-        var resetMinrateRangeColor = function (target_min, target_max){
+        this.resetMinrateRangeColor = function (){
           let myColor=cmapGetSegmentColors(this.searchingType);
           let myColorString="linear-gradient(to right, "+myColor.toString()+")";
           $("#slider-minrate-range .ui-slider-range" ).css( "background", myColorString );
         }
+
+        this.setMinrateRangeColor = function (target_min, target_max){
+          let myColor=cmapGetSegmentColorsChunk(this.searchingType,target_min,target_max);
+window.console.log(myColor.toString());
+          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
+          $("#slider-minrate-range .ui-slider-range" ).css( "background", myColorString );
+        }
+
 
         this.resetMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
@@ -1060,8 +1062,14 @@ window.console.log("generateMetadataTable..");
           $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
         }
 
-        var resetMaxrateRangeColor = function (target_min, target_max){
+        this.resetMaxrateRangeColor = function (){
           let myColor=cmapGetSegmentColors(this.searchingType);
+          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
+          $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColorString );
+        }
+        this.setMaxrateRangeColor = function (target_min, target_max){
+          let myColor=cmapGetSegmentColorsChunk(this.searchingType,target_min, target_max);
+window.console.log(myColor.toString());
           let myColorString="linear-gradient(to right, "+myColor.toString()+")";
           $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColorString );
         }
@@ -1191,12 +1199,12 @@ window.console.log(center, zoom);
               slide: function( event, ui ) {
                            $("#egd-minMinrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
-                           resetMinrateRangeColor(ui.values[0],ui.values[1]);
+                           EGD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
                            $("#egd-minMinrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
-                           resetMinrateRangeColor(ui.values[0],ui.values[1]);
+                           EGD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
                            let searchType = EGD_SLIPRATE.searchType.minrate;
@@ -1216,12 +1224,12 @@ window.console.log(center, zoom);
               slide: function( event, ui ) {
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           resetMaxrateRangeColor(ui.values[0],ui.values[1]);
+                           EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           resetMaxrateRangeColor(ui.values[0],ui.values[1]);
+                           EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
                            let searchType = EGD_SLIPRATE.searchType.maxrate;

@@ -13,32 +13,6 @@ function trimFaultString(str) {
 }
 /************************************************************************************/
 
-function showKey(minv,maxv,label) {
-window.console.log(" --- calling showing key");
-    if (showing_key) {
-        removeKey();
-    } else {
-        showing_key = true;
-    }
-    // truncate the values alittle..
-    let min=Math.round(minv * 100) / 100;
-    let max=Math.round(maxv * 100) / 100;
-
-    $('#minKey').html(min);
-    $('#maxKey').html(max);
-    $('#plot-range-container').css("display", "");
-}
-
-function removeKey() {
-window.console.log(" --- calling removing key");
-    if(showing_key) {
-      $('#plot-range-container').css("display", "none");
-      showing_key = false;
-    }
-}
-
-/************************************************************************************/
-
 function _toMedView()
 {
 let elt = document.getElementById('banner-container');

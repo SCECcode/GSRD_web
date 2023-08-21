@@ -45,12 +45,7 @@ function cmapGetSliprateHighRateColor(v) {
    return color;
 }
 
-function cmapGetSliprateLowRateIndex(v) {
-
-   if(v==0) v=(1.0E-9);
-   let target = Math.log(v);
-   target=polishNumber(target);
-
+function cmapGetSliprateLowRateIndex(target) {
    let sz=sliprateLowRateSegments.length;
    if(target < sliprateLowRateSegments[0]) {
      return 0;
@@ -72,12 +67,7 @@ function polishNumber(v) {
   return t; 
 
 }
-function cmapGetSliprateHighRateIndex(v) {
-
-   if(v==0) v=(1.0E-9);
-   let target = Math.log(v);
-   target=polishNumber(target);
-
+function cmapGetSliprateHighRateIndex(target) {
    let sz=sliprateHighRateSegments.length;
    if(target < sliprateHighRateSegments[0]) {
      return 0;
@@ -93,7 +83,7 @@ function cmapGetSliprateHighRateIndex(v) {
    return sz-1;
 }
 
-function logscale(ea, eb, N) {
+function _logscale(ea, eb, N) {
    let step= (eb - ea) / N;
    step=polishNumber(step);
 
@@ -120,16 +110,37 @@ function cmapSetupSliprateSegments(lrmin,lrmax,hrmin,hrmax) {
 window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);
 window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
 
-   sliprateLowRateSegments=logscale(Math.log10(lrmin),Math.log10(lrmax), N);
-   sliprateHighRateSegments=logscale(Math.log10(hrmin),Math.log10(hrmax), N);
+   sliprateLowRateSegments=_logscale(Math.log10(lrmin),Math.log10(lrmax), N);
+   sliprateHighRateSegments=_logscale(Math.log10(hrmin),Math.log10(hrmax), N);
 
 window.console.log("lr log", sliprateLowRateSegments.toString());
 window.console.log("hr log", sliprateHighRateSegments.toString());
 }
 
 
+// whole set
 function cmapGetSegmentColors(searchType) {
   return egd_cmap_tb.sliprate_rgb;
+}
+
+function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
+  var minidx,maxidx=0; 
+
+  if(searchtype == EGD_SLIPRATE.searchType.minrate) {
+     minidx=cmapGetSliprateLowRateIndex(minval);
+     maxidx=cmapGetSliprateLowRateIndex(maxval);
+     } else {
+       minidx=cmapGetSliprateHighRateIndex(minval);
+       maxidx=cmapGetSliprateHighRateIndex(maxval);
+  }
+  window.console.log("minval"+minval+"maxval"+maxval+" minidx =="+minidx+" maxidx =="+maxidx);
+
+  let clist=[];
+  for(let i=minidx;i<maxidx;i++) {
+      let color=egd_cmap_tb.sliprate_rgb[i];
+      clist.push(color);
+  }
+  return clist; 
 }
 
 function cmapFindSegmentProperties(searchType) {

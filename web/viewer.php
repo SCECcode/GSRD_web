@@ -247,9 +247,10 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                               title="min minrate slider"
                               class="egd-minrate-item form-control">
                           <div class="col-5">
-                            <div id="slider-minrate-range" style="border:1px solid black"></div>
-		            <div id="min-minrate-slider-handle" class="ui-slider-handle"></div>
-		            <div id="max-minrate-slider-handle" class="ui-slider-handle"></div>
+			    <div id="slider-minrate-range" style="border:1px solid black">
+		              <div id="min-minrate-handle" class="ui-slider-handle"></div>
+		              <div id="max-minrate-handle" class="ui-slider-handle"></div>
+                            </div>
                           </div>
                           <input type="text"
                               id="egd-maxMinrateSliderTxt"
@@ -274,9 +275,10 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                               title="min maxrate slider"
                               class="egd-maxrate-item form-control">
                           <div class="col-5">
-                            <div id="slider-maxrate-range" style="border:1px solid black"></div>
-		            <div id="min-maxrate-slider-handle" class="ui-slider-handle"></div>
-		            <div id="max-maxrate-slider-handle" class="ui-slider-handle"></div>
+			    <div id="slider-maxrate-range" style="border:1px solid black">
+		              <div id="min-maxrate-handle" class="ui-slider-handle"></div>
+		              <div id="max-maxrate-handle" class="ui-slider-handle"></div>
+                            </div>
                           </div>
                           <input type="text"
                               id="egd-maxMaxrateSliderTxt"
