@@ -38,10 +38,6 @@ div.main-legend label {
         margin-bottom: 0;
 }
 
-div.main-legend label:hover {
-        color: #990000;
-}
-
 #expand-view-key {
     z-index: 8000;
     position: absolute;
@@ -51,13 +47,13 @@ div.main-legend label:hover {
 }
 
 .ui-slider-range {
-    background: linear-gradient(to right, rgb(52,16,60), rgb(52,16,60), rgb(59,91,169), rgb(78,132,196), rgb(130,210,225), rgb(253,245,166), rgb(247,237,65), rgb(232,216,25), rgb(220,183,38), rgb(242,101,34), rgb(239,60,35), rgb(217,34,38), rgb(131,21,23),rgb(131,21,23));
+    background: linear-gradient(to right, rgb(52,16,60), rgb(59,91,169), rgb(78,132,196), rgb(130,210,225), rgb(253,245,166), rgb(247,237,65), rgb(232,216,25), rgb(220,183,38), rgb(242,101,34), rgb(239,60,35), rgb(217,34,38), rgb(131,21,23));
 }
 
 #min-minrate-handle, #max-minrate-handle, #min-maxrate-handle, #max-maxrate-handle {
     border:2px solid black;
     border-radius: 4px;
-    width: 0.5em;
+    width: 0.8em;
     height: 1.2em;
     top: 50%;
     margin-top: -0.6em;

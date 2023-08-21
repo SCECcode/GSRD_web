@@ -19,6 +19,20 @@ var EGD_SLIPRATE = new function () {
     // to be displayed at the metadata_table
     this.egd_selected_gid = [];
 
+    // special case, track if last freshSearch was for minrate/maxrate
+    this.track_basemap = undefined;
+/*
+           <option selected value="esri topo">ESRI Topographic</option>
+           <option value="esri imagery">ESRI Imagery</option>
+           <option value="jawg light">Jawg Light</option>
+           <option value="jawg dark">Jawg Dark</option>
+           <option value="osm streets relief">OSM Streets Relief</option>
+           <option value="otm topo">OTM Topographic</option>
+           <option value="osm street">OSM Street</option>
+           <option value="esri terrain">ESRI Terrain</option>
+	   //switchLayer(this.value)
+*/
+
     // locally used, floats
     var egd_minrate_min=undefined;
     var egd_minrate_max=undefined;
@@ -130,7 +144,9 @@ function _legendoptionlabel(label) {
 
 this.setupSliprateLegend = function(legendinfo) {
     if(jQuery.isEmptyObject(legendinfo)) {
-        $("#egd-legend").html("");
+	$("#egd-legend-color").html("");
+        $("#egd-legend-label").html("");
+        $("#egd-legend-title").html("");
         return;
     }
 
@@ -163,6 +179,7 @@ this.setupSliprateLegend = function(legendinfo) {
     // update the title to legend,
     $("#egd-legend-title").html("mm/yr");
 }
+
 /********** show layer/select functions *********************/
     function _makeLinksWithReferences(links,refs) {
         let rc="<div class=\'col\' style=\"max-width:30rem\">";
@@ -660,17 +677,30 @@ window.console.log("sliprate calling --->> resetSearch.");
 window.console.log("sliprate --- calling freshSearch..");
         switch (t) {
             case "faultname": 
+               if(track_basemap != undefined) {
+		   switchLayer(track_basemap);
+                   track_basemap = undefined;
+               }
                this.searchingType = this.searchType.faultname;
                $all_search_controls.hide();
                $("#egd-fault-name").show();
                break;
             case "sitename": 
+               if(track_basemap != undefined) {
+		   switchLayer(track_basemap);
+                   track_basemap = undefined;
+               }
                this.searchingType = this.searchType.sitename;
                $all_search_controls.hide();
                $("#egd-site-name").show();
                break;
             case "minrate": 
                this.searchingType = this.searchType.minrate;
+// use dark basemap
+	       if(isBaseLayer("jawg dark") == false) {
+                   track_basemap = getCurrentLayerString();
+		   switchLayer("jawg dark");
+               }
                $all_search_controls.hide();
                $("#egd-minrate-slider").show();
                let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
@@ -679,6 +709,11 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
             case "maxrate": 
                this.searchingType = this.searchType.maxrate;
+// use dark basemap
+	       if(isBaseLayer("jawg dark") == false) {
+                   track_basemap = getCurrentLayerString();
+		   switchLayer("jawg dark");
+               }
                $all_search_controls.hide();
                $("#egd-maxrate-slider").show();
                let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
@@ -686,12 +721,20 @@ window.console.log("sliprate --- calling freshSearch..");
                this.recreateActiveLayerGroup(false);
                break;
             case "latlon": 
+               if(track_basemap != undefined) {
+		   switchLayer(track_basemap);
+                   track_basemap = undefined;
+               }
                this.searchingType = this.searchType.latlon;
                $all_search_controls.hide();
                $("#egd-latlon").show();
                drawRectangle();
                break;
             default:
+               if(track_basemap != undefined) {
+		   switchLayer(track_basemap);
+                   track_basemap = undefined;
+               }
                this.searchingType = this.searchType.none;
                break;
         }
@@ -1031,6 +1074,7 @@ window.console.log("generateMetadataTable..");
           this.resetMinrateSlider();
           this.resetMinrateRangeColor();
 	  $("#egd-minrate-slider").hide();
+          setupSliprateLegend([]);
         }
 
         this.resetMaxrate = function () {
@@ -1038,6 +1082,7 @@ window.console.log("generateMetadataTable..");
           this.resetMaxrateSlider();
           this.resetMaxrateRangeColor();
 	  $("#egd-maxrate-slider").hide();
+          setupSliprateLegend([]);
         }
 
         this.resetMinrateRangeColor = function (){

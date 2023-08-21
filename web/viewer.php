@@ -379,7 +379,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
              </div>
 
 <!-- color legend -->
-             <div class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);">
+             <div class="egd-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);">
                <div class="col">
                  <div class="row" style="margin:0px 2px 0px -20px">
                     <div class="legend mt-2" id="egd-legend-color"></div>

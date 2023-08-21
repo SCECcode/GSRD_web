@@ -49,6 +49,7 @@ window.console.log("minrate-item got updated ...HERE..");
        $('.egd-maxrate-item').off("mouseout");
        $('.egd-maxrate-item').off("blur");
        if( $(this).val() != '' ) {
+window.console.log("maxrate-item got updated ...HERE..", $(this).val());
          EGD_SLIPRATE.refreshMaxrateSlider();
        }
        $(this).blur();

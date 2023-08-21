@@ -29,6 +29,8 @@ var rectangleDrawer;
 var mymap, baseLayers, layerControl, currentLayer;
 var mylegend;
 
+var currentLayerString;
+
 var egd_latlon_area_list=[];
 var egd_latlon_point_list=[];
 
@@ -130,6 +132,7 @@ function setup_viewer()
   var overLayer = {};
   var basemap = L.layerGroup();
   currentLayer = esri_topographic;
+  currentLayerString = "esri topo";
 
 
 // ==> mymap <==
@@ -280,7 +283,19 @@ function switchLayer(layerString) {
     mymap.removeLayer(currentLayer);
     mymap.addLayer(baseLayers[layerString]);
     currentLayer = baseLayers[layerString];
+    currentLayerString = layerString;
+}
 
+function isBaseLayer(layerString) {
+    if( currentLayerString == layerString ) {
+      return true;
+      } else {
+        return false;
+    }
+}
+
+function getCurrentLayerString() {
+    return currentLayerString;
 }
 
 /****************************** from a list ****************/

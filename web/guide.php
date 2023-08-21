@@ -30,12 +30,11 @@ $header = getHeader("User Guide");
 
     <div class="row">
         <div class="col-12">
-            <h4><strong>Earthquake Geology Database Overview</strong></h4>
-
-            <figure class="egd-interface figure float-lg-right">
+            <figure class="cxm-interface figure float-lg-right">
                 <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of EGD Viewer interface">
                 <figcaption class="figure-caption">Screen capture of EGD Viewer interface</figcaption>
             </figure>
+            <h4><strong>Earthquake Geology Database Overview</strong></h4>
 
 	    <p>The EGM web tools provide interactive map-based views of the EGD 
 	       source data. The web tools allow users to search and view the EGD

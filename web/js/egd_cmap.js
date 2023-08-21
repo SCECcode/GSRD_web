@@ -26,25 +26,6 @@ var egd_cmap_tb={
                    "rgb(131,21,23)"]
     };
 
-var egd_gradient_tb={
-    display_options: [
-          {sz:1,  stops: [ "100%" ]},
-          {sz:2,  stops: [ "50%", "50%" ]},
-          {sz:3,  stops: [ "30%","30% 70%","70%" ]},
-          {sz:12, stops: [ "10%",
-                           "10% 18%",
-                           "18% 26%",
-                           "26% 34%",
-                           "34% 42%",
-                           "42% 50%",
-                           "50% 58%",
-                           "58% 66%",
-                           "66% 74%",
-                           "74% 82%",
-                           "82% 90%",
-                           "90%" ]}
-
-    ]};
 /*************************************************************************/
 function cmapGetSliprateLowRateColor(v) {
    let idx=cmapGetSliprateLowRateIndex(v);
@@ -140,34 +121,6 @@ window.console.log("hr log", sliprateHighRateSegments.toString());
 // whole set
 function cmapGetSegmentColors(searchType) {
   return egd_cmap_tb.sliprate_rgb;
-}
-
-function cmapGetSegmentColors0(searchType) {
-  let dtb=egd_graident_tb.display_options;
-  let dsz=dtb.length;
-  let dtarget=undefined;
-  for(let d=0; d<sz; d++) {
-     let dterm=dtb[d];
-     if(dterm.sz == target) {
-        dtarget=dterm;
-	break;
-     }
-  }
-  if(dtarget == undefined) {
-     window.console.log("THIS is BAD...");
-     return [];
-  }	   
-
-  var rgblist=[];
-  let n=EGD_DEFAULT_DATA_SEGMENT_COUNT;
-  let clist=egd_cmap_tb.sliprate_rgb;
-  for(let i=0; i<n; i++) {
-     let s=dtarget[i];
-     let c=clist[i];
-     let newt=c+" "+s;
-     rgblist.push(newt);
-  }
-  return rgblist;
 }
 
 function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
