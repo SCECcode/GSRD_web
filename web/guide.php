@@ -19,7 +19,7 @@ $header = getHeader("User Guide");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Community Fault Model Viewer: User Guide</title>
+    <title>Earthquake Geology Database Viewer: User Guide</title>
 </head>
 <body>
 <?php echo $header; ?>
@@ -31,6 +31,11 @@ $header = getHeader("User Guide");
     <div class="row">
         <div class="col-12">
             <h4><strong>Earthquake Geology Database Overview</strong></h4>
+
+            <figure class="egd-interface figure float-lg-right">
+                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of EGD Viewer interface">
+                <figcaption class="figure-caption">Screen capture of EGD Viewer interface</figcaption>
+            </figure>
 
 	    <p>The EGM web tools provide interactive map-based views of the EGD 
 	       source data. The web tools allow users to search and view the EGD

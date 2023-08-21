@@ -57,11 +57,11 @@ div.main-legend label:hover {
 #min-minrate-handle, #max-minrate-handle, #min-maxrate-handle, #max-maxrate-handle {
     border:2px solid black;
     border-radius: 4px;
-    width: 1em;
+    width: 0.5em;
     height: 1.2em;
     top: 50%;
     margin-top: -0.6em;
-    text-align: center;
+    margin-left: -0.2em;
     line-height: 1.2em;
 }   
     
