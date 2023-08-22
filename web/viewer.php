@@ -238,7 +238,7 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                   <div id='egd-minrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
-                          <p style="margin-bottom:0">Select a range on the minRate slider or enter the two boundaries</p>
+                          <p style="margin-bottom:0">Select a range on the minRate slider or enter the two boundaries in mm/yr</p>
                       </div>
                       <div class="col-8">
                         <div class="form-inline vector-slider-input-boxes">
@@ -267,10 +267,10 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
                 <li id='egd-maxrate-slider' class='navigationLi' style="display:none">
                   <div id='egd-maxrate-sliderMenu' class='menu'>
                     <div class="row">
-                      <div class="col-4">
-                          <p style="margin-bottom:0">Select a range on the maxRate slider or enter the two boundaries</p>
+                      <div class="col-5">
+                          <p style="margin-bottom:0">Select a range on the maxRate slider or enter the two boundaries in mm/yr</p>
                       </div>
-                      <div class="col-8">
+                      <div class="col-7">
                         <div class="form-inline vector-slider-input-boxes">
                           <input type="text"
                               id="egd-minMaxrateSliderTxt"
@@ -379,8 +379,8 @@ The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geo
              </div>
 
 <!-- color legend -->
-             <div class="egd-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);">
-               <div class="col">
+	     <div id="egd-main-legend" class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);display:;">
+	       <div class="col" style="color:tansparent">
                  <div class="row" style="margin:0px 2px 0px -20px">
                     <div class="legend mt-2" id="egd-legend-color"></div>
                     <div class="legend" id="egd-legend-label"></div>

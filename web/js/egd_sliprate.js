@@ -143,10 +143,9 @@ function _legendoptionlabel(label) {
 }
 
 this.setupSliprateLegend = function(legendinfo) {
+window.console.log("setting up color legend..");
     if(jQuery.isEmptyObject(legendinfo)) {
-	$("#egd-legend-color").html("");
-        $("#egd-legend-label").html("");
-        $("#egd-legend-title").html("");
+        $('#egd-main-legend').css('display','none');
         return;
     }
 
@@ -1074,7 +1073,7 @@ window.console.log("generateMetadataTable..");
           this.resetMinrateSlider();
           this.resetMinrateRangeColor();
 	  $("#egd-minrate-slider").hide();
-          setupSliprateLegend([]);
+          this.setupSliprateLegend({});
         }
 
         this.resetMaxrate = function () {
@@ -1082,7 +1081,7 @@ window.console.log("generateMetadataTable..");
           this.resetMaxrateSlider();
           this.resetMaxrateRangeColor();
 	  $("#egd-maxrate-slider").hide();
-          setupSliprateLegend([]);
+          this.setupSliprateLegend({});
         }
 
         this.resetMinrateRangeColor = function (){
