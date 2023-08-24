@@ -124,10 +124,15 @@ $egd_sliprate = new SLIPRATE();
 
 <!-- top-intro -->
    <div id="top-intro" style="display:">
-<p>
-The sites of the <a href="https://www.scec.org/research/egd">SCEC Earthquake Geology Database Model</a> are 
-...  See the <a href="guide">user guide</a> for more details and usage instructions.
-</p>
+<p>The <a href="https://www.scec.org/research/egd">SCEC Earthquake Geology Database (EGD)</a>
+currently consists of a set of georegistered sites where geologic estimates of fault slip rates 
+have been estimated. To simplify browsing and downloading EGD data, the web tools below provide
+a two-dimensional map-based view of the EGD. The EGD can be queried based on fault or site name,
+and minimum/maximum slip rate, or by individually clicking on points on the map. Once sites are 
+selected, they are added to the list below the map interface with selected metadata shown. The 
+complete metadata for all selected sites can be downloaded (in .csv format) with the 
+"Download All Data" button. Refer to the <a href="guide">user guide</a> for more details and 
+usage instructions.</p>
    </div>
 
 <!-- leaflet control -->
