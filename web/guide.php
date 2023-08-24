@@ -43,7 +43,7 @@ $header = getHeader("User Guide");
 	       this site include the main
                <a href="<?php echo $host_site_actual_path; ?>">EGD web tools page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
-               <a href="contact">contact information</a> information page.</p>
+               <a href="contact">contact information</a> page.</p>
 
 	    <p>The main EGD interface is on the web tools page. When first loaded, 
 	       all EGD sites are listed on the left side of the screen (labeled by
@@ -59,9 +59,14 @@ $header = getHeader("User Guide");
 	    <p>The interactive map on the right displays the geographic location of 
 	       each EGD site. In the top right corner of the interactive map, there 
 	       is a pull-down menu that allows the basemap to be changed. By default,
-	       the basemap shown is “ESRI Topographic”, but “ESRI Imagery”, “Jawg Light”,
-	       “Jawg Dark”, “OSM Streets Relief”, “OTM Topographic”, “OSM Street”, 
-               and “ESRI Terrain” are also available.</p>
+	       the basemap shown is
+	       <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ESRI Topographic</a>, but
+               <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer">ESRI Imagery</a>,
+              <a href="http://jawg.io">Jawg Light</a>, <a href="http://jawg.io">Jawg Dark</a>,
+              <a href="https://www.openstreetmap.org">OSM Streets Relief</a>,
+              <a href="https://opentopomap.org">OTM Topographic</a>,
+              <a href="https://www.openstreetmap.org">OSM Street</a>, and
+              <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer">ESRI Terrain</a> are also available.</p>
 
 	    <p>The map interface has a small default size, but the map interface can
 	       be resized by clicking on the black dashed square icon located in the 
@@ -71,8 +76,8 @@ $header = getHeader("User Guide");
 	       visualization and data comparison purposes and are not intended to be
                used when querying the model for download.</p>
 
-	    <p>To report any bugs or issues, please see the contact page or contact
-               <a href="mailto:software@scec.org">software@scec.org</a>.</p>
+	    <p><i>To report any bugs or issues, please see the <a href="contact">contact page</a>
+               or contact <a href="mailto:software@scec.org">software@scec.org</a>.</i></p>
 
             <h4><strong>Searching/Querying the EGD</strong></h4>
 
@@ -128,7 +133,7 @@ $header = getHeader("User Guide");
                <a href="https://www.apple.com/safari/">Safari</a>.</p>
 
 	    <p>More information including a complete model archive can be found at:
-               <a href="https://www.scec.org/research/egd">https://www.scec.org/research/egd</p>
+               <a href="https://www.scec.org/research/egd">https://www.scec.org/research/egd</a>.</p>
 
         </div>
     </div>

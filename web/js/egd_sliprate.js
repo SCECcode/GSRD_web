@@ -12,26 +12,17 @@ var EGD_SLIPRATE = new function () {
 
     // searched layers being actively looked at -- result of a search
     this.egd_active_layers = new L.FeatureGroup();
-    this.egd_markerLocations = [];
+    this.egd_active_markerLocations = [];
     this.egd_active_gid = [];
 
     // selected some layers from active layers
     // to be displayed at the metadata_table
     this.egd_selected_gid = [];
 
-    // special case, track if last freshSearch was for minrate/maxrate
+    /* special case, track if last freshSearch was for minrate/maxrate
+       value:"esri topo", "esri imagery", "jawg light", "jawg dark",
+             "osm streets relief", "otm topo", "osm street", "esri terrain" */
     this.track_basemap = undefined;
-/*
-           <option selected value="esri topo">ESRI Topographic</option>
-           <option value="esri imagery">ESRI Imagery</option>
-           <option value="jawg light">Jawg Light</option>
-           <option value="jawg dark">Jawg Dark</option>
-           <option value="osm streets relief">OSM Streets Relief</option>
-           <option value="otm topo">OTM Topographic</option>
-           <option value="osm street">OSM Street</option>
-           <option value="esri terrain">ESRI Terrain</option>
-	   //switchLayer(this.value)
-*/
 
     // locally used, floats
     var egd_minrate_min=undefined;
@@ -47,7 +38,6 @@ var EGD_SLIPRATE = new function () {
 
     var site_marker_style = {
         normal: {
-//          color: site_colors.normal,
             color: "white",
             fillColor: site_colors.normal,
             fillOpacity: 1,
@@ -56,7 +46,6 @@ var EGD_SLIPRATE = new function () {
             weight: 1,
         },
         selected: {
-//          color: site_colors.selected,
             color: "white",
             fillColor: site_colors.selected,
             fillOpacity: 1,
@@ -296,6 +285,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                 }
             }
         }
+
         cmapSetupSliprateSegments(egd_minrate_min,egd_minrate_max,egd_maxrate_min,egd_maxrate_max);
 
         this.gotZoomed = function (zoom) {
@@ -335,7 +325,7 @@ window.console.log("got Zoomed");
         });
 
         // now update the scec_properties's color
-        this.makeLayerColors(1);
+        this.fillAllLayersColors();
     };
 
 // recreate a new active_layers using a glist
@@ -350,6 +340,11 @@ window.console.log("got Zoomed");
         this.egd_active_gid=[];
         this.egd_active_markerLocations = [];
 
+        let minrate_min=undefined;
+        let minrate_max=undefined;
+        let maxrate_min=undefined;
+        let maxrate_max=undefined;
+
         let gsz=glist.length;
         let lsz= this.egd_layers.length;
         let i_start=0;
@@ -360,7 +355,32 @@ window.console.log("got Zoomed");
             let layer = this.egd_layers[i];
             if (layer.hasOwnProperty("scec_properties")) {
                if (gid == layer.scec_properties.gid) {
-                  this.replaceColor(layer);
+                  let lr=layer.scec_properties.low_rate;
+                  let hr=layer.scec_properties.high_rate;
+
+		  if(minrate_min == undefined) {
+                     minrate_min = lr;
+                     minrate_max = lr;
+                     } else {
+                       if(lr != 0 && lr  < minrate_min) {
+                          minrate_min=lr;
+                       }
+                       if(lr > minrate_max) {
+                          minrate_max=lr;
+                       }
+                  }
+                  if(maxrate_min == undefined) {
+                    maxrate_min = hr;
+                    maxrate_max = hr;
+                    } else {
+                      if(lr !=0 && hr < maxrate_min) {
+                        maxrate_min=hr;
+                      }
+                      if(hr > maxrate_max) {
+                        maxrate_max=hr;
+                      }
+                  }
+
                   this.egd_active_layers.addLayer(layer);
                   this.egd_active_gid.push(gid);
                   this.egd_active_markerLocations.push(layer.getLatLng())                      
@@ -370,6 +390,10 @@ window.console.log("got Zoomed");
             }
           }
         }
+
+	cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
+        this.replaceActiveLayersColor();
+
         replaceResultTableBodyWithGids(glist);
         this.egd_active_layers.addTo(viewermap);
 
@@ -398,9 +422,11 @@ window.console.log("flyingBounds --new list");
             let marker = this.egd_layers[i];
             if (marker.hasOwnProperty("scec_properties")) {
                let gid = marker.scec_properties.gid;
+
                if(!toOriginal) {
-                 this.replaceColor(marker);
+                 this.replaceLayerColor(marker);
                }
+		    
                this.egd_active_layers.addLayer(marker);
                this.egd_active_gid.push(gid);
                this.egd_active_markerLocations.push(marker.getLatLng())                      
@@ -501,8 +527,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
 
     this.unselectSiteByLayer = function (layer) {
         layer.scec_properties.selected = false;
-	this.replaceColor(layer);
-        //layer.setStyle(site_marker_style.normal);
+	this.replaceLayerColor(layer);
 
         let gid = layer.scec_properties.gid;
 
@@ -646,7 +671,6 @@ window.console.log("calling reset");
         }
 
         $("#egd-search-type").val("");
-        this.searchingType = this.searchType.none;
     };
 
 // reset just the search only
@@ -663,8 +687,9 @@ window.console.log("sliprate calling --->> resetSearch.");
         this.resetSitename();
 
         this.hideOnMap();
-        this.recreateActiveLayerGroup(true);
 
+        this.searchingType = this.searchType.none;
+        this.recreateActiveLayerGroup(true);
     };
 
 // a complete fresh search
@@ -1145,48 +1170,44 @@ window.console.log(myColor.toString());
         }
 
 /********************* marker color function **************************/
-// marker.scec_properties.high_rate_color, marker.sce_properties.low_rate_color
-// toMake == 1, set the scec_properties color values
-        this.makeLayerColors = function() {
+// marker.scec_properties.full_high_rate_color, marker.sce_properties.full_low_rate_color
+        this.fillAllLayersColors = function() {
             let lsz = this.egd_layers.length;
             for(let i=0; i<lsz; i++) {
                 let layer=this.egd_layers[i];
                 let hr = layer.scec_properties.high_rate;
                 let lr = layer.scec_properties.low_rate;
-                layer.scec_properties.low_rate_color = cmapGetSliprateLowRateColor(lr);
-                layer.scec_properties.high_rate_color = cmapGetSliprateHighRateColor(hr);
+                layer.scec_properties.full_low_rate_color = cmapGetSliprateLowRateColor(lr);
+                layer.scec_properties.full_high_rate_color = cmapGetSliprateHighRateColor(hr);
             }
         }
 
-        this.replaceColor = function(layer) {
+        this.replaceLayerColor = function(layer) {
             let myColor = site_colors.normal;
 
             let hr = layer.scec_properties.high_rate;
             let lr = layer.scec_properties.low_rate;
             if( this.searchingType == this.searchType.minrate) {
-                myColor = layer.scec_properties.low_rate_color;
+                myColor = cmapGetSliprateLowRateColor(lr);
             }
             if( this.searchingType == this.searchType.maxrate) {
-                myColor = layer.scec_properties.high_rate_color;
+                myColor = cmapGetSliprateHighRateColor(hr);
             }
             if(layer.scec_properties.selected) {
                 myColor = site_colors.selected;
             }
             layer.setStyle({fillColor:myColor, color:"white"});
-          //  layer.setStyle({fillColor:myColor, color:myColor});
        }
 
-       this.resetActiveLayerColor = function () {
-            this.egd_active_layers.remove();
+       // iterate through active layer and update color by type
+       this.replaceActiveLayersColor = function () {
+            let myColor = site_colors.normal;
 
-window.console.log(" ==> here in replace color");
             let layers=this.egd_active_layers;
-
             layers.eachLayer(function(layer) {
-              layer.resetStyle();
+               this.replaceLayerColor(layer);
             });
 
-            this.egd_active_layers.addTo(viewermap);
        }
 
 
