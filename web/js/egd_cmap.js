@@ -61,9 +61,9 @@ function cmapGetSliprateLowRateIndex(target) {
    return sz-1;
 }
 
-// chop to 3 digits
+// chop to 2 digits
 function polishNumber(v) {
-  let t=(Math.floor( v*1000 )) / 1000; 
+  let t=(Math.round( v*100 )) / 100; 
   return t; 
 
 }
@@ -119,10 +119,11 @@ window.console.log("hr log", sliprateHighRateSegments.toString());
 
 
 // whole set
-function cmapGetSegmentColors(searchType) {
+function cmapGetSegmentColors() {
   return egd_cmap_tb.sliprate_rgb;
 }
 
+// not in use 
 function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
   var minidx,maxidx=0; 
 

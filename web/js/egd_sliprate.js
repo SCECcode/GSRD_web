@@ -151,7 +151,7 @@ window.console.log("setting up color legend..");
        if(i== Math.floor(n/2)) {
          chtml=_legendoptioncolor(color, 1)+chtml;
          } else {
-	   chtml=_legendoptioncolor(color, 0)+chtml;
+        chtml=_legendoptioncolor(color, 0)+chtml;
        }
        lhtml=_legendoptionlabel(label)+lhtml;
     }
@@ -166,6 +166,8 @@ window.console.log("setting up color legend..");
 
     // update the title to legend,
     $("#egd-legend-title").html("mm/yr");
+
+    $('#egd-main-legend').css('display','');
 }
 
 /********** show layer/select functions *********************/
@@ -175,18 +177,18 @@ window.console.log("setting up color legend..");
         let rterms=refs.split(";");
         let sz=terms.length;
         let rsz=rterms.length;
-	// special case,
+     // special case,
         // "Blisniuk et al. (2010); Blisniuk and Rockwell (in prep; written communication to UCERF3, 2012)"
         if(sz != rsz) { 
-	  rc = rc+refs+"<div>";
+       rc = rc+refs+"<div>";
           return rc;
         }
         for(let i=0; i<sz; i++) {
             if(i!=0)
-		rc=rc+"<br>";
+          rc=rc+"<br>";
 
             if(terms[i] == "N/A") {
-		rc = rc+rterms[i];
+          rc = rc+rterms[i];
                 } else {
                     rc = rc + "<a href=\""+terms[i]+"\" target=\"_blank\">"+rterms[i]+"</span></a>";
             }
@@ -228,7 +230,7 @@ window.console.log( "generate the initial egd_layers");
 
 marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
-		  //
+            //
                  let reflinkstr= _makeLinksWithReferences(links,short_references);
 
 marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
@@ -251,7 +253,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                     rate_type: rate_type,
                     short_references: short_references,
                     links: links
-		};
+          };
 
 // all layers
                 this.egd_layers.push(marker);
@@ -302,7 +304,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
             site_marker_style.normal.radius=target;
             site_marker_style.hover.radius = (target *2) ;
 
-	    this.egd_active_layers.eachLayer(function(layer){
+         this.egd_active_layers.eachLayer(function(layer){
               layer.setRadius(target);
 window.console.log("got Zoomed");
             });
@@ -358,7 +360,7 @@ window.console.log("got Zoomed");
                   let lr=layer.scec_properties.low_rate;
                   let hr=layer.scec_properties.high_rate;
 
-		  if(minrate_min == undefined) {
+                  if(minrate_min == undefined) {
                      minrate_min = lr;
                      minrate_max = lr;
                      } else {
@@ -391,7 +393,25 @@ window.console.log("got Zoomed");
           }
         }
 
-	cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
+        if( (this.searchingType == this.searchType.minrate) ||
+                (this.searchingType == this.searchType.maxrate) ) {
+           // grabbing the max/min from the dashboard..
+           //cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
+           if(this.searchingType == this.searchType.minrate) {
+              minrate_min=parseFloat($("#egd-minMinrateSliderTxt").val());
+              minrate_max=parseFloat($("#egd-maxMinrateSliderTxt").val());
+              cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
+              let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
+              this.setupSliprateLegend(segminrateinfo);
+           }
+           if(this.searchingType == this.searchType.maxrate) {
+              maxrate_min=parseFloat($("#egd-minMaxrateSliderTxt").val());
+              maxrate_max=parseFloat($("#egd-maxMaxrateSliderTxt").val());
+              cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
+              let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
+              this.setupSliprateLegend(segminrateinfo);
+           }
+        }
         this.replaceActiveLayersColor();
 
         replaceResultTableBodyWithGids(glist);
@@ -426,7 +446,7 @@ window.console.log("flyingBounds --new list");
                if(!toOriginal) {
                  this.replaceLayerColor(marker);
                }
-		    
+              
                this.egd_active_layers.addLayer(marker);
                this.egd_active_gid.push(gid);
                this.egd_active_markerLocations.push(marker.getLatLng())                      
@@ -527,7 +547,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
 
     this.unselectSiteByLayer = function (layer) {
         layer.scec_properties.selected = false;
-	this.replaceLayerColor(layer);
+     this.replaceLayerColor(layer);
 
         let gid = layer.scec_properties.gid;
 
@@ -701,18 +721,18 @@ window.console.log("sliprate calling --->> resetSearch.");
 window.console.log("sliprate --- calling freshSearch..");
         switch (t) {
             case "faultname": 
-               if(track_basemap != undefined) {
-		   switchLayer(track_basemap);
-                   track_basemap = undefined;
+               if(this.track_basemap != undefined) {
+             switchLayer(this.track_basemap);
+                   this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.faultname;
                $all_search_controls.hide();
                $("#egd-fault-name").show();
                break;
             case "sitename": 
-               if(track_basemap != undefined) {
-		   switchLayer(track_basemap);
-                   track_basemap = undefined;
+               if(this.track_basemap != undefined) {
+             switchLayer(this.track_basemap);
+                   this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.sitename;
                $all_search_controls.hide();
@@ -721,9 +741,9 @@ window.console.log("sliprate --- calling freshSearch..");
             case "minrate": 
                this.searchingType = this.searchType.minrate;
 // use dark basemap
-	       if(isBaseLayer("jawg dark") == false) {
-                   track_basemap = getCurrentLayerString();
-		   switchLayer("jawg dark");
+            if(isBaseLayer("jawg dark") == false) {
+                   this.track_basemap = getCurrentLayerString();
+             switchLayer("jawg dark");
                }
                $all_search_controls.hide();
                $("#egd-minrate-slider").show();
@@ -734,9 +754,9 @@ window.console.log("sliprate --- calling freshSearch..");
             case "maxrate": 
                this.searchingType = this.searchType.maxrate;
 // use dark basemap
-	       if(isBaseLayer("jawg dark") == false) {
-                   track_basemap = getCurrentLayerString();
-		   switchLayer("jawg dark");
+            if(isBaseLayer("jawg dark") == false) {
+                   this.track_basemap = getCurrentLayerString();
+             switchLayer("jawg dark");
                }
                $all_search_controls.hide();
                $("#egd-maxrate-slider").show();
@@ -745,9 +765,9 @@ window.console.log("sliprate --- calling freshSearch..");
                this.recreateActiveLayerGroup(false);
                break;
             case "latlon": 
-               if(track_basemap != undefined) {
-		   switchLayer(track_basemap);
-                   track_basemap = undefined;
+               if(this.track_basemap != undefined) {
+             switchLayer(this.track_basemap);
+                   this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.latlon;
                $all_search_controls.hide();
@@ -755,9 +775,9 @@ window.console.log("sliprate --- calling freshSearch..");
                drawRectangle();
                break;
             default:
-               if(track_basemap != undefined) {
-		   switchLayer(track_basemap);
-                   track_basemap = undefined;
+               if(this.track_basemap != undefined) {
+             switchLayer(this.track_basemap);
+                   this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.none;
                break;
@@ -961,7 +981,7 @@ fullreferences
         }
         let html = generateMetadataTableRow(layer);
         $table.prepend(html);
-	$(`#metadata-table tbody tr[id='placeholder-row']`).remove();
+     $(`#metadata-table tbody tr[id='placeholder-row']`).remove();
     };
 
     this.removeFromMetadataTable = function (gid) {
@@ -1015,7 +1035,7 @@ window.console.log("generateMetadataTable..");
 <!--download all -->
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
-		            style="padding:0 0.5rem 0 0.5rem;" 
+                      style="padding:0 0.5rem 0 0.5rem;" 
                             onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
                             DOWNLOAD All DATA&nbsp;<span id="download-counter"></span>
                     </button>
@@ -1096,28 +1116,23 @@ window.console.log("generateMetadataTable..");
         this.resetMinrate = function () {
           if( this.searchingType != this.searchType.minrate) return;
           this.resetMinrateSlider();
-          this.resetMinrateRangeColor();
-	  $("#egd-minrate-slider").hide();
+          $("#egd-minrate-slider").hide();
           this.setupSliprateLegend({});
+          // reset marker color on all marker layers
+          this.resetAllLayersColor();
         }
 
         this.resetMaxrate = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           this.resetMaxrateSlider();
-          this.resetMaxrateRangeColor();
-	  $("#egd-maxrate-slider").hide();
+          $("#egd-maxrate-slider").hide();
           this.setupSliprateLegend({});
-        }
-
-        this.resetMinrateRangeColor = function (){
-          let myColor=cmapGetSegmentColors(this.searchingType);
-          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
-          $("#slider-minrate-range .ui-slider-range" ).css( "background", myColorString );
+          // reset marker color on all marker layers
+          this.resetAllLayersColor();
         }
 
         this.setMinrateRangeColor = function (target_min, target_max){
-          let myColor=cmapGetSegmentColorsChunk(this.searchingType,target_min,target_max);
-window.console.log(myColor.toString());
+          let myColor=cmapGetSegmentColors();
           let myColorString="linear-gradient(to right, "+myColor.toString()+")";
           $("#slider-minrate-range .ui-slider-range" ).css( "background", myColorString );
         }
@@ -1131,14 +1146,8 @@ window.console.log(myColor.toString());
           $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
         }
 
-        this.resetMaxrateRangeColor = function (){
-          let myColor=cmapGetSegmentColors(this.searchingType);
-          let myColorString="linear-gradient(to right, "+myColor.toString()+")";
-          $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColorString );
-        }
         this.setMaxrateRangeColor = function (target_min, target_max){
-          let myColor=cmapGetSegmentColorsChunk(this.searchingType,target_min, target_max);
-window.console.log(myColor.toString());
+          let myColor=cmapGetSegmentColors();
           let myColorString="linear-gradient(to right, "+myColor.toString()+")";
           $("#slider-maxrate-range .ui-slider-range" ).css( "background", myColorString );
         }
@@ -1203,12 +1212,25 @@ window.console.log(myColor.toString());
        this.replaceActiveLayersColor = function () {
             let myColor = site_colors.normal;
 
-            let layers=this.egd_active_layers;
-            layers.eachLayer(function(layer) {
-               this.replaceLayerColor(layer);
-            });
-
+            let layers=this.egd_active_layers.getLayers();
+            let sz=layers.length;
+            for(let i=0; i<sz; i++) {
+              let layer=layers[i];
+              this.replaceLayerColor(layer);
+            }
        }
+
+       // iterate through all layer and update color by type
+       this.resetAllLayersColor = function () {
+            let myColor = site_colors.normal;
+
+            let layers=this.egd_layers;
+            let sz=layers.length;
+            for(let i=0; i<sz; i++) {
+              let layer=layers[i];
+              layer.setStyle({fillColor:myColor, color:"white"});
+            }
+        }
 
 
 /********************* sliprate INTERFACE function **************************/
@@ -1449,5 +1471,5 @@ window.console.log("calling download..");
 //http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
         return csvblob;
     }
-	      
+           
 };
