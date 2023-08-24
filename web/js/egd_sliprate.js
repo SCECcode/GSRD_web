@@ -1180,8 +1180,9 @@ window.console.log("generateMetadataTable..");
 
         this.refreshMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
-          let maxrate_min=$("#egd-minMaxrateSliderTxt").val();
-          let maxrate_max=$("#egd-maxMaxrateSliderTxt").val();
+          let maxrate_min=parseFloat($("#egd-minMaxrateSliderTxt").val());
+          let maxrate_max=parseFloat($("#egd-maxMaxrateSliderTxt").val());
+window.console.log("HERE...");
           $("#slider-maxrate-range").slider('values', 
                               [maxrate_min, maxrate_max]);
           this.search(this.searchingType, [maxrate_min, maxrate_max]);
@@ -1189,8 +1190,8 @@ window.console.log("generateMetadataTable..");
 
         this.refreshMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
-          let minrate_min=$("#egd-minMinrateSliderTxt").val();
-          let minrate_max=$("#egd-maxMinrateSliderTxt").val();
+          let minrate_min=parseFloat($("#egd-minMinrateSliderTxt").val());
+          let minrate_max=parseFloat($("#egd-maxMinrateSliderTxt").val());
           $("#slider-minrate-range").slider('values', 
                               [minrate_min, minrate_max]);
           this.search(this.searchingType, [minrate_min, minrate_max]);
