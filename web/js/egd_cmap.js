@@ -105,6 +105,7 @@ function _logscale(ea, eb, N) {
 // make N+1 segments -- for making color bar ticks
 // log = y, linear = x
 function cmapSetupSliprateSegments(lrmin,lrmax,hrmin,hrmax) {
+window.console.log(" ---- calling cmapSetupSliprateSegments!!!");
    let N=EGD_DEFAULT_DATA_SEGMENT_COUNT;
 
 window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);

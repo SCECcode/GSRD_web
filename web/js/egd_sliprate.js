@@ -25,10 +25,10 @@ var EGD_SLIPRATE = new function () {
     this.track_basemap = undefined;
 
     // locally used, floats
-    var egd_minrate_min=undefined;
-    var egd_minrate_max=undefined;
-    var egd_maxrate_min=undefined;
-    var egd_maxrate_max=undefined;
+    this.egd_minrate_min=undefined;
+    this.egd_minrate_max=undefined;
+    this.egd_maxrate_min=undefined;
+    this.egd_maxrate_max=undefined;
 
     var site_colors = {
         normal: '#006E90', // original
@@ -263,32 +263,32 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                 this.egd_active_gid.push(gid);
                 this.egd_active_markerLocations.push(marker.getLatLng())                      
 
-                if(egd_minrate_min == undefined) {
-                   egd_minrate_min = low_rate;
-                   egd_minrate_max = low_rate;
+                if(this.egd_minrate_min == undefined) {
+                   this.egd_minrate_min = low_rate;
+                   this.egd_minrate_max = low_rate;
                   } else {
-                    if(low_rate != 0 && low_rate < egd_minrate_min) {
-                      egd_minrate_min=low_rate;  
+                    if(low_rate != 0 && low_rate < this.egd_minrate_min) {
+                      this.egd_minrate_min=low_rate;  
                     }
-                    if(low_rate > egd_minrate_max) {
-                      egd_minrate_max=low_rate;
+                    if(low_rate > this.egd_minrate_max) {
+                      this.egd_minrate_max=low_rate;
                     }
                 }
-                if(egd_maxrate_min == undefined) {
-                   egd_maxrate_min = high_rate;
-                   egd_maxrate_max = high_rate;
+                if(this.egd_maxrate_min == undefined) {
+                   this.egd_maxrate_min = high_rate;
+                   this.egd_maxrate_max = high_rate;
                   } else {
-                    if(high_rate !=0 && high_rate < egd_maxrate_min) {
-                      egd_maxrate_min=high_rate;  
+                    if(high_rate !=0 && high_rate < this.egd_maxrate_min) {
+                      this.egd_maxrate_min=high_rate;  
                     }
-                    if(high_rate > egd_maxrate_max) {
-                      egd_maxrate_max=high_rate;
+                    if(high_rate > this.egd_maxrate_max) {
+                      this.egd_maxrate_max=high_rate;
                     }
                 }
             }
         }
 
-        cmapSetupSliprateSegments(egd_minrate_min,egd_minrate_max,egd_maxrate_min,egd_maxrate_max);
+        cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
 
         this.gotZoomed = function (zoom) {
             if(this.egd_active_gid.length == 0) return;
@@ -409,7 +409,7 @@ window.console.log("got Zoomed");
               maxrate_max=parseFloat($("#egd-maxMaxrateSliderTxt").val());
               cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
               let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
-              this.setupSliprateLegend(segminrateinfo);
+              this.setupSliprateLegend(segmaxrateinfo);
            }
         }
         this.replaceActiveLayersColor();
@@ -731,7 +731,7 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
             case "sitename": 
                if(this.track_basemap != undefined) {
-             switchLayer(this.track_basemap);
+               switchLayer(this.track_basemap);
                    this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.sitename;
@@ -741,12 +741,14 @@ window.console.log("sliprate --- calling freshSearch..");
             case "minrate": 
                this.searchingType = this.searchType.minrate;
 // use dark basemap
-            if(isBaseLayer("jawg dark") == false) {
+               if(isBaseLayer("jawg dark") == false) {
                    this.track_basemap = getCurrentLayerString();
-             switchLayer("jawg dark");
+                   switchLayer("jawg dark");
                }
                $all_search_controls.hide();
                $("#egd-minrate-slider").show();
+	       $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+               $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
                let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                this.setupSliprateLegend(segminrateinfo);
                this.recreateActiveLayerGroup(false);
@@ -760,6 +762,8 @@ window.console.log("sliprate --- calling freshSearch..");
                }
                $all_search_controls.hide();
                $("#egd-maxrate-slider").show();
+	       $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+               $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
                let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                this.setupSliprateLegend(segmaxrateinfo);
                this.recreateActiveLayerGroup(false);
@@ -1120,6 +1124,13 @@ window.console.log("generateMetadataTable..");
           this.setupSliprateLegend({});
           // reset marker color on all marker layers
           this.resetAllLayersColor();
+          cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
+	  $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
+	  if(this.track_basemap != undefined ) {
+            switchLayer(this.track_basemap);
+            this.track_basemap = undefined;
+          }
         }
 
         this.resetMaxrate = function () {
@@ -1129,6 +1140,13 @@ window.console.log("generateMetadataTable..");
           this.setupSliprateLegend({});
           // reset marker color on all marker layers
           this.resetAllLayersColor();
+          cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
+	  $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+	  if(this.track_basemap != undefined ) {
+            switchLayer(this.track_basemap);
+            this.track_basemap = undefined;
+          }
         }
 
         this.setMinrateRangeColor = function (target_min, target_max){
@@ -1141,9 +1159,9 @@ window.console.log("generateMetadataTable..");
         this.resetMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
           $("#slider-minrate-range").slider('values', 
-                              [egd_minrate_min, egd_minrate_max]);
-          $("#egd-minMinrateSliderTxt").val(egd_minrate_min);
-          $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
+                              [this.egd_minrate_min, this.egd_minrate_max]);
+          $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
         }
 
         this.setMaxrateRangeColor = function (target_min, target_max){
@@ -1155,9 +1173,9 @@ window.console.log("generateMetadataTable..");
         this.resetMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           $("#slider-maxrate-range").slider('values', 
-                              [egd_maxrate_min, egd_maxrate_max]);
-          $("#egd-minMaxrateSliderTxt").val(egd_maxrate_min);
-          $("#egd-maxMaxrateSliderTxt").val(egd_maxrate_max);
+                              [this.egd_maxrate_min, this.egd_maxrate_max]);
+          $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
         }
 
         this.refreshMaxrateSlider = function () {
@@ -1284,7 +1302,7 @@ window.console.log(center, zoom);
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 
-                  range:true, step:0.01, min:egd_minrate_min, max:egd_minrate_max, values:[egd_minrate_min, egd_minrate_max],
+                  range:true, step:0.01, min:this.egd_minrate_min, max:this.egd_minrate_max, values:[this.egd_minrate_min, this.egd_minrate_max],
               slide: function( event, ui ) {
                            $("#egd-minMinrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
@@ -1300,41 +1318,41 @@ window.console.log(center, zoom);
                            EGD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
-                          $("#egd-minMinrateSliderTxt").val(egd_minrate_min);
-                          $("#egd-maxMinrateSliderTxt").val(egd_minrate_max);
+                          $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+                          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
                     }
             });
-            $('#slider-minrate-range').slider("option", "min", egd_minrate_min);
-            $('#slider-minrate-range').slider("option", "max", egd_minrate_max);
+            $('#slider-minrate-range').slider("option", "min", this.egd_minrate_min);
+            $('#slider-minrate-range').slider("option", "max", this.egd_minrate_max);
 
 /* setup  sliders */
             $("#slider-maxrate-range").slider({ 
-                  range:true, step:0.01, min:egd_maxrate_min, max:egd_maxrate_max, values:[egd_maxrate_min, egd_maxrate_max],
+                  range:true, step:0.01, min:this.egd_maxrate_min, max:this.egd_maxrate_max, values:[this.egd_maxrate_min, this.egd_maxrate_max],
               slide: function( event, ui ) {
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
-window.console.log("in minrate slider..-- slide");
+                           //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+window.console.log("in maxrate slider..-- slide");
                      },
               change: function( event, ui ) {
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
-window.console.log("in minrate slider..-- change");
+                           //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+window.console.log("in maxrate slider..-- change");
                      },
               stop: function( event, ui ) {
                            let searchType = EGD_SLIPRATE.searchType.maxrate;
                            EGD_SLIPRATE.search(searchType, ui.values);
-window.console.log("in minrate slider..-- stop");
+window.console.log("in maxrate slider..-- stop");
                      },
               create: function() {
-                          $("#egd-minMaxrateSliderTxt").val(egd_maxrate_min);
-                          $("#egd-maxMaxrateSliderTxt").val(egd_maxrate_max);
-window.console.log("in minrate slider..-- create");
+                          $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+                          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+window.console.log("in maxrate slider..-- create");
                     }
             });
-            $('#slider-maxrate-range').slider("option", "min", egd_maxrate_min);
-            $('#slider-maxrate-range').slider("option", "max", egd_maxrate_max);
+            $('#slider-maxrate-range').slider("option", "min", this.egd_maxrate_min);
+            $('#slider-maxrate-range').slider("option", "max", this.egd_maxrate_max);
     };
 
 /******************  Result table functions **************************/

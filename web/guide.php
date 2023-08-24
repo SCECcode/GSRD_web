@@ -19,20 +19,20 @@ $header = getHeader("User Guide");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Database Viewer: User Guide</title>
+    <title>Earthquake Geology Database Web Tools: User Guide</title>
 </head>
 <body>
 <?php echo $header; ?>
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>EGD Web Tools User Guide</h1>
+    <h1>EGD Viewer User Guide</h1>
 
     <div class="row">
         <div class="col-12">
             <figure class="cxm-interface figure float-lg-right">
-                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of EGD Viewer interface">
-                <figcaption class="figure-caption">Screen capture of EGD Viewer interface</figcaption>
+                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of EGD web tool interface">
+                <figcaption class="figure-caption">Screen capture of EGD web tool interface</figcaption>
             </figure>
             <h4><strong>Earthquake Geology Database Overview</strong></h4>
 

@@ -132,7 +132,7 @@ and minimum/maximum slip rate, or by individually clicking on points on the map.
 selected, they are added to the list below the map interface with selected metadata shown. The 
 complete metadata for all selected sites can be downloaded (in .csv format) with the 
 "Download All Data" button. Refer to the <a href="guide">user guide</a> for more details and 
-usage instructions.</p>
+usage instructions.<br></p>
    </div>
 
 <!-- leaflet control -->
@@ -162,7 +162,7 @@ usage instructions.</p>
 
 <!-- SLIPRATE select -->
           <div id="egd-sliprate-search-control" class="row mt-1 container-control" style="margin-left:-30px">
-            <div class="col-4 input-group filters mb-3">
+            <div class="col-4 input-group filters mb-2">
               <select id="egd-search-type" class="custom-select">
                   <option value="">Search the Slip Rate Sites</option>
                   <option value="faultname">Fault Name</option>
