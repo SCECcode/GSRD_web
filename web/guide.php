@@ -26,7 +26,7 @@ $header = getHeader("User Guide");
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>EGD Viewer User Guide</h1>
+    <h1>EGD Web Tools User Guide</h1>
 
     <div class="row">
         <div class="col-12">
