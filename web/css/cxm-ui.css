@@ -1,4 +1,8 @@
 /* egd */
+.egd-cluster {
+    background-color: rgba(0,110,144,1);
+}
+
 div.legend .legend-label {
     margin-left: 8px;
     position: relative;

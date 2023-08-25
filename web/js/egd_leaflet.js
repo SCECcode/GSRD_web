@@ -85,25 +85,26 @@ function get_map()
 
 function make_markerGroup() {
   // var group=new L.FeatureGroup();
-  let zoom=viewermap.getZoom();
   let iconsize=40;
   var group=new L.markerClusterGroup(
         {
          maxClusterRadius: 1,
+	/* default: marker-cluster-small, marker-cluster  */
+/*
          iconCreateFunction: function(cluster) {
           return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>',
-                          className: 'egd_cluster',
-                          iconSize: L.point(iconsize, iconsize)  });
+                          className: 'egd-cluster',
+                          iconSize: L.point(8, 8)  });
          },
-         spiderfyOnMaxZoom: false,
-         showCoverageOnHover: false,
-         zoomToBoundsOnClick: false
+*/
+//         spiderfyOnMaxZoom: false,
+//         showCoverageOnHover: false,
+//         zoomToBoundsOnClick: false
         });
    return group;
 }
 
 function change_markerGroupIconSize() {
-  let zoom=viewermap.getZoom();
 }
 
 function setup_viewer()

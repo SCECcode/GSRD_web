@@ -75,8 +75,8 @@ $egd_sliprate = new SLIPRATE();
 <!-- egd js -->
     <script type="text/javascript" src="js/egd_ui.js?v=1"></script>
     <script type="text/javascript" src="js/egd_main.js?v=1"></script>
-    <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
     <script type="text/javascript" src="js/egd_leaflet.js?v=1"></script>
+    <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
     <script type="text/javascript" src="js/egd_cmap.js?v=1"></script>
 
 <!-- cxm js -->
