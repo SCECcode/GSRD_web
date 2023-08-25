@@ -15,7 +15,7 @@ function getHeader($this_page) {
 	global $host_site_actual_path;
 
 	$all_pages = [
-		$host_site_actual_path => "Viewer",
+		$host_site_actual_path => "Tool",
 		"guide" => "User Guide",
 		"disclaimer" => "Disclaimer",
 		"contact" => "Contact"

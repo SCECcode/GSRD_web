@@ -84,7 +84,10 @@ function get_map()
 }
 
 function make_markerGroup() {
-  // var group=new L.FeatureGroup();
+
+  var group=new L.FeatureGroup();
+  return group;
+
   let iconsize=40;
   var group=new L.markerClusterGroup(
         {
@@ -104,7 +107,16 @@ function make_markerGroup() {
    return group;
 }
 
-function change_markerGroupIconSize() {
+function change_markerGroupIconSize(markers,nsize) {
+/* XXX NOT SURE
+  var icon = markers....icon;
+  var opt=icon.options;
+  icon.options.iconSize = [nsize,nsize];
+  markers....setIcon(icon);
+
+  markers.refreshCluster();
+*/
+
 }
 
 function setup_viewer()

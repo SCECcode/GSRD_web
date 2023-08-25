@@ -5,9 +5,9 @@
 
 ### https://www.scec.org/research/egd
 
-## EGD viewer
+## EGD web tool
 
-A 2D viewer based on Leaflet, an open-source JavaScript library for interactive maps,
+A 2D web tool based on Leaflet, an open-source JavaScript library for interactive maps,
 https://leafletjs.com, map data services from OpenStreetMap, https://www.openstreetmap.org,
 OpenTopoMap, https://www.opentopomap.org and leaflet esri plugin,
 https://esri.github.io/esri-leaflet, for Ersi basemap from ArcGIS and the EGD 

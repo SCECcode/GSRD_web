@@ -1,7 +1,7 @@
 <?php
 require_once("php/navigation.php");
 require_once("php/EGD_SLIPRATE.php");
-$header = getHeader("Viewer");
+$header = getHeader("Tool");
 
 $egd_sliprate = new SLIPRATE();
 
