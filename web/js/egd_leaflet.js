@@ -132,26 +132,26 @@ function setup_viewer()
 // otm topo
   var topoURL='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
   var topoAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreeMap</a> contributors,<a href=http://viewfinderpanoramas.org"> SRTM</a> | &copy; <a href="https://www.opentopomap.org/copyright">OpenTopoMap</a>(CC-BY-SA)';
-  L.tileLayer(topoURL, { detectRetina: true, attribution: topoAttribution, maxZoom:18 })
+  L.tileLayer(topoURL, { detectRetina: true, attribution: topoAttribution, maxZoom:16 })
 
-  var otm_topographic = L.tileLayer(topoURL, { detectRetina: true, attribution: topoAttribution, maxZoom:18});
+  var otm_topographic = L.tileLayer(topoURL, { detectRetina: true, attribution: topoAttribution, maxZoom:16});
 
   var jawg_dark = L.tileLayer('https://{s}.tile.jawg.io/jawg-dark/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
         attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 0,
-        maxZoom: 18,
+        maxZoom: 16,
         accessToken: 'hv01XLPeyXg9OUGzUzaH4R0yA108K1Y4MWmkxidYRe5ThWqv2ZSJbADyrhCZtE4l'});
 
   var jawg_light = L.tileLayer('https://{s}.tile.jawg.io/jawg-light/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
         attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 0,
-        maxZoom: 18,
+        maxZoom: 16,
         accessToken: 'hv01XLPeyXg9OUGzUzaH4R0yA108K1Y4MWmkxidYRe5ThWqv2ZSJbADyrhCZtE4l' });
 
 // osm street
   var openURL='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var openAttribution ='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-  var osm_street=L.tileLayer(openURL, {attribution: openAttribution, maxZoom:18});
+  var osm_street=L.tileLayer(openURL, {attribution: openAttribution, maxZoom:16});
 
   baseLayers = {
     "esri topo" : esri_topographic,
@@ -171,7 +171,7 @@ function setup_viewer()
 
 
 // ==> mymap <==
-  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true, maxZoom:18 } );
+  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true, maxZoom:16 } );
 
   mymap.setView(init_map_coordinates, init_map_zoom_level);
   mymap.attributionControl.addAttribution(scecAttribution);
