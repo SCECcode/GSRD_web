@@ -213,24 +213,24 @@ usage instructions.<br></p>
                       <div class="col-8">
                         <div class="form-inline latlon-input-boxes">
                             <input type="text"
-                                   placeholder="Latitude"
+                                   placeholder="Min Latitude"
                                    id="egd-firstLatTxt"
                                    title="first lat"
                                    class="egd-latlon-item form-control">
                             <input type="text" 
-                                   placeholder='Longitude' 
+                                   placeholder='Min Longitude' 
                                    id="egd-firstLonTxt" 
                                    title="first lon"
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLatTxt"
                                    title="second lat"
-                                   placeholder='2nd Latitude'
+                                   placeholder='Max Latitude'
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLonTxt"
                                    title="second lon"
-                                   placeholder='2nd Longitude'
+                                   placeholder='Max Longitude'
                                    class="egd-latlon-item form-control">
                         </div>
                       </div>
@@ -408,7 +408,7 @@ usage instructions.<br></p>
               </thead>    
               <tbody>
                 <tr id="placeholder-row">
-                  <td colspan="10">Metadata for selected sites will appear here. </td>
+                  <td colspan="10">A subset of metadata for selected slip rate sites will appear here. Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete 28 columns of metadata for all selected sites in .csv format</td>
                 </tr>
             </table>
          </div>

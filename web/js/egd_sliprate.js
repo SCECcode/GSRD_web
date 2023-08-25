@@ -116,7 +116,7 @@ full_references: 'Full References'
     this.searchingType=this.searchType.none;
 
     var tablePlaceholderRow = `<tr id="placeholder-row">
-                        <td colspan="10">Metadata for selected sliprate sites will appear here.</td>
+                        <td colspan="10">A subset of metadata for selected slip rate sites will appear here. Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete 28 columns of metadata for all selected sites in .csv format</td>
                     </tr>`;
 
     this.activateData = function() {
@@ -425,15 +425,12 @@ window.console.log("got Zoomed");
         replaceResultTableBodyWithGids(glist);
         this.egd_active_layers.addTo(viewermap);
 
-        if(this.egd_active_markerLocations.length > 1) {
-          let bounds = L.latLngBounds(this.egd_active_markerLocations);
-window.console.log("flyingBounds --new list");
-          viewermap.flyToBounds(bounds, { maxZoom:18, padding:[10,10]});
-          } else {
-            let bounds = L.latLngBounds(this.egd_active_markerLocations);
-window.console.log("flyingBounds --new list");
-            viewermap.flyToBounds(bounds, {zoom:6, padding:[10,10]});
+        let bounds=get_bounding_rectangel_latlngs();
+        if(bounds ==  undefined) {
+          bounds = L.latLngBounds(this.egd_active_markerLocations);
         }
+        viewermap.flyToBounds(bounds, { maxZoom:18, padding:[10,10]});
+
     };
 
 // recreate the original map state
