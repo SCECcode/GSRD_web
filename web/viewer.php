@@ -20,6 +20,8 @@ $egd_sliprate = new SLIPRATE();
     <link rel="stylesheet" href="css/vendor/jquery-ui.css">
     <link rel="stylesheet" href="css/vendor/glyphicons.css">
     <link rel="stylesheet" href="css/vendor/all.css">
+    <link rel="stylesheet" href="css/vendor/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="css/vendor/MarkerCluster.css">
     <link rel="stylesheet" href="css/cxm-ui.css?v=1">
 
     <script type="text/javascript" src="js/vendor/leaflet-src.js"></script>
@@ -37,6 +39,7 @@ $egd_sliprate = new SLIPRATE();
 
     <script type='text/javascript' src='js/vendor/togeojson.js'></script>
     <script type='text/javascript' src='js/vendor/leaflet-kmz-src.js'></script>
+    <script type='text/javascript' src='js/vendor/leaflet.markercluster-src.js'></script>
 
     <link rel="stylesheet" href="js/vendor/plugin/Leaflet.draw/leaflet.draw.css">
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/Leaflet.draw.js"></script>
