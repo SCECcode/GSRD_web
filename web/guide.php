@@ -19,14 +19,14 @@ $header = getHeader("User Guide");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Database Web Tools: User Guide</title>
+    <title>Earthquake Geology Database Web Tool: User Guide</title>
 </head>
 <body>
 <?php echo $header; ?>
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>EGD Web Tools User Guide</h1>
+    <h1>EGD Web Tool User Guide</h1>
 
     <div class="row">
         <div class="col-12">
@@ -36,16 +36,16 @@ $header = getHeader("User Guide");
             </figure>
             <h4><strong>Earthquake Geology Database Overview</strong></h4>
 
-	    <p>The EGM web tools provide interactive map-based views of the EGD 
-	       source data. The web tools allow users to search and view the EGD
+	    <p>The EGM web tool provide interactive map-based views of the EGD 
+	       source data. The web tool allow users to search and view the EGD
 	       archive using the pull-down menu near the top left of the interface 
 	       without having to download the entire EGD archive. The pages on 
 	       this site include the main
-               <a href="<?php echo $host_site_actual_path; ?>">EGD web tools page</a>, 
+               <a href="<?php echo $host_site_actual_path; ?>">EGD web tool page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
                <a href="contact">contact information</a> page.</p>
 
-	    <p>The main EGD interface is on the web tools page. When first loaded, 
+	    <p>The main EGD interface is on the web tool page. When first loaded, 
 	       all EGD sites are listed on the left side of the screen (labeled by
 	       fault name | site name) and shown on the interactive map interface 
 	       (with blue circles) on the right side of the page. Users can click
@@ -72,7 +72,7 @@ $header = getHeader("User Guide");
 	       be resized by clicking on the black dashed square icon located in the 
 	       bottom right corner of the interface. Three size options are available,
 	       small (default), medium, and full-screen. The medium and full-screen 
-	       sizes hide some of the tools, so these options are provided for 
+	       sizes hide some of the tool, so these options are provided for 
 	       visualization and data comparison purposes and are not intended to be
                used when querying the model for download.</p>
 
@@ -81,7 +81,7 @@ $header = getHeader("User Guide");
 
             <h4><strong>Searching/Querying the EGD</strong></h4>
 
-	    <p>The EGD web tools provide several search criteria, including fault name,
+	    <p>The EGD web tool provide several search criteria, including fault name,
 	       latitude/longitude, low rate, and high rate. Most EGD sites do not have 
 	       a “preferred” rate, so there is no search by preferred rate option. 
 	       Once a search type is selected, additional controls will appear in the form 
