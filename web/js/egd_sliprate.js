@@ -417,15 +417,12 @@ window.console.log("got Zoomed");
         replaceResultTableBodyWithGids(glist);
         this.egd_active_layers.addTo(viewermap);
 
-        if(this.egd_active_markerLocations.length > 1) {
-          let bounds = L.latLngBounds(this.egd_active_markerLocations);
-window.console.log("flyingBounds --new list");
-          viewermap.flyToBounds(bounds, { maxZoom:18, padding:[10,10]});
-          } else {
-            let bounds = L.latLngBounds(this.egd_active_markerLocations);
-window.console.log("flyingBounds --new list");
-            viewermap.flyToBounds(bounds, {zoom:6, padding:[10,10]});
+        let bounds=get_bounding_rectangel_latlngs();
+        if(bounds ==  undefined) {
+          bounds = L.latLngBounds(this.egd_active_markerLocations);
         }
+        viewermap.flyToBounds(bounds, { maxZoom:18, padding:[10,10]});
+
     };
 
 // recreate the original map state

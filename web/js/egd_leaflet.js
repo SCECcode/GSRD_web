@@ -10,7 +10,6 @@ var drawing_rectangle = false;
 
 var scecAttribution ='<a href="https://www.scec.org">SCEC</a>';
 
-
 var rectangle_options = {
        showArea: false,
          shapeOptions: {
@@ -317,12 +316,19 @@ function remove_bounding_rectangle_layer() {
    }
 }
 
-
 function add_bounding_rectangle_layer(layer, a,b,c,d) {
   // remove old one and add a new one
   remove_bounding_rectangle_layer();
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]};
   egd_latlon_area_list.push(tmp);
+}
+
+function get_bounding_rectangle_latlngs() {
+   if(egd_latlon_area_list.length == 1) {
+     let latlngs=egd_latlon_area_list[0].latlngs;
+     return latlngs;
+   }
+   return undefined;
 }
 
 function add_marker_point(a,b) {
