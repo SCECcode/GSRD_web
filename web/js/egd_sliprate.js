@@ -1,5 +1,13 @@
 /***
    egd_sliprate.js
+
+   var markers = L.markerClusterGroup();
+markers.addLayer(L.marker(getRandomLatLng(map)));
+... Add more layers ...
+map.addLayer(markers);
+
+http://leaflet.github.io/Leaflet.markercluster/#examples
+https://stackoverflow.com/questions/22168558/multiple-markers-on-the-exact-same-position-on-a-leaflet-map
 ***/
 
 var EGD_SLIPRATE = new function () {
@@ -722,7 +730,7 @@ window.console.log("sliprate --- calling freshSearch..");
         switch (t) {
             case "faultname": 
                if(this.track_basemap != undefined) {
-             switchLayer(this.track_basemap);
+                   switchLayer(this.track_basemap);
                    this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.faultname;
@@ -731,7 +739,7 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
             case "sitename": 
                if(this.track_basemap != undefined) {
-               switchLayer(this.track_basemap);
+                   switchLayer(this.track_basemap);
                    this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.sitename;
@@ -747,7 +755,7 @@ window.console.log("sliprate --- calling freshSearch..");
                }
                $all_search_controls.hide();
                $("#egd-minrate-slider").show();
-	       $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+               $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
                $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
                let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                this.setupSliprateLegend(segminrateinfo);
@@ -758,11 +766,11 @@ window.console.log("sliprate --- calling freshSearch..");
 // use dark basemap
             if(isBaseLayer("jawg dark") == false) {
                    this.track_basemap = getCurrentLayerString();
-             switchLayer("jawg dark");
+                   switchLayer("jawg dark");
                }
                $all_search_controls.hide();
                $("#egd-maxrate-slider").show();
-	       $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+               $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
                $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
                let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                this.setupSliprateLegend(segmaxrateinfo);
@@ -770,7 +778,7 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
             case "latlon": 
                if(this.track_basemap != undefined) {
-             switchLayer(this.track_basemap);
+                   switchLayer(this.track_basemap);
                    this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.latlon;
@@ -780,7 +788,7 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
             default:
                if(this.track_basemap != undefined) {
-             switchLayer(this.track_basemap);
+                   switchLayer(this.track_basemap);
                    this.track_basemap = undefined;
                }
                this.searchingType = this.searchType.none;
@@ -790,13 +798,13 @@ window.console.log("sliprate --- calling freshSearch..");
         if ($("#egd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
-          CXM.hideCFMFaults(viewermap);
+            CXM.hideCFMFaults(viewermap);
         }
 
         if ($("#egd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
-          CXM.hideGFMRegions(viewermap);
+            CXM.hideGFMRegions(viewermap);
         }
     };
 
@@ -1125,9 +1133,9 @@ window.console.log("generateMetadataTable..");
           // reset marker color on all marker layers
           this.resetAllLayersColor();
           cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
-	  $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
+       $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
           $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
-	  if(this.track_basemap != undefined ) {
+       if(this.track_basemap != undefined ) {
             switchLayer(this.track_basemap);
             this.track_basemap = undefined;
           }
@@ -1141,9 +1149,9 @@ window.console.log("generateMetadataTable..");
           // reset marker color on all marker layers
           this.resetAllLayersColor();
           cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
-	  $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
+       $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
           $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
-	  if(this.track_basemap != undefined ) {
+       if(this.track_basemap != undefined ) {
             switchLayer(this.track_basemap);
             this.track_basemap = undefined;
           }
@@ -1303,7 +1311,11 @@ window.console.log(center, zoom);
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 
-                  range:true, step:0.001, min:this.egd_minrate_min, max:this.egd_minrate_max, values:[this.egd_minrate_min, this.egd_minrate_max],
+              range:true, 
+              step:0.001,
+              min:this.egd_minrate_min, 
+              max:this.egd_minrate_max, 
+              values:[this.egd_minrate_min, this.egd_minrate_max],
               slide: function( event, ui ) {
                            $("#egd-minMinrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
@@ -1328,10 +1340,11 @@ window.console.log(center, zoom);
 
 /* setup  sliders */
             $("#slider-maxrate-range").slider({ 
-                  range:true, step:0.001,
-		  min:this.egd_maxrate_min,
-		  max:this.egd_maxrate_max,
-		  values:[this.egd_maxrate_min, this.egd_maxrate_max],
+              range:true, 
+              step:0.001,
+              min:this.egd_maxrate_min,
+              max:this.egd_maxrate_max,
+              values:[this.egd_maxrate_min, this.egd_maxrate_max],
               slide: function( event, ui ) {
 window.console.log("in maxrate slider..-- change");
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
