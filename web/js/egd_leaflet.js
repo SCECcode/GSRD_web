@@ -84,11 +84,26 @@ function get_map()
 }
 
 function make_markerGroup() {
-
   // var group=new L.FeatureGroup();
-  var group=new L.markerClusterGroup({maxClusterRadius: 1});
+  let zoom=viewermap.getZoom();
+  let iconsize=40;
+  var group=new L.markerClusterGroup(
+        {
+         maxClusterRadius: 1,
+         iconCreateFunction: function(cluster) {
+          return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>',
+                          className: 'egd_cluster',
+                          iconSize: L.point(iconsize, iconsize)  });
+         },
+         spiderfyOnMaxZoom: false,
+         showCoverageOnHover: false,
+         zoomToBoundsOnClick: false
+        });
+   return group;
+}
 
-  return group;
+function change_markerGroupIconSize() {
+  let zoom=viewermap.getZoom();
 }
 
 function setup_viewer()
@@ -210,7 +225,6 @@ window.console.log("map got zoomed..>>",zoom);
 // XX CHECK, the rectangle created on the mapview does not seem to 'confirm'
 // like hand inputed rectangle. Maybe some property needs to be set
 // For now, just redraw the rectangle
-	    //
         EGD_SLIPRATE.searchLatlon(1,latlngs);        
     }
   });
