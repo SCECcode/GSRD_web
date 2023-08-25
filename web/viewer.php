@@ -31,6 +31,8 @@ $egd_sliprate = new SLIPRATE();
     <script type='text/javascript' src='js/vendor/esri-leaflet.js'></script>
     <script type='text/javascript' src='js/vendor/esri-leaflet-vector.js' crossorigin=""></script>
 
+    <script type='text/javascript' src='js/vendor/oms.min.js'></script>
+
     <script type='text/javascript' src='js/vendor/FileSaver.js'></script>
     <script type='text/javascript' src='js/vendor/jszip.js'></script>
     <script type='text/javascript' src='js/vendor/jquery.floatThead.min.js'></script>

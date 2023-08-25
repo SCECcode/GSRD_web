@@ -1300,7 +1300,7 @@ window.console.log(center, zoom);
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 
-                  range:true, step:0.01, min:this.egd_minrate_min, max:this.egd_minrate_max, values:[this.egd_minrate_min, this.egd_minrate_max],
+                  range:true, step:0.001, min:this.egd_minrate_min, max:this.egd_minrate_max, values:[this.egd_minrate_min, this.egd_minrate_max],
               slide: function( event, ui ) {
                            $("#egd-minMinrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
@@ -1325,30 +1325,34 @@ window.console.log(center, zoom);
 
 /* setup  sliders */
             $("#slider-maxrate-range").slider({ 
-                  range:true, step:0.01, min:this.egd_maxrate_min, max:this.egd_maxrate_max, values:[this.egd_maxrate_min, this.egd_maxrate_max],
+                  range:true, step:0.001,
+		  min:this.egd_maxrate_min,
+		  max:this.egd_maxrate_max,
+		  values:[this.egd_maxrate_min, this.egd_maxrate_max],
               slide: function( event, ui ) {
+window.console.log("in maxrate slider..-- change");
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
-window.console.log("in maxrate slider..-- slide");
                      },
               change: function( event, ui ) {
+window.console.log("in maxrate slider..-- change");
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
-window.console.log("in maxrate slider..-- change");
                      },
               stop: function( event, ui ) {
+window.console.log("in maxrate slider..-- stop");
                            let searchType = EGD_SLIPRATE.searchType.maxrate;
                            EGD_SLIPRATE.search(searchType, ui.values);
-window.console.log("in maxrate slider..-- stop");
                      },
               create: function() {
+window.console.log("in maxrate slider..-- create");
                           $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
                           $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
-window.console.log("in maxrate slider..-- create");
                     }
             });
+window.console.log("setting up the maxrate slider ..");
             $('#slider-maxrate-range').slider("option", "min", this.egd_maxrate_min);
             $('#slider-maxrate-range').slider("option", "max", this.egd_maxrate_max);
     };
