@@ -83,6 +83,14 @@ function get_map()
   return [center, zoom];
 }
 
+function make_markerGroup() {
+
+  // var group=new L.FeatureGroup();
+  var group=new L.markerClusterGroup({maxClusterRadius: 1});
+
+  return group;
+}
+
 function setup_viewer()
 {
 // esri
@@ -135,7 +143,7 @@ function setup_viewer()
 
 
 // ==> mymap <==
-  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true} );
+  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true, maxZoom:18 } );
 
   mymap.setView(init_map_coordinates, init_map_zoom_level);
   mymap.attributionControl.addAttribution(scecAttribution);

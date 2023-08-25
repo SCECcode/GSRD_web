@@ -1,11 +1,6 @@
 /***
    egd_sliprate.js
 
-   var markers = L.markerClusterGroup();
-markers.addLayer(L.marker(getRandomLatLng(map)));
-... Add more layers ...
-map.addLayer(markers);
-
 http://leaflet.github.io/Leaflet.markercluster/#examples
 https://stackoverflow.com/questions/22168558/multiple-markers-on-the-exact-same-position-on-a-leaflet-map
 ***/
@@ -19,7 +14,7 @@ var EGD_SLIPRATE = new function () {
     this.egd_markerLocations = [];
 
     // searched layers being actively looked at -- result of a search
-    this.egd_active_layers = new L.FeatureGroup();
+    this.egd_active_layers = make_markerGroup();
     this.egd_active_markerLocations = [];
     this.egd_active_gid = [];
 
@@ -346,7 +341,7 @@ window.console.log("got Zoomed");
         // remove the old ones and remove from result table
         this.clearAllSelections()
         this.egd_active_layers.remove();
-        this.egd_active_layers= new L.FeatureGroup();
+        this.egd_active_layers= make_markerGroup();
         this.egd_active_gid=[];
         this.egd_active_markerLocations = [];
 
@@ -440,7 +435,7 @@ window.console.log("got Zoomed");
         if(this.egd_active_gid.length != this.egd_layers.length 
                || this.searchingType == this.searchType.minrate
                || this.searchingType == this.searchType.maxrate) {
-          this.egd_active_layers= new L.FeatureGroup();
+          this.egd_active_layers= make_markerGroup();
           this.egd_active_gid=[];
         
           for (let i=0; i< this.egd_layers.length; i++) {
