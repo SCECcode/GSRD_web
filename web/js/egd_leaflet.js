@@ -83,40 +83,77 @@ function get_map()
   return [center, zoom];
 }
 
+function refresh_markerGroup(markers) {
+   markers.refreshClusters();
+}
+
+function lookup_markerGroupCluster(myMarkerGroup, myMarker) {
+  var cluster = myMarkerGroup.getVisibleParent(myMarker);
+  if(cluster != null) {
+    window.console.log(cluster.getLatLng());
+  }
+}
+
+//
+function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
+
+  let cluster = myMarkerGroup.getVisibleParent(myMarker);
+  if(cluster != null) {
+    myMarkerGroup.refreshClusters(myMarker);
+  }
+}
+
 function make_markerGroup() {
+// var group=new L.FeatureGroup();
+//  return group;
 
-  var group=new L.FeatureGroup();
-  return group;
-
-  let iconsize=40;
+  window.console.log("   ==== creating a marker group ===");
+  let iconsize=7;
+  clusters_list=[];
+  clusters_cnt=0;
   var group=new L.markerClusterGroup(
         {
          maxClusterRadius: 1,
 	/* default: marker-cluster-small, marker-cluster  */
-/*
          iconCreateFunction: function(cluster) {
-          return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>',
-                          className: 'egd-cluster',
-                          iconSize: L.point(8, 8)  });
+
+           let zoom=mymap.getZoom();		   
+           if(zoom < 5) {
+	     iconsize=6;
+	     } else {
+                if(zoom > 12) {
+                   iconsize=16;
+                   } else {
+                      let t=(0.5714 * zoom * zoom) - (5.4 * zoom) +18.057;
+                      iconsize= (Math.round( t * 100))/100; 
+                }
+           }
+           //  if any of child is selected then use egd-cluster-highlight
+		 
+//window.console.log("adding through iconCreateFunction..>"+iconsize+"(zoom"+zoom+")");
+           let markerlist=cluster.getAllChildMarkers();
+           let sz=markerlist.length;
+           let selected=false;
+           for(let i=0; i<sz; i++) {
+	      let marker=markerlist[i];	 
+              if( EGD_SLIPRATE.isSiteSelected(marker) == true) {
+                selected=true;
+                break;
+              }
+           }
+
+           if(selected) {
+             return L.divIcon({html: '', className: 'egd-cluster-highlight', iconSize: L.point(iconsize,iconsize)});
+             } else {
+               return L.divIcon({html: '', className: 'egd-cluster', iconSize: L.point(iconsize,iconsize)});
+           }
          },
-*/
-//         spiderfyOnMaxZoom: false,
-//         showCoverageOnHover: false,
-//         zoomToBoundsOnClick: false
+//	 disableClusteringAtZoom: 8,
+//       spiderfyOnMaxZoom: false,
+         showCoverageOnHover: false,
+//       zoomToBoundsOnClick: false
         });
    return group;
-}
-
-function change_markerGroupIconSize(markers,nsize) {
-/* XXX NOT SURE
-  var icon = markers....icon;
-  var opt=icon.options;
-  icon.options.iconSize = [nsize,nsize];
-  markers....setIcon(icon);
-
-  markers.refreshCluster();
-*/
-
 }
 
 function setup_viewer()
@@ -254,6 +291,18 @@ v.style.width="35rem";
 // finally,
   return mymap;
 }
+
+
+// let marker = L.circleMarker([latitude, longitude], site_marker_style.normal);
+function makeLeafletCircleMarker(latlng, opt, cname=undefined) {
+
+  if(cname != undefined) { 
+    opt.className=cname; 
+  }
+  let marker= L.circleMarker(latlng, opt);
+  return marker;
+}
+
 
 function removeColorLegend() {
   mylegend.update();

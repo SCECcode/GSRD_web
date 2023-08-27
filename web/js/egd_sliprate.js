@@ -227,7 +227,7 @@ window.console.log( "generate the initial egd_layers");
                 let links = egd_sliprate_site_data[index].links;
                 let short_references = egd_sliprate_site_data[index].shortreferences;
 
-                let marker = L.circleMarker([latitude, longitude], site_marker_style.normal);
+                let marker = makeLeafletCircleMarker([latitude, longitude], site_marker_style.normal);
 
                 let site_info = `${fault_name}`;
 
@@ -307,10 +307,11 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
             site_marker_style.normal.radius=target;
             site_marker_style.hover.radius = (target *2) ;
 
-         this.egd_active_layers.eachLayer(function(layer){
+            this.egd_active_layers.eachLayer(function(layer){
               layer.setRadius(target);
-window.console.log("got Zoomed");
             });
+
+            refresh_markerGroup(this.egd_active_layers);
         };
 
         this.egd_active_layers.on('click', function(event) {
@@ -481,6 +482,10 @@ window.console.log("flyingBounds --recreateActiveLayer");
       layer.setRadius(site_marker_style.normal.radius);
     }
 
+    this.isSiteSelected = function (layer) {
+      return layer.scec_properties.selected;
+    }
+
 // select from currently active sites
     this.toggleSiteSelected = function(layer, clickFromMap=false) {
 
@@ -489,6 +494,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
         } else {
             layer.scec_properties.selected = !layer.scec_properties.selected;
         }
+
         if (layer.scec_properties.selected) {
             this.selectSiteByLayer(layer, clickFromMap);
             if(!clickFromMap) {  
@@ -499,6 +505,9 @@ window.console.log("flyingBounds --recreateActiveLayer");
         } else {
             this.unselectSiteByLayer(layer);
         }
+
+        refresh_markerGroupCluster(this.egd_active_layers, layer);
+
         return layer.scec_properties.selected;
     };
 
@@ -621,7 +630,6 @@ window.console.log("flyingBounds --recreateActiveLayer");
          window.console.log("this is bad.. not in selected list "+gid);
          return;
        }
-       window.console.log("=====remove from list "+gid);
        this.egd_selected_gid.splice(i,1);
        updateDownloadCounter(this.egd_selected_gid.length);
     };
@@ -1396,7 +1404,7 @@ window.console.log("setting up the maxrate slider ..");
            let s=layer.scec_properties;
            let name= s.fault_name + " | " +s.site_name;
 
-           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
+           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the site\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
            html=html+t;
         }
 

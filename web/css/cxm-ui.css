@@ -1,6 +1,13 @@
 /* egd */
 .egd-cluster {
     background-color: rgba(0,110,144,1);
+    border:solid 1px white;
+    border-radius: 30%;
+}
+.egd-cluster-highlight {
+    background-color: rgba(153,0,0,1);
+    border:solid 1px white;
+    border-radius: 30%;
 }
 
 div.legend .legend-label {

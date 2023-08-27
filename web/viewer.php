@@ -20,7 +20,6 @@ $egd_sliprate = new SLIPRATE();
     <link rel="stylesheet" href="css/vendor/jquery-ui.css">
     <link rel="stylesheet" href="css/vendor/glyphicons.css">
     <link rel="stylesheet" href="css/vendor/all.css">
-    <link rel="stylesheet" href="css/vendor/MarkerCluster.Default.css">
     <link rel="stylesheet" href="css/vendor/MarkerCluster.css">
     <link rel="stylesheet" href="css/cxm-ui.css?v=1">
 
