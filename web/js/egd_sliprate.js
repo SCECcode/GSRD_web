@@ -342,7 +342,14 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         // remove the old ones and remove from result table
         this.clearAllSelections()
         this.egd_active_layers.remove();
-        this.egd_active_layers= make_markerGroup();
+
+	var enableCluster=true;
+        if(this.searchingType == this.searchType.minrate
+            || this.searchingType == this.searchType.maxrate) {
+          enableCluster=false;
+        }
+
+        this.egd_active_layers= make_markerGroup(enableCluster);
         this.egd_active_gid=[];
         this.egd_active_markerLocations = [];
 
@@ -429,9 +436,44 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 
     };
 
+
 // recreate the original map state
 // original state  toOriginal use normal color
+// always recreate
     this.recreateActiveLayerGroup = function(toOriginal) {
+
+        var enableCluster=true;
+        if(this.searchingType == this.searchType.minrate
+            || this.searchingType == this.searchType.maxrate) {
+          enableCluster=false;
+        }
+
+        this.egd_active_layers= make_markerGroup(enableCluster);
+        this.egd_active_gid=[];
+        
+        for (let i=0; i< this.egd_layers.length; i++) {
+          let marker = this.egd_layers[i];
+          if (marker.hasOwnProperty("scec_properties")) {
+             let gid = marker.scec_properties.gid;
+
+             if(!toOriginal) {
+               this.replaceLayerColor(marker);
+             }
+             
+             this.egd_active_layers.addLayer(marker);
+             this.egd_active_gid.push(gid);
+             this.egd_active_markerLocations.push(marker.getLatLng())                      
+          }
+        }
+        replaceResultTableBodyWithGids(this.egd_active_gid);
+        this.egd_active_layers.addTo(viewermap);
+window.console.log("flyingBounds --recreateActiveLayer");
+        let bounds = L.latLngBounds(this.egd_active_markerLocations);
+        viewermap.flyToBounds(bounds, {maxZoom:16, padding:[10,10]});
+    }
+// recreate the original map state
+// original state  toOriginal use normal color
+    this.recreateActiveLayerGroup0 = function(toOriginal) {
 
         if(this.egd_active_gid.length != this.egd_layers.length 
                || this.searchingType == this.searchType.minrate
@@ -612,6 +654,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
     };
 
     this.upSelectedCount = function(gid) {
+//window.console.log("SELECT adding "+gid);
        let i=this.egd_selected_gid.indexOf(gid); 
        if(i != -1) {
          window.console.log("this is bad.. already in selected list "+gid);
@@ -622,6 +665,9 @@ window.console.log("flyingBounds --recreateActiveLayer");
     };
 
     this.downSelectedCount = function(gid) {
+//window.console.log("SELECT removing "+gid);
+       let tmp=this.egd_selected_gid;
+
        if(this.egd_selected_gid.length == 0) { // just ignore..
          return;
        }

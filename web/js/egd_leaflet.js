@@ -4,6 +4,8 @@
 This is leaflet specific utilities for EGD
 ***/
 
+var use_markerCluster = 0;
+
 var init_map_zoom_level = 6;
 var init_map_coordinates =  [37.73, -119.89];
 var drawing_rectangle = false;
@@ -84,30 +86,44 @@ function get_map()
 }
 
 function refresh_markerGroup(markers) {
-   markers.refreshClusters();
+   if(use_markerCluster) {
+     markers.refreshClusters();
+   }
 }
 
 function lookup_markerGroupCluster(myMarkerGroup, myMarker) {
-  var cluster = myMarkerGroup.getVisibleParent(myMarker);
-  if(cluster != null) {
-    window.console.log(cluster.getLatLng());
+  if(use_markerCluster) {  
+    var cluster = myMarkerGroup.getVisibleParent(myMarker);
+    if(cluster != null) {
+      window.console.log(cluster.getLatLng());
+    }
   }
 }
 
 //
 function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
 
-  let cluster = myMarkerGroup.getVisibleParent(myMarker);
-  if(cluster != null) {
-    myMarkerGroup.refreshClusters(myMarker);
+  if(use_markerCluster) {
+    let cluster = myMarkerGroup.getVisibleParent(myMarker);
+    if(cluster != null) {
+      myMarkerGroup.refreshClusters(myMarker);
+    }
   }
 }
 
-function make_markerGroup() {
-// var group=new L.FeatureGroup();
-//  return group;
+function make_markerGroup(enableCluster=true) {
 
-  window.console.log("   ==== creating a marker group ===");
+  window.console.log(" ===> a new markerGroup =====");
+  if(enableCluster) {
+    use_markerCluster=true;
+    } eles {
+      use_markerCluster=false;
+      window.console.log(" ==== creating a marker feature group ===");
+      var group=new L.FeatureGroup();
+      return group;
+  }
+
+  window.console.log(" ==== creating a marker cluster group ===");
   let iconsize=7;
   clusters_list=[];
   clusters_cnt=0;
