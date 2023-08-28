@@ -1090,15 +1090,15 @@ window.console.log("generateMetadataTable..");
 <tr>
         <th class="text-center button-container" style="width:2rem">
         </th>
-        <th class="hoverColor" style="width:3rem" >EGD ID<span></span></th>
+        <th class="hoverColor" style="width:2rem" >EGD ID<span></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:8rem">Fault Name&nbsp;<span id='sortCol_2' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:8rem">Site Name&nbsp;<span id='sortCol_3' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:8rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:6rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:10rem">CFM6 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:8rem; border-right-color:transparent;">&nbsp;&nbsp;References&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
-        <th style="width:6em;border-left-color:transparent;"><div class="text-center">
+        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:16rem">CFM6 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:2rem; border-right-color:transparent;">&nbsp;&nbsp;References&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th style="width:13rem;border-left-color:transparent;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
