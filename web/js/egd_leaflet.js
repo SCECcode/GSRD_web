@@ -137,16 +137,14 @@ function make_markerGroup(enableCluster=true) {
            if(zoom < 5) {
 	     iconsize=6;
 	     } else {
-                if(zoom > 12) {
+                if(zoom > 10) {
                    iconsize=16;
                    } else {
-                      let t=(0.5714 * zoom * zoom) - (5.4 * zoom) +18.057;
+                      let t=(0.2637 * zoom * zoom) - (1.978 * zoom) + 9.4032;
                       iconsize= (Math.round( t * 100))/100; 
                 }
            }
-           //  if any of child is selected then use egd-cluster-highlight
-		 
-//window.console.log("adding through iconCreateFunction..>"+iconsize+"(zoom"+zoom+")");
+//window.console.log(" RESIZE: icon zoom<"+zoom+"> size "+iconsize);
            let markerlist=cluster.getAllChildMarkers();
            let sz=markerlist.length;
            let selected=false;
@@ -158,11 +156,16 @@ function make_markerGroup(enableCluster=true) {
               }
            }
 
+
+
+// https://lightrun.com/answers/leaflet-leaflet-markercluster-question-cluster-tooltip#:~:text=This%20code%20seems%20still%20functional%20with%20Leaflet%201.4.0,%7D%29.on%20%28%27clustermouseout%27%2C%20function%20%28ev%29%20%7B%20ev.propagatedFrom.unbindTooltip%20%28%29%3B%20%7D%29%3B
+           var clusterIcon;
            if(selected) {
-             return L.divIcon({html: '', className: 'egd-cluster-highlight', iconSize: L.point(iconsize,iconsize)});
+             clusterIcon=L.divIcon({html: '', className: 'egd-cluster-highlight', iconSize: L.point(iconsize,iconsize)});
              } else {
-               return L.divIcon({html: '', className: 'egd-cluster', iconSize: L.point(iconsize,iconsize)});
+               clusterIcon=L.divIcon({html: '', className: 'egd-cluster', iconSize: L.point(iconsize,iconsize)});
            }
+           return clusterIcon;
          },
 //	 disableClusteringAtZoom: 8,
 //       spiderfyOnMaxZoom: false,

@@ -307,6 +307,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
             site_marker_style.normal.radius=target;
             site_marker_style.hover.radius = (target *2) ;
 
+//window.console.log(" RESIZE: marker zoom("+zoom+") radius "+target);
             this.egd_active_layers.eachLayer(function(layer){
               layer.setRadius(target);
             });
