@@ -116,7 +116,7 @@ function make_markerGroup(enableCluster=true) {
   window.console.log(" ===> a new markerGroup =====");
   if(enableCluster) {
     use_markerCluster=true;
-    } eles {
+    } else {
       use_markerCluster=false;
       window.console.log(" ==== creating a marker feature group ===");
       var group=new L.FeatureGroup();

@@ -349,6 +349,10 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
           enableCluster=false;
         }
 
+        if(this.egd_active_gid.length != 0) {
+          this.egd_active_layers.remove();
+        }
+
         this.egd_active_layers= make_markerGroup(enableCluster);
         this.egd_active_gid=[];
         this.egd_active_markerLocations = [];
@@ -446,6 +450,10 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         if(this.searchingType == this.searchType.minrate
             || this.searchingType == this.searchType.maxrate) {
           enableCluster=false;
+        }
+
+        if(this.egd_active_gid.length != 0) {
+          this.egd_active_layers.remove();
         }
 
         this.egd_active_layers= make_markerGroup(enableCluster);
