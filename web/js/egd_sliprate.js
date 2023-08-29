@@ -82,7 +82,7 @@ fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
 state: 'State',
 site_name: 'Site Name',
-egd_id: 'EGD ID',
+egd_id: 'Site ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
 latitud: 'Latitude',
@@ -1095,7 +1095,7 @@ window.console.log("generateMetadataTable..");
 <tr>
         <th class="text-center button-container" style="width:2rem">
         </th>
-        <th class="hoverColor" style="width:2rem" >EGD ID<span></span></th>
+        <th class="hoverColor" style="width:2rem" >SITE ID<span></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:8rem">Fault Name&nbsp;<span id='sortCol_2' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:8rem">Site Name&nbsp;<span id='sortCol_3' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:6rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>

@@ -9,7 +9,7 @@ $egd_sliprate = new SLIPRATE();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Earthquake Geology Database (Provisional)</title>
+    <title>Earthquake Geology Data Web Tool (Provisional)</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/vendor/font-awesome.min.css">
@@ -126,10 +126,10 @@ $egd_sliprate = new SLIPRATE();
 
 <!-- top-intro -->
    <div id="top-intro" style="display:">
-<p>The <a href="https://www.scec.org/research/egd">SCEC Earthquake Geology Database (EGD)</a>
+<p>The <a href="https://www.scec.org/research/egd">SCEC Earthquake Geology Data (EGD)</a>
 currently consists of a set of georegistered sites where geologic estimates of fault slip rates 
-have been estimated. To simplify browsing and downloading EGD data, the web tool below provide
-a two-dimensional map-based view of the EGD. The EGD can be queried based on fault or site name,
+have been estimated. To simplify browsing and downloading Slip Rate Database, the web tool below provide
+a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database can be queried based on fault or site name,
 and minimum/maximum slip rate, or by individually clicking on points on the map. Once sites are 
 selected, they are added to the list below the map interface with selected metadata shown. The 
 complete metadata for all selected sites can be downloaded (in .csv format) with the 
@@ -152,9 +152,9 @@ usage instructions.<br></p>
 
           <div class="row mb-1">
              <form id="id_select_dataset">
-               <label for="dataset"> Choose EGD Dataset : </label>
+               <label for="dataset"> Choose Dataset : </label>
                <label><input type="radio" id="dataset_sliprate" name=dataset />
-                        <span>Slip Rate Sites</span></label>
+                        <span>Slip Rate Data</span></label>
 <!--
                <label><input type="radio" id="dataset_chronology" name=dataset />
                         <span>Chronology sites</span></label>
