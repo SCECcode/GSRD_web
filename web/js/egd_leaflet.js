@@ -156,9 +156,6 @@ function make_markerGroup(enableCluster=true) {
               }
            }
 
-
-
-// https://lightrun.com/answers/leaflet-leaflet-markercluster-question-cluster-tooltip#:~:text=This%20code%20seems%20still%20functional%20with%20Leaflet%201.4.0,%7D%29.on%20%28%27clustermouseout%27%2C%20function%20%28ev%29%20%7B%20ev.propagatedFrom.unbindTooltip%20%28%29%3B%20%7D%29%3B
            var clusterIcon;
            if(selected) {
              clusterIcon=L.divIcon({html: '', className: 'egd-cluster-highlight', iconSize: L.point(iconsize,iconsize)});
@@ -172,6 +169,9 @@ function make_markerGroup(enableCluster=true) {
          showCoverageOnHover: false,
 //       zoomToBoundsOnClick: false
         });
+
+// https://lightrun.com/answers/leaflet-leaflet-markercluster-question-cluster-tooltip#:~:text=This%20code%20seems%20still%20functional%20with%20Leaflet%201.4.0,%7D%29.on%20%28%27clustermouseout%27%2C%20function%20%28ev%29%20%7B%20ev.propagatedFrom.unbindTooltip%20%28%29%3B%20%7D%29%3B
+//
    return group;
 }
 

@@ -312,8 +312,9 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
               layer.setRadius(target);
             });
 
-            refresh_markerGroup(this.egd_active_layers);
         };
+
+         
 
         this.egd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
@@ -643,6 +644,10 @@ window.console.log("flyingBounds --recreateActiveLayer");
         } else {
             this.clearSelectAll();
         }
+
+	//XX  need to trigger update of the markerCluster
+        refresh_markerGroup(this.egd_active__layers);
+       
     };
 
 // selectAll button  - clear
