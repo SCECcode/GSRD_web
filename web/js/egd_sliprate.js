@@ -123,7 +123,7 @@ full_references: 'Full References'
     };
 
 /********** create legend functions *********************/
-// a layer is always generated with the full set of legend bins
+// a view is always generated with the full set of legend bins
 function _legendoptioncolor(color) {
     var html="<li><span class=\"color\" style=\"background-color: "+color+"\"></span></li>";
     return html;
@@ -305,6 +305,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                return;
             }
             site_marker_style.normal.radius=target;
+            site_marker_style.selected.radius=target;
             site_marker_style.hover.radius = (target *2) ;
 
 //window.console.log(" RESIZE: marker zoom("+zoom+") radius "+target);
@@ -580,6 +581,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
 
     this.selectSiteByLayer = function (layer, moveTableRow=false) {
         layer.scec_properties.selected = true;
+// XXX radius have to match the zoom
         layer.setStyle(site_marker_style.selected);
         let gid = layer.scec_properties.gid;
 
@@ -758,7 +760,19 @@ window.console.log("calling reset");
         $("#egd-search-type").val("");
     };
 
-// reset just the search only
+    this.pauseSearch = function () {
+
+        this.resetMinrate();
+        this.resetMaxrate();
+        this.resetLatLon();
+        this.resetFaultname();
+        this.resetSitename();
+
+        // ?? not sure if need this,
+	this.searchingType = this.searchType.none;
+    }
+
+// reset complete search only
     this.resetSearch = function (){
 
 window.console.log("sliprate calling --->> resetSearch.");

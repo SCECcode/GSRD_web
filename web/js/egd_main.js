@@ -100,10 +100,13 @@ window.console.log("        again with("+str+")");
 
   $("#egd-search-type").on('change', function () {
       let type=$(this).val();
-  window.console.log( "initiate a search session...",type);
+  window.console.log( "Initiate a search session...",type);
       if(type != "") {
         EGD_SLIPRATE.freshSearch(type);
+        } else {
+          EGD_SLIPRATE.pauseSearch();
       }
+
   });
 
 

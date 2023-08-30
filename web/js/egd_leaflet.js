@@ -9,6 +9,7 @@ var use_markerCluster = 0;
 var init_map_zoom_level = 6;
 var init_map_coordinates =  [37.73, -119.89];
 var drawing_rectangle = false;
+var marker_cluster_cnt=0;
 
 var scecAttribution ='<a href="https://www.scec.org">SCEC</a>';
 
@@ -110,13 +111,13 @@ function make_markerGroup(enableCluster=true) {
       use_markerCluster=false;
       window.console.log(" ==== creating a marker feature group ===");
       var group=new L.FeatureGroup();
+      group.egd_cluster_cnt=0;
       return group;
   }
 
   window.console.log(" ==== creating a marker cluster group ===");
   let iconsize=7;
-  clusters_list=[];
-  clusters_cnt=0;
+  marker_cluster_cnt=0;
   var group=new L.markerClusterGroup(
         {
          maxClusterRadius: 1,
@@ -134,7 +135,7 @@ function make_markerGroup(enableCluster=true) {
                       iconsize= (Math.round( t * 100))/100; 
                 }
            }
-//window.console.log(" RESIZE: icon zoom<"+zoom+"> size "+iconsize);
+window.console.log( "I am a cluster at >>"+marker_cluster_cnt++);
            let markerlist=cluster.getAllChildMarkers();
            let sz=markerlist.length;
            let selected=false;
@@ -160,16 +161,20 @@ function make_markerGroup(enableCluster=true) {
 //       zoomToBoundsOnClick: false
         });
 
+	//  ev=event
 	group.on('clustermouseover',
 		function(ev) { 
                         let tmp=ev;
                         let cluster=ev.layer;
                         let desc = "contains "+cluster.getAllChildMarkers().length + " slip rate sites,<br>click to expand";
-			ev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip()})
+			ev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip();
+                        window.console.log("OPEN tooltip for a cluster..");
+		        })
              .on('clustermouseout', 
                 function(ev) {ev.propagatedFrom.unbindTooltip(); });
 
-//	setTimeout(ev.propagatedFrom.unbindTooltip(),500); });
+//	setTimeout(ev.propagatedFrom.unbindTooltip(),500); 
+   group.egd_cluster_cnt=marker_cluster_cnt;
    return group;
 }
 
