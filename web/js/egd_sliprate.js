@@ -229,9 +229,9 @@ window.console.log( "generate the initial egd_layers");
 
                 let marker = makeLeafletCircleMarker([latitude, longitude], site_marker_style.normal);
 
-                let site_info = `${fault_name}`;
+                let site_info = `${fault_name}`+" | "+`${site_name}`;
 
-marker.bindTooltip(site_info).openTooltip();
+                marker.bindTooltip(site_info).openTooltip();
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
             //
                  let reflinkstr= _makeLinksWithReferences(links,short_references);
@@ -645,9 +645,6 @@ window.console.log("flyingBounds --recreateActiveLayer");
             this.clearSelectAll();
         }
 
-	//XX  need to trigger update of the markerCluster
-        refresh_markerGroup(this.egd_active__layers);
-       
     };
 
 // selectAll button  - clear
@@ -1478,7 +1475,7 @@ window.console.log("setting up the maxrate slider ..");
 <thead>
 <tr>
    <th class='text-center'><button id=\"egd-allBtn\" class=\"btn btn-sm cxm-small-btn\" title=\"select all visible sliprate sites\" onclick=\"EGD_SLIPRATE.toggleSelectAll();\"><span class=\"glyphicon glyphicon-unchecked\"></span></button></th>
-<th class='myheader'>EGD Site Location ( fault | site )</th>
+<th class='myheader'>Slip Rate Site ( fault | site )</th>
 </tr>
 </thead>`;
         var body=makeResultTableBody(json);

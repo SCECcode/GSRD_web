@@ -19,7 +19,7 @@ $header = getHeader("User Guide");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Database Web Tool: User Guide</title>
+    <title>Earthquake Geology Data Web Tool: User Guide</title>
 </head>
 <body>
 <?php echo $header; ?>
@@ -34,22 +34,23 @@ $header = getHeader("User Guide");
                 <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of EGD web tool interface">
                 <figcaption class="figure-caption">Screen capture of EGD web tool interface</figcaption>
             </figure>
-            <h4><strong>Earthquake Geology Database Overview</strong></h4>
+            <h4><strong>Earthquake Geology Data Overview</strong></h4>
 
-	    <p>The EGM web tool provide interactive map-based views of the EGD 
-	       source data. The web tool allow users to search and view the EGD
+	    <p>The 
+EGD web tool provide interactive map-based views of the Slip Rate Database 
+	       source data. The web tool allow users to search and view the Slip Rate Database
 	       archive using the pull-down menu near the top left of the interface 
-	       without having to download the entire EGD archive. The pages on 
+	       without having to download the entire Slip Rate Database archive. The pages on 
 	       this site include the main
                <a href="<?php echo $host_site_actual_path; ?>">EGD web tool page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
                <a href="contact">contact information</a> page.</p>
 
 	    <p>The main EGD interface is on the web tool page. When first loaded, 
-	       all EGD sites are listed on the left side of the screen (labeled by
+	       all Slip Rate sites are listed on the left side of the screen (labeled by
 	       fault name | site name) and shown on the interactive map interface 
 	       (with blue circles) on the right side of the page. Users can click
-	       on the checkboxes in the EGD site table to select specific sites or 
+	       on the checkboxes in the Slip Rate site table to select specific sites or 
 	       click on sites directly on the map (See Viewing and Downloading Metadata 
 	       below for more details). Sites can be removed from the list at the 
 	       bottom of the interface by clicking on the trash can icon, or all 
@@ -57,7 +58,7 @@ $header = getHeader("User Guide");
                left of the interface.</p>
 
 	    <p>The interactive map on the right displays the geographic location of 
-	       each EGD site. In the top right corner of the interactive map, there 
+	       each Slip Rate site. In the top right corner of the interactive map, there 
 	       is a pull-down menu that allows the basemap to be changed. By default,
 	       the basemap shown is
 	       <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ESRI Topographic</a>, but
@@ -93,7 +94,7 @@ $header = getHeader("User Guide");
 	       Users can either enter the latitude/longitude values in the text boxes 
 	       (bottom left first, followed by top right corners of a bounding rectangle),
 	       or simply click and drag on the map to draw a bounding rectangle. In either
-	       case, any portion of an EGD site that lies within the bounding rectangle will
+	       case, any portion of an Slip Rate site that lies within the bounding rectangle will
 	       appear in the search results at the left side of the interface. These search 
 	       results can be added to the download table at the bottom of the interface by
 	       clicking on the checkbox next to the site name, or all sites can be added by
@@ -104,12 +105,12 @@ $header = getHeader("User Guide");
 
             <h4><strong>Downloading and Using Data</strong></h4>
 
-	    <p>EGD metadata files in CSV format are available for download from this site. 
-	       First, select the desired EGD sites by clicking on individual circles on the 
+	    <p>Slip Rate Database metadata files in CSV format are available for download from this site. 
+	       First, select the desired Slip Rate sites by clicking on individual circles on the 
 	       map, or using the search methods discussed earlier in this guide. Selected 
 	       sites are highlighted in red on the map when clicked and key metadata for 
 	       the selected site(s) appears in the table at the bottom of the interface. 
-	       When available, references for the EGD are provided as clickable hyperlinks 
+	       When available, references for the Slip Rate Site are provided as clickable hyperlinks 
 	       that link directly to the source publications/resources. Click on the 
 	       “DOWNLOAD ALL DATA” button to download a CSV file with the complete metadata 
 	       for every selected site. CSV files are plain text (ASCII) and can also be directly

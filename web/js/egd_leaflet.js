@@ -91,16 +91,6 @@ function refresh_markerGroup(markers) {
    }
 }
 
-function lookup_markerGroupCluster(myMarkerGroup, myMarker) {
-  if(use_markerCluster) {  
-    var cluster = myMarkerGroup.getVisibleParent(myMarker);
-    if(cluster != null) {
-      window.console.log(cluster.getLatLng());
-    }
-  }
-}
-
-//
 function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
 
   if(use_markerCluster) {
@@ -170,8 +160,16 @@ function make_markerGroup(enableCluster=true) {
 //       zoomToBoundsOnClick: false
         });
 
-// https://lightrun.com/answers/leaflet-leaflet-markercluster-question-cluster-tooltip#:~:text=This%20code%20seems%20still%20functional%20with%20Leaflet%201.4.0,%7D%29.on%20%28%27clustermouseout%27%2C%20function%20%28ev%29%20%7B%20ev.propagatedFrom.unbindTooltip%20%28%29%3B%20%7D%29%3B
-//
+	group.on('clustermouseover',
+		function(ev) { 
+                        let tmp=ev;
+                        let cluster=ev.layer;
+                        let desc = "contains "+cluster.getAllChildMarkers().length + " slip rate sites,<br>click to expand";
+			ev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip()})
+             .on('clustermouseout', 
+                function(ev) {ev.propagatedFrom.unbindTooltip(); });
+
+//	setTimeout(ev.propagatedFrom.unbindTooltip(),500); });
    return group;
 }
 
@@ -269,7 +267,6 @@ function setup_viewer()
   function onMapZoom(e) { 
     var zoom=mymap.getZoom();
 window.console.log("map got zoomed..>>",zoom);
-//XXX   need to resize the marker circle
     EGD_SLIPRATE.gotZoomed(zoom);
   }
 
@@ -291,7 +288,7 @@ window.console.log("map got zoomed..>>",zoom);
         var ne=loclist[2];
         add_bounding_rectangle_layer(layer,sw['lat'],sw['lng'],ne['lat'],ne['lng']);
         mymap.addLayer(layer);
-// XX CHECK, the rectangle created on the mapview does not seem to 'confirm'
+// ??? CHECK, the rectangle created on the mapview does not seem to 'confirm'
 // like hand inputed rectangle. Maybe some property needs to be set
 // For now, just redraw the rectangle
         EGD_SLIPRATE.searchLatlon(1,latlngs);        
