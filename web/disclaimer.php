@@ -18,7 +18,7 @@ $header = getHeader("Disclaimer");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Data Web Tool: Disclaimer</title>
+    <title>Geologic Slip Rate Database Explorer: Disclaimer</title>
 </head>
 <body>
 <?php echo $header; ?>
@@ -28,9 +28,9 @@ $header = getHeader("Disclaimer");
     <h1>Disclaimer</h1>
 
     <div>
-		<p>The Earthquake Geology Data Web Tool is provided “as is” and without warranties of any kind. While <a href="https://www.scec.org">SCEC</a> and the <a href="https://www.scec.org/research/egd">the EGD development team</a> have made every effort to provide data from reliable sources or methodologies, SCEC and the EGD development team do not make any representations or warranties as to the accuracy, completeness, reliability, currency, or quality of any data provided herein. SCEC and the EGD development team do not intend the results provided by this tool to replace the sound judgment of a competent professional, who has knowledge and experience in the appropriate field(s) of practice. By using this tool, you accept to release SCEC and the EGD development team of any and all liability.</p>
+		<p>The Geologic Slip Rate Database(GSRD) Explorer is provided “as is” and without warranties of any kind. While <a href="https://www.scec.org">SCEC</a> and the <a href="https://www.scec.org/research/gsrd">the GSRD development team</a> have made every effort to provide data from reliable sources or methodologies, SCEC and the GSRD development team do not make any representations or warranties as to the accuracy, completeness, reliability, currency, or quality of any data provided herein. SCEC and the GSRD development team do not intend the results provided by this tool to replace the sound judgment of a competent professional, who has knowledge and experience in the appropriate field(s) of practice. By using this tool, you accept to release SCEC and the GSRD development team of any and all liability.</p>
 
-		<p>More information about the EGD can be found at: <a href="https://www.scec.org/research/egd">https://www.scec.org/research/egd</a>.</p>
+		<p>More information about the GSRD can be found at: <a href="https://www.scec.org/research/gsrd">https://www.scec.org/research/gsrd</a>.</p>
 	</div>
 </div>
 </body>

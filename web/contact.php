@@ -19,7 +19,7 @@ $header = getHeader("Contact");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Database Web Tool: Contact</title>
+    <title>Geologic Slip Rate Database Explorer: Contact</title>
 </head>
 <body>
 <?php echo $header; ?>

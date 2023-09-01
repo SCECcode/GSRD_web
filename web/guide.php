@@ -26,26 +26,26 @@ $header = getHeader("User Guide");
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>Earthquake Geology Data Web Tool User Guide</h1>
+    <h1>Geologic Slip Rate Database Explorer User Guide</h1>
 
     <div class="row">
         <div class="col-12">
             <figure class="cxm-interface figure float-lg-right">
-                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Earthquake Geology Data web tool interface">
-                <figcaption class="figure-caption">Screen capture of Earthquake Geology Data web tool interface</figcaption>
+                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
+                <figcaption class="figure-caption">Screen capture of Geologic Slip Rate Database Explorer interface</figcaption>
             </figure>
-            <h4><strong>Earthquake Geology Data Overview</strong></h4>
+            <h4><strong>Geologic Slip Rate Database Explorer Overview</strong></h4>
 
-	    <p>The Earthquake Geology Data web tool provide interactive map-based views of the Slip Rate Database 
-	       source data. The web tool allow users to search and view the Slip Rate Database
+	    <p>The Geologic Slip Rate Database Explorer provide interactive map-based views of the Slip Rate Database 
+	       source data. The explorer allow users to search and view the Slip Rate Database
 	       archive using the pull-down menu near the top left of the interface 
 	       without having to download the entire Slip Rate Database archive. The pages on 
 	       this site include the main
-               <a href="<?php echo $host_site_actual_path; ?>">Earthquake Geology Data web tool page</a>, 
+               <a href="<?php echo $host_site_actual_path; ?>">Geologic Slip Rate Database Explorer page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
                <a href="contact">contact information</a> page.</p>
 
-	    <p>The main Slip Rate Database interface is on the web tool page. When first loaded, 
+	    <p>The main Slip Rate Database Explorer interface is on the explorer page. When first loaded, 
 	       all Slip Rate Database sites are listed on the left side of the screen (labeled by
 	       fault name | site name) and shown on the interactive map interface 
 	       (with blue circles) on the right side of the page. Users can click
@@ -81,7 +81,7 @@ $header = getHeader("User Guide");
 
             <h4><strong>Searching/Querying the Slip Rate Database</strong></h4>
 
-	    <p>???The Slip Rate Database web tool provide several search criteria, including fault name,
+	    <p>The Geologic Slip Rate Database Explorer provide several search criteria, including fault name,
 	       latitude/longitude, low rate, and high rate. Most Slip Rate Database sites do not have 
 	       a “preferred” rate, so there is no search by preferred rate option. 
 	       Once a search type is selected, additional controls will appear in the form 
@@ -133,7 +133,7 @@ $header = getHeader("User Guide");
                <a href="https://www.apple.com/safari/">Safari</a>.</p>
 
 	    <p>More information including a complete model archive can be found at:
-               <a href="https://www.scec.org/research/egd">https://www.scec.org/research/egd</a>.</p>
+               <a href="https://www.scec.org/research/gsrd">https://www.scec.org/research/gsrd</a>.</p>
 
         </div>
     </div>
