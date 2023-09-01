@@ -1,14 +1,42 @@
 
-https://docs.google.com/document/d/1ttGzfHRK9twlNaZDb54CMCdfgR-rgneqMak9uRguAEs/edit
+https://www.sciencebase.gov/catalog/item/5fe1149ad34e30b9123f0160
+
+geologic slip rate database
+
+--------
+geologic slip rate database explorer
 
 
-slip rate sites
+gsrd
 
-We need the web tool to have the ability to search by the following columns
-lon/lat
-fault name (keyword)
-site name (keyword)
-minRate
-maxRate
+
+2023-09-01 - Group Discussion About Slip Rate Database Release
+Several important issues have come up that need to be resolved before we can move forward. These are important things to discuss, so I am glad they came up.
+
+What should we name the Slip Rate Database?
+Geologic Slip Rate Database
+Earthquake Geology Database (but this is just one component)
+Something else?
+Do we need to avoid acronyms?
+Can we/should we change the abstract title for our poster?
+
+What about the Earthquake Geology Data Warehouse idea?
+Could be organized like CXM. One homepage, that links to the separate databases.
+If yes, who do we list on the right side, and what is their role? Could we leave the right side box off for now?
+We could add PBR’s, Chronology Data, and Vertical Motion
+
+Are there remaining issues for the Slip Rate Database homepage?
+
+Are there remaining issues for the Slip Rate Web Tool or User Guide?
+What should we call the web tools? Web tool? Viewer? Explorer?
+Geologic Slip Rate Database Viewer
+Geologic Slip Rate Database Explorer
+
+
+This applies to various CXM web tools as well (after annual meeting)
+
+Should I keep a unique ID for each site?
+This is easy now, but will get more complex as time goes on.
+Yes. Call it “Identifier”
 
 
