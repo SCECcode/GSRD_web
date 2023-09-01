@@ -232,9 +232,9 @@ window.console.log( "generate the initial egd_layers");
                 let site_info = `${fault_name}`+" | "+`${site_name}`;
 
                 marker.bindTooltip(site_info).openTooltip();
+
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
-            //
-                 let reflinkstr= _makeLinksWithReferences(links,short_references);
+                let reflinkstr= _makeLinksWithReferences(links,short_references);
 
 marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
 
@@ -319,6 +319,8 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 
         this.egd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
+               let layer=event.layer;
+               layer.unbindTooltip();
                EGD_SLIPRATE.toggleSiteSelected(event.layer, true);
             }
         });

@@ -101,6 +101,10 @@ function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
     }
   }
 }
+function _unbindClusterTooltip(ev) {
+  ev.propagatedFrom.unbindTooltip();
+window.console.log("CLOSE tooltip for a cluster..");
+}
 
 function make_markerGroup(enableCluster=true) {
 
@@ -149,9 +153,19 @@ window.console.log( "I am a cluster at >>"+marker_cluster_cnt++);
 
            var clusterIcon;
            if(selected) {
-             clusterIcon=L.divIcon({html: '', className: 'egd-cluster-highlight', iconSize: L.point(iconsize,iconsize)});
+             clusterIcon=L.divIcon(
+		{
+		 html: '',
+	  	 className: 'egd-cluster-highlight',
+		 iconSize: L.point(iconsize,iconsize)
+		});
              } else {
-               clusterIcon=L.divIcon({html: '', className: 'egd-cluster', iconSize: L.point(iconsize,iconsize)});
+               clusterIcon=L.divIcon(
+                {
+                html: '',
+		className: 'egd-cluster',
+		iconSize: L.point(iconsize,iconsize)
+		});
            }
            return clusterIcon;
          },
@@ -161,19 +175,25 @@ window.console.log( "I am a cluster at >>"+marker_cluster_cnt++);
 //       zoomToBoundsOnClick: false
         });
 
-	//  ev=event
+//	ev=event
 	group.on('clustermouseover',
 		function(ev) { 
-                        let tmp=ev;
-                        let cluster=ev.layer;
-                        let desc = "contains "+cluster.getAllChildMarkers().length + " slip rate sites,<br>click to expand";
-			ev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip();
-                        window.console.log("OPEN tooltip for a cluster..");
-		        })
-             .on('clustermouseout', 
-                function(ev) {ev.propagatedFrom.unbindTooltip(); });
+                    var myev=ev;
+                    let cluster=myev.layer;
+//refreshIconOptions(options, directlyRefreshClusters)
+//cluster.refreshiconOptions( { iconsize:L.point(20,20) }, true);
+                    let desc = "contains "+cluster.getAllChildMarkers().length + " slip rate sites,<br>click to expand";
+                    myev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip();
+window.console.log("OPEN tooltip for a cluster..");
+		    setTimeout(function() {_unbindClusterTooltip(myev)},1000);
+                    });
+         group.on('clustermouseout', 
+		 function(ev) {
+                    var myev=ev;
+                    let cluster=myev.layer;
+                    //myev.propagatedFrom.unbindTooltip();
+                    });
 
-//	setTimeout(ev.propagatedFrom.unbindTooltip(),500); 
    group.egd_cluster_cnt=marker_cluster_cnt;
    return group;
 }

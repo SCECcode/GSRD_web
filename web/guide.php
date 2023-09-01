@@ -26,22 +26,22 @@ $header = getHeader("User Guide");
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>Slip Rate Database Web Tool User Guide</h1>
+    <h1>Earthquake Geology Data Web Tool User Guide</h1>
 
     <div class="row">
         <div class="col-12">
             <figure class="cxm-interface figure float-lg-right">
-                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Slip Rate Database web tool interface">
-                <figcaption class="figure-caption">Screen capture of Slip Rate Database web tool interface</figcaption>
+                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Earthquake Geology Data web tool interface">
+                <figcaption class="figure-caption">Screen capture of Earthquake Geology Data web tool interface</figcaption>
             </figure>
             <h4><strong>Earthquake Geology Data Overview</strong></h4>
 
-	    <p>The Slilp Rate Database web tool provide interactive map-based views of the Slip Rate Database 
+	    <p>The Earthquake Geology Data web tool provide interactive map-based views of the Slip Rate Database 
 	       source data. The web tool allow users to search and view the Slip Rate Database
 	       archive using the pull-down menu near the top left of the interface 
 	       without having to download the entire Slip Rate Database archive. The pages on 
 	       this site include the main
-               <a href="<?php echo $host_site_actual_path; ?>">Slip Rate Database web tool page</a>, 
+               <a href="<?php echo $host_site_actual_path; ?>">Earthquake Geology Data web tool page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
                <a href="contact">contact information</a> page.</p>
 
@@ -81,7 +81,7 @@ $header = getHeader("User Guide");
 
             <h4><strong>Searching/Querying the Slip Rate Database</strong></h4>
 
-	    <p>The Slip Rate Database web tool provide several search criteria, including fault name,
+	    <p>???The Slip Rate Database web tool provide several search criteria, including fault name,
 	       latitude/longitude, low rate, and high rate. Most Slip Rate Database sites do not have 
 	       a “preferred” rate, so there is no search by preferred rate option. 
 	       Once a search type is selected, additional controls will appear in the form 
