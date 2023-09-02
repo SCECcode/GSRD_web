@@ -1,7 +1,7 @@
 <?php
-require_once("EGD_SLIPRATE.php");
+require_once("GSRD_SLIPRATE.php");
 
-$egd_sliprate = new SLIPRATE();
+$gsrd_sliprate = new SLIPRATE();
 
 $type = $_REQUEST["t"];
 $criteria = json_decode($_REQUEST["q"]);
@@ -17,7 +17,7 @@ if (is_object($criteria[0])) {
 //print_r($criteria);exit;
 
 try {
-    print $egd_sliprate->search($type, $criteria)->outputJSON();
+    print $gsrd_sliprate->search($type, $criteria)->outputJSON();
 } catch (BadFunctionCallException $e) {
-    print "egd_sliprate search error";
+    print "gsrd_sliprate search error";
 }

@@ -1,26 +1,26 @@
 /***
-   egd_sliprate.js
+   gsrd.js
 
 http://leaflet.github.io/Leaflet.markercluster/#examples
 https://stackoverflow.com/questions/22168558/multiple-markers-on-the-exact-same-position-on-a-leaflet-map
 ***/
 
-var EGD_SLIPRATE = new function () {
-    window.console.log("in EGD_SLIPRATE..");
+var GSRD_SLIPRATE = new function () {
+    window.console.log("in GSRD_SLIPRATE..");
 
     // complete set of sliprate layers, one marker layer for one site, 
     // setup once from viewer.php
-    this.egd_layers;
-    this.egd_markerLocations = [];
+    this.gsrd_layers;
+    this.gsrd_markerLocations = [];
 
     // searched layers being actively looked at -- result of a search
-    this.egd_active_layers = make_markerGroup();
-    this.egd_active_markerLocations = [];
-    this.egd_active_gid = [];
+    this.gsrd_active_layers = make_markerGroup();
+    this.gsrd_active_markerLocations = [];
+    this.gsrd_active_gid = [];
 
     // selected some layers from active layers
     // to be displayed at the metadata_table
-    this.egd_selected_gid = [];
+    this.gsrd_selected_gid = [];
 
     /* special case, track if last freshSearch was for minrate/maxrate
        value:"esri topo", "esri imagery", "jawg light", "jawg dark",
@@ -28,10 +28,10 @@ var EGD_SLIPRATE = new function () {
     this.track_basemap = undefined;
 
     // locally used, floats
-    this.egd_minrate_min=undefined;
-    this.egd_minrate_max=undefined;
-    this.egd_maxrate_min=undefined;
-    this.egd_maxrate_max=undefined;
+    this.gsrd_minrate_min=undefined;
+    this.gsrd_minrate_max=undefined;
+    this.gsrd_maxrate_min=undefined;
+    this.gsrd_maxrate_max=undefined;
 
     var site_colors = {
         normal: '#006E90', // original
@@ -82,7 +82,7 @@ fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
 state: 'State',
 site_name: 'Site Name',
-egd_id: 'ID',
+gsrd_id: 'ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
 latitud: 'Latitude',
@@ -118,7 +118,7 @@ full_references: 'Full References'
         activeProduct = Products.SLIPRATE;
         this.showOnMap();
         $("div.control-container").hide();
-        $("#egd-controls-container").show();
+        $("#gsrd-controls-container").show();
 
     };
 
@@ -137,7 +137,7 @@ function _legendoptionlabel(label) {
 this.setupSliprateLegend = function(legendinfo) {
 window.console.log("setting up color legend..");
     if(jQuery.isEmptyObject(legendinfo)) {
-        $('#egd-main-legend').css('display','none');
+        $('#gsrd-main-legend').css('display','none');
         return;
     }
 
@@ -162,15 +162,15 @@ window.console.log("setting up color legend..");
     lhtml=_legendoptionlabel(labellist[n])+lhtml;
 
     chtml="<ul>"+chtml+"</ul>";
-    $("#egd-legend-color").html(chtml);
+    $("#gsrd-legend-color").html(chtml);
 
     lhtml="<ul>"+lhtml+"</ul>";
-    $("#egd-legend-label").html(lhtml);
+    $("#gsrd-legend-label").html(lhtml);
 
     // update the title to legend,
-    $("#egd-legend-title").html("mm/yr");
+    $("#gsrd-legend-title").html("mm/yr");
 
-    $('#egd-main-legend').css('display','');
+    $('#gsrd-main-legend').css('display','');
 }
 
 /********** show layer/select functions *********************/
@@ -200,32 +200,32 @@ window.console.log("setting up color legend..");
         return rc;
     }
 
-// egd_sliprate_site_data is from viewer.php, which is the JSON 
+// gsrd_sliprate_site_data is from viewer.php, which is the JSON 
 // result from calling php getAllSiteData script
     this.generateLayers = function () {
 
-window.console.log( "generate the initial egd_layers");
-        this.egd_layers = [];
-        this.egd_markerLocations = [];
-        this.egd_active_markerLocations = [];
+window.console.log( "generate the initial gsrd_layers");
+        this.gsrd_layers = [];
+        this.gsrd_markerLocations = [];
+        this.gsrd_active_markerLocations = [];
 
 // SELECT * FROM tb ORDER BY gid ASC;
-        for (const index in egd_sliprate_site_data) {
-          if (egd_sliprate_site_data.hasOwnProperty(index)) {
-                let gid = egd_sliprate_site_data[index].gid;
-                let egd_id = egd_sliprate_site_data[index].egdid;
-                let sliprate_id = egd_sliprate_site_data[index].sliprateid;
-                let longitude = parseFloat(egd_sliprate_site_data[index].longitude);
-                let latitude = parseFloat(egd_sliprate_site_data[index].latitude);
-                let fault_name = egd_sliprate_site_data[index].faultname;
-                let cfm_name = egd_sliprate_site_data[index].cfm6objectname;
-                let state = egd_sliprate_site_data[index].state;
-                let site_name = egd_sliprate_site_data[index].sitename;
-                let rate_type = egd_sliprate_site_data[index].ratetype;
-                let low_rate = parseFloat(egd_sliprate_site_data[index].lowrate);
-                let high_rate = parseFloat(egd_sliprate_site_data[index].highrate);
-                let links = egd_sliprate_site_data[index].links;
-                let short_references = egd_sliprate_site_data[index].shortreferences;
+        for (const index in gsrd_sliprate_site_data) {
+          if (gsrd_sliprate_site_data.hasOwnProperty(index)) {
+                let gid = gsrd_sliprate_site_data[index].gid;
+                let gsrd_id = gsrd_sliprate_site_data[index].gsrdid;
+                let sliprate_id = gsrd_sliprate_site_data[index].sliprateid;
+                let longitude = parseFloat(gsrd_sliprate_site_data[index].longitude);
+                let latitude = parseFloat(gsrd_sliprate_site_data[index].latitude);
+                let fault_name = gsrd_sliprate_site_data[index].faultname;
+                let cfm_name = gsrd_sliprate_site_data[index].cfm6objectname;
+                let state = gsrd_sliprate_site_data[index].state;
+                let site_name = gsrd_sliprate_site_data[index].sitename;
+                let rate_type = gsrd_sliprate_site_data[index].ratetype;
+                let low_rate = parseFloat(gsrd_sliprate_site_data[index].lowrate);
+                let high_rate = parseFloat(gsrd_sliprate_site_data[index].highrate);
+                let links = gsrd_sliprate_site_data[index].links;
+                let short_references = gsrd_sliprate_site_data[index].shortreferences;
 
                 let marker = makeLeafletCircleMarker([latitude, longitude], site_marker_style.normal);
 
@@ -243,7 +243,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                     active: true,
                     selected: false,
                     gid: gid,
-                    egd_id: egd_id,
+                    gsrd_id: gsrd_id,
                     sliprate_id:sliprate_id,
                     longitude: longitude,
                     latitude: latitude,
@@ -259,42 +259,42 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
           };
 
 // all layers
-                this.egd_layers.push(marker);
-                this.egd_markerLocations.push(marker.getLatLng())                      
+                this.gsrd_layers.push(marker);
+                this.gsrd_markerLocations.push(marker.getLatLng())                      
 // current active layers
-                this.egd_active_layers.addLayer(marker);
-                this.egd_active_gid.push(gid);
-                this.egd_active_markerLocations.push(marker.getLatLng())                      
+                this.gsrd_active_layers.addLayer(marker);
+                this.gsrd_active_gid.push(gid);
+                this.gsrd_active_markerLocations.push(marker.getLatLng())                      
 
-                if(this.egd_minrate_min == undefined) {
-                   this.egd_minrate_min = low_rate;
-                   this.egd_minrate_max = low_rate;
+                if(this.gsrd_minrate_min == undefined) {
+                   this.gsrd_minrate_min = low_rate;
+                   this.gsrd_minrate_max = low_rate;
                   } else {
-                    if(low_rate != 0 && low_rate < this.egd_minrate_min) {
-                      this.egd_minrate_min=low_rate;  
+                    if(low_rate != 0 && low_rate < this.gsrd_minrate_min) {
+                      this.gsrd_minrate_min=low_rate;  
                     }
-                    if(low_rate > this.egd_minrate_max) {
-                      this.egd_minrate_max=low_rate;
+                    if(low_rate > this.gsrd_minrate_max) {
+                      this.gsrd_minrate_max=low_rate;
                     }
                 }
-                if(this.egd_maxrate_min == undefined) {
-                   this.egd_maxrate_min = high_rate;
-                   this.egd_maxrate_max = high_rate;
+                if(this.gsrd_maxrate_min == undefined) {
+                   this.gsrd_maxrate_min = high_rate;
+                   this.gsrd_maxrate_max = high_rate;
                   } else {
-                    if(high_rate !=0 && high_rate < this.egd_maxrate_min) {
-                      this.egd_maxrate_min=high_rate;  
+                    if(high_rate !=0 && high_rate < this.gsrd_maxrate_min) {
+                      this.gsrd_maxrate_min=high_rate;  
                     }
-                    if(high_rate > this.egd_maxrate_max) {
-                      this.egd_maxrate_max=high_rate;
+                    if(high_rate > this.gsrd_maxrate_max) {
+                      this.gsrd_maxrate_max=high_rate;
                     }
                 }
             }
         }
 
-        cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
+        cmapSetupSliprateSegments(this.gsrd_minrate_min,this.gsrd_minrate_max,this.gsrd_maxrate_min,this.gsrd_maxrate_max);
 
         this.gotZoomed = function (zoom) {
-            if(this.egd_active_gid.length == 0) return;
+            if(this.gsrd_active_gid.length == 0) return;
 
             let normal=3;
             let target = normal;
@@ -309,7 +309,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
             site_marker_style.hover.radius = (target *2) ;
 
 //window.console.log(" RESIZE: marker zoom("+zoom+") radius "+target);
-            this.egd_active_layers.eachLayer(function(layer){
+            this.gsrd_active_layers.eachLayer(function(layer){
               layer.setRadius(target);
             });
 
@@ -317,20 +317,20 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 
          
 
-        this.egd_active_layers.on('click', function(event) {
+        this.gsrd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
                let layer=event.layer;
                layer.unbindTooltip();
-               EGD_SLIPRATE.toggleSiteSelected(event.layer, true);
+               GSRD_SLIPRATE.toggleSiteSelected(event.layer, true);
             }
         });
 
-        this.egd_active_layers.on('mouseover', function(event) {
+        this.gsrd_active_layers.on('mouseover', function(event) {
             let layer = event.layer;
             layer.setRadius(site_marker_style.hover.radius);
         });
 
-        this.egd_active_layers.on('mouseout', function(event) {
+        this.gsrd_active_layers.on('mouseout', function(event) {
             let layer = event.layer;
             layer.setRadius(site_marker_style.normal.radius);
         });
@@ -341,12 +341,12 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 
 // recreate a new active_layers using a glist
 // glist is a sorted ascending list
-// this.egd_layers should be also ascending
+// this.gsrd_layers should be also ascending
     this.createActiveLayerGroupWithGids = function(glist) {
 
         // remove the old ones and remove from result table
         this.clearAllSelections()
-        this.egd_active_layers.remove();
+        this.gsrd_active_layers.remove();
 
 	var enableCluster=true;
         if(this.searchingType == this.searchType.minrate
@@ -354,13 +354,13 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
           enableCluster=false;
         }
 
-        if(this.egd_active_gid.length != 0) {
-          this.egd_active_layers.remove();
+        if(this.gsrd_active_gid.length != 0) {
+          this.gsrd_active_layers.remove();
         }
 
-        this.egd_active_layers= make_markerGroup(enableCluster);
-        this.egd_active_gid=[];
-        this.egd_active_markerLocations = [];
+        this.gsrd_active_layers= make_markerGroup(enableCluster);
+        this.gsrd_active_gid=[];
+        this.gsrd_active_markerLocations = [];
 
         let minrate_min=undefined;
         let minrate_max=undefined;
@@ -368,13 +368,13 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         let maxrate_max=undefined;
 
         let gsz=glist.length;
-        let lsz= this.egd_layers.length;
+        let lsz= this.gsrd_layers.length;
         let i_start=0;
 
         for (let j=0; j<gsz; j++) {
           let gid=glist[j];
           for (let i=i_start; i< lsz; i++) {
-            let layer = this.egd_layers[i];
+            let layer = this.gsrd_layers[i];
             if (layer.hasOwnProperty("scec_properties")) {
                if (gid == layer.scec_properties.gid) {
                   let lr=layer.scec_properties.low_rate;
@@ -403,9 +403,9 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                       }
                   }
 
-                  this.egd_active_layers.addLayer(layer);
-                  this.egd_active_gid.push(gid);
-                  this.egd_active_markerLocations.push(layer.getLatLng())                      
+                  this.gsrd_active_layers.addLayer(layer);
+                  this.gsrd_active_gid.push(gid);
+                  this.gsrd_active_markerLocations.push(layer.getLatLng())                      
                   i_start=i+1;
                   break;
                }
@@ -418,15 +418,15 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
            // grabbing the max/min from the dashboard..
            //cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
            if(this.searchingType == this.searchType.minrate) {
-              minrate_min=parseFloat($("#egd-minMinrateSliderTxt").val());
-              minrate_max=parseFloat($("#egd-maxMinrateSliderTxt").val());
+              minrate_min=parseFloat($("#gsrd-minMinrateSliderTxt").val());
+              minrate_max=parseFloat($("#gsrd-maxMinrateSliderTxt").val());
               cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
               let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
               this.setupSliprateLegend(segminrateinfo);
            }
            if(this.searchingType == this.searchType.maxrate) {
-              maxrate_min=parseFloat($("#egd-minMaxrateSliderTxt").val());
-              maxrate_max=parseFloat($("#egd-maxMaxrateSliderTxt").val());
+              maxrate_min=parseFloat($("#gsrd-minMaxrateSliderTxt").val());
+              maxrate_max=parseFloat($("#gsrd-maxMaxrateSliderTxt").val());
               cmapSetupSliprateSegments(minrate_min,minrate_max,maxrate_min,maxrate_max);
               let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
               this.setupSliprateLegend(segmaxrateinfo);
@@ -435,11 +435,11 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         this.replaceActiveLayersColor();
 
         replaceResultTableBodyWithGids(glist);
-        this.egd_active_layers.addTo(viewermap);
+        this.gsrd_active_layers.addTo(viewermap);
 
         let bounds=get_bounding_rectangle_latlngs();
         if(bounds ==  undefined) {
-          bounds = L.latLngBounds(this.egd_active_markerLocations);
+          bounds = L.latLngBounds(this.gsrd_active_markerLocations);
         }
         viewermap.flyToBounds(bounds, { maxZoom:16, padding:[10,10]});
 
@@ -457,15 +457,15 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
           enableCluster=false;
         }
 
-        if(this.egd_active_gid.length != 0) {
-          this.egd_active_layers.remove();
+        if(this.gsrd_active_gid.length != 0) {
+          this.gsrd_active_layers.remove();
         }
 
-        this.egd_active_layers= make_markerGroup(enableCluster);
-        this.egd_active_gid=[];
+        this.gsrd_active_layers= make_markerGroup(enableCluster);
+        this.gsrd_active_gid=[];
         
-        for (let i=0; i< this.egd_layers.length; i++) {
-          let marker = this.egd_layers[i];
+        for (let i=0; i< this.gsrd_layers.length; i++) {
+          let marker = this.gsrd_layers[i];
           if (marker.hasOwnProperty("scec_properties")) {
              let gid = marker.scec_properties.gid;
 
@@ -473,29 +473,29 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                this.replaceLayerColor(marker);
              }
              
-             this.egd_active_layers.addLayer(marker);
-             this.egd_active_gid.push(gid);
-             this.egd_active_markerLocations.push(marker.getLatLng())                      
+             this.gsrd_active_layers.addLayer(marker);
+             this.gsrd_active_gid.push(gid);
+             this.gsrd_active_markerLocations.push(marker.getLatLng())                      
           }
         }
-        replaceResultTableBodyWithGids(this.egd_active_gid);
-        this.egd_active_layers.addTo(viewermap);
+        replaceResultTableBodyWithGids(this.gsrd_active_gid);
+        this.gsrd_active_layers.addTo(viewermap);
 window.console.log("flyingBounds --recreateActiveLayer");
-        let bounds = L.latLngBounds(this.egd_active_markerLocations);
+        let bounds = L.latLngBounds(this.gsrd_active_markerLocations);
         viewermap.flyToBounds(bounds, {maxZoom:16, padding:[10,10]});
     }
 // recreate the original map state
 // original state  toOriginal use normal color
     this.recreateActiveLayerGroup0 = function(toOriginal) {
 
-        if(this.egd_active_gid.length != this.egd_layers.length 
+        if(this.gsrd_active_gid.length != this.gsrd_layers.length 
                || this.searchingType == this.searchType.minrate
                || this.searchingType == this.searchType.maxrate) {
-          this.egd_active_layers= make_markerGroup();
-          this.egd_active_gid=[];
+          this.gsrd_active_layers= make_markerGroup();
+          this.gsrd_active_gid=[];
         
-          for (let i=0; i< this.egd_layers.length; i++) {
-            let marker = this.egd_layers[i];
+          for (let i=0; i< this.gsrd_layers.length; i++) {
+            let marker = this.gsrd_layers[i];
             if (marker.hasOwnProperty("scec_properties")) {
                let gid = marker.scec_properties.gid;
 
@@ -503,26 +503,26 @@ window.console.log("flyingBounds --recreateActiveLayer");
                  this.replaceLayerColor(marker);
                }
               
-               this.egd_active_layers.addLayer(marker);
-               this.egd_active_gid.push(gid);
-               this.egd_active_markerLocations.push(marker.getLatLng())                      
+               this.gsrd_active_layers.addLayer(marker);
+               this.gsrd_active_gid.push(gid);
+               this.gsrd_active_markerLocations.push(marker.getLatLng())                      
             }
           }
-          replaceResultTableBodyWithGids(this.egd_active_gid);
-          this.egd_active_layers.addTo(viewermap);
+          replaceResultTableBodyWithGids(this.gsrd_active_gid);
+          this.gsrd_active_layers.addTo(viewermap);
           } else {
-            this.egd_active_layers.addTo(viewermap);
+            this.gsrd_active_layers.addTo(viewermap);
        }
 window.console.log("flyingBounds --recreateActiveLayer");
-       let bounds = L.latLngBounds(this.egd_active_markerLocations);
+       let bounds = L.latLngBounds(this.gsrd_active_markerLocations);
        viewermap.flyToBounds(bounds, {maxZoom:16, padding:[10,10]});
     }
 
 // search for a layer from master list by gid
     this.getLayerByGid = function(gid) {
         let foundLayer = false;
-        for (let i=0; i< this.egd_layers.length; i++) {
-          let layer = this.egd_layers[i];
+        for (let i=0; i< this.gsrd_layers.length; i++) {
+          let layer = this.gsrd_layers[i];
           if (layer.hasOwnProperty("scec_properties")) {
              if (gid == layer.scec_properties.gid) {
                  return layer;     
@@ -561,7 +561,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
             this.unselectSiteByLayer(layer);
         }
 
-        refresh_markerGroupCluster(this.egd_active_layers, layer);
+        refresh_markerGroupCluster(this.gsrd_active_layers, layer);
 
         return layer.scec_properties.selected;
     };
@@ -639,9 +639,9 @@ window.console.log("flyingBounds --recreateActiveLayer");
     this.toggleSelectAll = function() {
         var sliprate_object = this;
 
-        let $selectAllButton = $("#egd-allBtn span");
+        let $selectAllButton = $("#gsrd-allBtn span");
         if (!$selectAllButton.hasClass('glyphicon-check')) {
-            this.egd_active_layers.eachLayer(function(layer){
+            this.gsrd_active_layers.eachLayer(function(layer){
                 sliprate_object.selectSiteByLayer(layer);
             });
             $selectAllButton.addClass('glyphicon-check').removeClass('glyphicon-unchecked');
@@ -654,75 +654,75 @@ window.console.log("flyingBounds --recreateActiveLayer");
 // selectAll button  - clear
     this.clearSelectAll = function() {
         this.clearAllSelections();
-        let $selectAllButton = $("#egd-allBtn span");
+        let $selectAllButton = $("#gsrd-allBtn span");
         $selectAllButton.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
     };
 
 // unselect every active layer
     this.clearAllSelections = function() {
         var sliprate_object = this;
-        this.egd_active_layers.eachLayer(function(layer){
+        this.gsrd_active_layers.eachLayer(function(layer){
             sliprate_object.unselectSiteByLayer(layer);
         });
-        let $selectAllButton = $("#egd-allBtn span");
+        let $selectAllButton = $("#gsrd-allBtn span");
         $selectAllButton.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
     };
 
     this.upSelectedCount = function(gid) {
 //window.console.log("SELECT adding "+gid);
-       let i=this.egd_selected_gid.indexOf(gid); 
+       let i=this.gsrd_selected_gid.indexOf(gid); 
        if(i != -1) {
          window.console.log("this is bad.. already in selected list "+gid);
          return;
        }
-       this.egd_selected_gid.push(gid);
-       updateDownloadCounter(this.egd_selected_gid.length);
+       this.gsrd_selected_gid.push(gid);
+       updateDownloadCounter(this.gsrd_selected_gid.length);
     };
 
     this.downSelectedCount = function(gid) {
 //window.console.log("SELECT removing "+gid);
-       let tmp=this.egd_selected_gid;
+       let tmp=this.gsrd_selected_gid;
 
-       if(this.egd_selected_gid.length == 0) { // just ignore..
+       if(this.gsrd_selected_gid.length == 0) { // just ignore..
          return;
        }
-       let i=this.egd_selected_gid.indexOf(gid); 
+       let i=this.gsrd_selected_gid.indexOf(gid); 
        if(i == -1) {
          window.console.log("this is bad.. not in selected list "+gid);
          return;
        }
-       this.egd_selected_gid.splice(i,1);
-       updateDownloadCounter(this.egd_selected_gid.length);
+       this.gsrd_selected_gid.splice(i,1);
+       updateDownloadCounter(this.gsrd_selected_gid.length);
     };
 
     this.zeroSelectedCount = function() {
-       this.egd_selected_gid = [];
+       this.gsrd_selected_gid = [];
        updateDownloadCounter(0);
     };
 
 
 /********** search/layer  functions *********************/
     this.showSearch = function (type) {
-        const $all_search_controls = $("#egd-sliprate-search-control ul li");
+        const $all_search_controls = $("#gsrd-sliprate-search-control ul li");
         $all_search_controls.hide();
         switch (type) {
             case this.searchType.faultname:
-                $("#egd-fault-name").show();
+                $("#gsrd-fault-name").show();
                 break;
             case this.searchType.sitename:
-                $("#egd-site-name").show();
+                $("#gsrd-site-name").show();
                 break;
             case this.searchType.latlon:
-                $("#egd-latlon").show();
+                $("#gsrd-latlon").show();
                 drawRectangle();
                 break;
             case this.searchType.minrate:
-                $("#egd-minrate-slider").show();
+                $("#gsrd-minrate-slider").show();
                 let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                 this.setupSliprateLegend(segminrateinfo);
                 break;
             case this.searchType.maxrate:
-                $("#egd-maxrate-slider").show();
+                $("#gsrd-maxrate-slider").show();
                 let segmaxrteinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                 this.setupSliprateLegend(segmaxrateinfo);
                 break;
@@ -732,11 +732,11 @@ window.console.log("flyingBounds --recreateActiveLayer");
     };
 
     this.showOnMap = function () {
-        this.egd_active_layers.addTo(viewermap);
+        this.gsrd_active_layers.addTo(viewermap);
     };
 
     this.hideOnMap = function () {
-        this.egd_active_layers.remove();
+        this.gsrd_active_layers.remove();
     };
 
 // reset from the reset button
@@ -747,19 +747,19 @@ window.console.log("flyingBounds --recreateActiveLayer");
 window.console.log("calling reset");
         this.resetSearch();
 
-        if ($("#egd-model-cfm").prop('checked')) {
+        if ($("#gsrd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
           CXM.hideCFMFaults(viewermap);
         }
 
-        if ($("#egd-model-gfm").prop('checked')) {
+        if ($("#gsrd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
           CXM.hideGFMRegions(viewermap);
         }
 
-        $("#egd-search-type").val("");
+        $("#gsrd-search-type").val("");
     };
 
     this.pauseSearch = function () {
@@ -798,7 +798,7 @@ window.console.log("sliprate calling --->> resetSearch.");
 
         this.resetSearch();
 
-        const $all_search_controls = $("#egd-controls-container ul li")
+        const $all_search_controls = $("#gsrd-controls-container ul li")
 window.console.log("sliprate --- calling freshSearch..");
         switch (t) {
             case "faultname": 
@@ -808,7 +808,7 @@ window.console.log("sliprate --- calling freshSearch..");
                }
                this.searchingType = this.searchType.faultname;
                $all_search_controls.hide();
-               $("#egd-fault-name").show();
+               $("#gsrd-fault-name").show();
                break;
             case "sitename": 
                if(this.track_basemap != undefined) {
@@ -817,7 +817,7 @@ window.console.log("sliprate --- calling freshSearch..");
                }
                this.searchingType = this.searchType.sitename;
                $all_search_controls.hide();
-               $("#egd-site-name").show();
+               $("#gsrd-site-name").show();
                break;
             case "minrate": 
                this.searchingType = this.searchType.minrate;
@@ -827,9 +827,9 @@ window.console.log("sliprate --- calling freshSearch..");
                    switchLayer("jawg dark");
                }
                $all_search_controls.hide();
-               $("#egd-minrate-slider").show();
-               $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
-               $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
+               $("#gsrd-minrate-slider").show();
+               $("#gsrd-minMinrateSliderTxt").val(this.gsrd_minrate_min);
+               $("#gsrd-maxMinrateSliderTxt").val(this.gsrd_minrate_max);
                let segminrateinfo=cmapFindSegmentProperties(this.searchType.minrate);
                this.setupSliprateLegend(segminrateinfo);
                this.recreateActiveLayerGroup(false);
@@ -842,9 +842,9 @@ window.console.log("sliprate --- calling freshSearch..");
                    switchLayer("jawg dark");
                }
                $all_search_controls.hide();
-               $("#egd-maxrate-slider").show();
-               $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
-               $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+               $("#gsrd-maxrate-slider").show();
+               $("#gsrd-minMaxrateSliderTxt").val(this.gsrd_maxrate_min);
+               $("#gsrd-maxMaxrateSliderTxt").val(this.gsrd_maxrate_max);
                let segmaxrateinfo=cmapFindSegmentProperties(this.searchType.maxrate);
                this.setupSliprateLegend(segmaxrateinfo);
                this.recreateActiveLayerGroup(false);
@@ -856,7 +856,7 @@ window.console.log("sliprate --- calling freshSearch..");
                }
                this.searchingType = this.searchType.latlon;
                $all_search_controls.hide();
-               $("#egd-latlon").show();
+               $("#gsrd-latlon").show();
                drawRectangle();
                break;
             default:
@@ -868,13 +868,13 @@ window.console.log("sliprate --- calling freshSearch..");
                break;
         }
 
-        if ($("#egd-model-cfm").prop('checked')) {
+        if ($("#gsrd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
             CXM.hideCFMFaults(viewermap);
         }
 
-        if ($("#egd-model-gfm").prop('checked')) {
+        if ($("#gsrd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
             CXM.hideGFMRegions(viewermap);
@@ -882,9 +882,9 @@ window.console.log("sliprate --- calling freshSearch..");
     };
 
     this.getMarkerBySiteId = function (site_id) {
-        for (const index in egd_sliprate_site_data) {
-            if (egd_sliprate_site_data[index].egd_id == site_id) {
-                return egd_sliprate_site_data[index];
+        for (const index in gsrd_sliprate_site_data) {
+            if (gsrd_sliprate_site_data[index].gsrd_id == site_id) {
+                return gsrd_sliprate_site_data[index];
             }
         }
 
@@ -892,10 +892,10 @@ window.console.log("sliprate --- calling freshSearch..");
     };
 
     this.startWaitSpin = function() {
-      $("#egd-wait-spin").css('display','');
+      $("#gsrd-wait-spin").css('display','');
     }
     this.removeWaitSpin = function() {
-      $("#egd-wait-spin").css('display','none');
+      $("#gsrd-wait-spin").css('display','none');
     }
 
     this.search = function(type, criteria) {
@@ -903,7 +903,7 @@ window.console.log("sliprate --- calling freshSearch..");
         if(type != this.searchingType)
           return;
 
-        EGD_SLIPRATE.startWaitSpin();
+        GSRD_SLIPRATE.startWaitSpin();
 
         $searchResult = $("#searchResult");
         if (!type || !criteria) {
@@ -922,14 +922,14 @@ window.console.log("sliprate --- calling freshSearch..");
             let glist=[];
             if(sliprate_result === "[]") {
 window.console.log("Did not find any PHP result");
-              EGD_SLIPRATE.removeWaitSpin();
+              GSRD_SLIPRATE.removeWaitSpin();
             } else {
                 let tmp=JSON.parse(sliprate_result); 
-                if(type == EGD_SLIPRATE.searchType.faultname
-                     ||  type == EGD_SLIPRATE.searchType.sitename
-                     ||  type == EGD_SLIPRATE.searchType.minrate
-                     ||  type == EGD_SLIPRATE.searchType.maxrate
-                     ||  type == EGD_SLIPRATE.searchType.latlon) {
+                if(type == GSRD_SLIPRATE.searchType.faultname
+                     ||  type == GSRD_SLIPRATE.searchType.sitename
+                     ||  type == GSRD_SLIPRATE.searchType.minrate
+                     ||  type == GSRD_SLIPRATE.searchType.maxrate
+                     ||  type == GSRD_SLIPRATE.searchType.latlon) {
 //expected [{'gid':'2'},{'gid':'10'}]
                     let sz=tmp.length;
                     for(let i=0; i<sz; i++) {
@@ -941,8 +941,8 @@ window.console.log( "BAD, unknown search type \n");
                 }
             }
 
-            EGD_SLIPRATE.createActiveLayerGroupWithGids(glist);
-            EGD_SLIPRATE.removeWaitSpin();
+            GSRD_SLIPRATE.createActiveLayerGroupWithGids(glist);
+            GSRD_SLIPRATE.removeWaitSpin();
         });
     };
 
@@ -952,10 +952,10 @@ window.console.log( "BAD, unknown search type \n");
     this.searchLatlon = function (fromWhere, rect) {
         let criteria = [];
         if( fromWhere == 0) { 
-            let lat1=$("#egd-firstLatTxt").val();
-            let lon1=$("#egd-firstLonTxt").val();
-            let lat2=$("#egd-secondLatTxt").val();
-            let lon2=$("#egd-secondLonTxt").val();
+            let lat1=$("#gsrd-firstLatTxt").val();
+            let lon1=$("#gsrd-firstLonTxt").val();
+            let lat2=$("#gsrd-secondLatTxt").val();
+            let lon2=$("#gsrd-secondLonTxt").val();
             if(lat1=='' || lon1=='' || lat2=='' || lon2=='') return;
             remove_bounding_rectangle_layer();
             add_bounding_rectangle(lat1,lon1,lat2,lon2);
@@ -973,13 +973,13 @@ window.console.log( "BAD, unknown search type \n");
                 criteria.push(ne['lat']);
                 criteria.push(ne['lng']);
 
-                $("#egd-firstLatTxt").val( parseFloat(criteria[0]).toFixed(5));
-                $("#egd-firstLonTxt").val( parseFloat(criteria[1]).toFixed(5));
-                $("#egd-secondLatTxt").val( parseFloat(criteria[2]).toFixed(5));
-                $("#egd-secondLonTxt").val( parseFloat(criteria[3]).toFixed(5));
+                $("#gsrd-firstLatTxt").val( parseFloat(criteria[0]).toFixed(5));
+                $("#gsrd-firstLonTxt").val( parseFloat(criteria[1]).toFixed(5));
+                $("#gsrd-secondLatTxt").val( parseFloat(criteria[2]).toFixed(5));
+                $("#gsrd-secondLonTxt").val( parseFloat(criteria[3]).toFixed(5));
         }
                 
-        this.search(EGD_SLIPRATE.searchType.latlon, criteria);
+        this.search(GSRD_SLIPRATE.searchType.latlon, criteria);
         
         if( fromWhere == 0) { // fake a zoom ?? to resize the radius to the zoom 
 window.console.log(" fromWHERE.. force a getZoom");
@@ -998,7 +998,7 @@ window.console.log("flyingBounds --latlon");
 
 /********** metadata  functions *********************/
 /* create a metadata list using selected gid list
-FaultName,FaultID,State,SiteName,EGDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
+FaultName,FaultID,State,SiteName,GSRDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
 UCERF3AppB
 ShortReferences,Links,FullReferences
 
@@ -1007,7 +1007,7 @@ faultname
 faultid
 state
 sitename
-egdid
+gsrdid
 sliprateid
 longitude
 latitud
@@ -1038,7 +1038,7 @@ fullreferences
         meta.fault_id = properties.faultid;
         meta.state = properties.state;
         meta.site_name = properties.sitename;
-        meta.egd_id= properties.egdid;
+        meta.gsrd_id= properties.gsrdid;
         meta.sliprate_id= properties.sliprateid;
         meta.longitude = properties.longitude;
         meta.latitude = properties.latitude;
@@ -1079,7 +1079,7 @@ fullreferences
     this.removeFromMetadataTable = function (gid) {
         let $table = $("#metadata-table tbody");
 // prepend it if there is only no more 
-        if(this.egd_selected_gid.length == 0) {
+        if(this.gsrd_selected_gid.length == 0) {
           $table.prepend(tablePlaceholderRow);
         }
 
@@ -1093,9 +1093,9 @@ fullreferences
 
         html += `<tr sliprate-metadata-gid="${layer.scec_properties.gid}">`;
 
-        html += `<td><button class=\"btn btn-sm cxm-small-btn\" id=\"button_meta_${layer.scec_properties.gid}\" title=\"remove the site\" onclick=EGD_SLIPRATE.unselectSiteByGid("${layer.scec_properties.gid}") onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}") ><span id=\"sliprate_metadata_${layer.scec_properties.gid}\" class=\"glyphicon glyphicon-trash\"></span></button></td>`;
-        html += `<td class="meta-data">${layer.scec_properties.egd_id}</td>`;
-        html += `<td class="meta-data" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
+        html += `<td><button class=\"btn btn-sm cxm-small-btn\" id=\"button_meta_${layer.scec_properties.gid}\" title=\"remove the site\" onclick=GSRD_SLIPRATE.unselectSiteByGid("${layer.scec_properties.gid}") onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}") ><span id=\"sliprate_metadata_${layer.scec_properties.gid}\" class=\"glyphicon glyphicon-trash\"></span></button></td>`;
+        html += `<td class="meta-data">${layer.scec_properties.gsrd_id}</td>`;
+        html += `<td class="meta-data" onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
 
         html += `<td class="meta-data" >${layer.scec_properties.rate_type} </td>`;
@@ -1128,7 +1128,7 @@ window.console.log("generateMetadataTable..");
                 <div class="btn-group download-now">
                     <button id="download-all" type="button" class="btn btn-dark" value="metadata"
                       style="padding:0 0.5rem 0 0.5rem;" 
-                            onclick="EGD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
+                            onclick="GSRD_SLIPRATE.downloadURLsAsZip(this.value);" disabled>
                             DOWNLOAD All DATA&nbsp;<span id="download-counter"></span>
                     </button>
                 </div>
@@ -1178,43 +1178,43 @@ window.console.log("generateMetadataTable..");
 
         this.resetLatLon = function () {
           if( this.searchingType != this.searchType.latlon) return;
-          $("#egd-firstLatTxt").val("");
-          $("#egd-firstLonTxt").val("");
-          $("#egd-secondLatTxt").val("");
-          $("#egd-scecondLonTxt").val("");
+          $("#gsrd-firstLatTxt").val("");
+          $("#gsrd-firstLonTxt").val("");
+          $("#gsrd-secondLatTxt").val("");
+          $("#gsrd-scecondLonTxt").val("");
           skipRectangle();
           remove_bounding_rectangle_layer();
-          $("#egd-latlon").hide();
+          $("#gsrd-latlon").hide();
         }
         this.clearLatLon = function () {
           if( this.searchingType != this.searchType.latlon) return;
-          $("#egd-firstLatTxt").val("");
-          $("#egd-firstLonTxt").val("");
-          $("#egd-secondLatTxt").val("");
-          $("#egd-scecondLonTxt").val("");
+          $("#gsrd-firstLatTxt").val("");
+          $("#gsrd-firstLonTxt").val("");
+          $("#gsrd-secondLatTxt").val("");
+          $("#gsrd-scecondLonTxt").val("");
         }
 
         this.resetFaultname = function () {
           if( this.searchingType != this.searchType.faultname) return;
-          $("#egd-faultnameTxt").val("");
-          $("#egd-fault-name").hide();
+          $("#gsrd-faultnameTxt").val("");
+          $("#gsrd-fault-name").hide();
         }
         this.resetSitename = function () {
           if( this.searchingType != this.searchType.sitename) return;
-          $("#egd-sitenameTxt").val("");
-          $("#egd-site-name").hide();
+          $("#gsrd-sitenameTxt").val("");
+          $("#gsrd-site-name").hide();
         }
 
         this.resetMinrate = function () {
           if( this.searchingType != this.searchType.minrate) return;
           this.resetMinrateSlider();
-          $("#egd-minrate-slider").hide();
+          $("#gsrd-minrate-slider").hide();
           this.setupSliprateLegend({});
           // reset marker color on all marker layers
           this.resetAllLayersColor();
-          cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
-       $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
-          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
+          cmapSetupSliprateSegments(this.gsrd_minrate_min,this.gsrd_minrate_max,this.gsrd_maxrate_min,this.gsrd_maxrate_max);
+       $("#gsrd-minMinrateSliderTxt").val(this.gsrd_minrate_min);
+          $("#gsrd-maxMinrateSliderTxt").val(this.gsrd_minrate_max);
        if(this.track_basemap != undefined ) {
             switchLayer(this.track_basemap);
             this.track_basemap = undefined;
@@ -1224,13 +1224,13 @@ window.console.log("generateMetadataTable..");
         this.resetMaxrate = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           this.resetMaxrateSlider();
-          $("#egd-maxrate-slider").hide();
+          $("#gsrd-maxrate-slider").hide();
           this.setupSliprateLegend({});
           // reset marker color on all marker layers
           this.resetAllLayersColor();
-          cmapSetupSliprateSegments(this.egd_minrate_min,this.egd_minrate_max,this.egd_maxrate_min,this.egd_maxrate_max);
-       $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
-          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+          cmapSetupSliprateSegments(this.gsrd_minrate_min,this.gsrd_minrate_max,this.gsrd_maxrate_min,this.gsrd_maxrate_max);
+       $("#gsrd-minMaxrateSliderTxt").val(this.gsrd_maxrate_min);
+          $("#gsrd-maxMaxrateSliderTxt").val(this.gsrd_maxrate_max);
        if(this.track_basemap != undefined ) {
             switchLayer(this.track_basemap);
             this.track_basemap = undefined;
@@ -1247,9 +1247,9 @@ window.console.log("generateMetadataTable..");
         this.resetMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
           $("#slider-minrate-range").slider('values', 
-                              [this.egd_minrate_min, this.egd_minrate_max]);
-          $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
-          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
+                              [this.gsrd_minrate_min, this.gsrd_minrate_max]);
+          $("#gsrd-minMinrateSliderTxt").val(this.gsrd_minrate_min);
+          $("#gsrd-maxMinrateSliderTxt").val(this.gsrd_minrate_max);
         }
 
         this.setMaxrateRangeColor = function (target_min, target_max){
@@ -1261,15 +1261,15 @@ window.console.log("generateMetadataTable..");
         this.resetMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
           $("#slider-maxrate-range").slider('values', 
-                              [this.egd_maxrate_min, this.egd_maxrate_max]);
-          $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
-          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+                              [this.gsrd_maxrate_min, this.gsrd_maxrate_max]);
+          $("#gsrd-minMaxrateSliderTxt").val(this.gsrd_maxrate_min);
+          $("#gsrd-maxMaxrateSliderTxt").val(this.gsrd_maxrate_max);
         }
 
         this.refreshMaxrateSlider = function () {
           if( this.searchingType != this.searchType.maxrate) return;
-          let maxrate_min=parseFloat($("#egd-minMaxrateSliderTxt").val());
-          let maxrate_max=parseFloat($("#egd-maxMaxrateSliderTxt").val());
+          let maxrate_min=parseFloat($("#gsrd-minMaxrateSliderTxt").val());
+          let maxrate_max=parseFloat($("#gsrd-maxMaxrateSliderTxt").val());
 window.console.log("HERE...");
           $("#slider-maxrate-range").slider('values', 
                               [maxrate_min, maxrate_max]);
@@ -1278,8 +1278,8 @@ window.console.log("HERE...");
 
         this.refreshMinrateSlider = function () {
           if( this.searchingType != this.searchType.minrate) return;
-          let minrate_min=parseFloat($("#egd-minMinrateSliderTxt").val());
-          let minrate_max=parseFloat($("#egd-maxMinrateSliderTxt").val());
+          let minrate_min=parseFloat($("#gsrd-minMinrateSliderTxt").val());
+          let minrate_max=parseFloat($("#gsrd-maxMinrateSliderTxt").val());
           $("#slider-minrate-range").slider('values', 
                               [minrate_min, minrate_max]);
           this.search(this.searchingType, [minrate_min, minrate_max]);
@@ -1288,9 +1288,9 @@ window.console.log("HERE...");
 /********************* marker color function **************************/
 // marker.scec_properties.full_high_rate_color, marker.sce_properties.full_low_rate_color
         this.fillAllLayersColors = function() {
-            let lsz = this.egd_layers.length;
+            let lsz = this.gsrd_layers.length;
             for(let i=0; i<lsz; i++) {
-                let layer=this.egd_layers[i];
+                let layer=this.gsrd_layers[i];
                 let hr = layer.scec_properties.high_rate;
                 let lr = layer.scec_properties.low_rate;
                 layer.scec_properties.full_low_rate_color = cmapGetSliprateLowRateColor(lr);
@@ -1319,7 +1319,7 @@ window.console.log("HERE...");
        this.replaceActiveLayersColor = function () {
             let myColor = site_colors.normal;
 
-            let layers=this.egd_active_layers.getLayers();
+            let layers=this.gsrd_active_layers.getLayers();
             let sz=layers.length;
             for(let i=0; i<sz; i++) {
               let layer=layers[i];
@@ -1331,7 +1331,7 @@ window.console.log("HERE...");
        this.resetAllLayersColor = function () {
             let myColor = site_colors.normal;
 
-            let layers=this.egd_layers;
+            let layers=this.gsrd_layers;
             let sz=layers.length;
             for(let i=0; i<sz; i++) {
               let layer=layers[i];
@@ -1341,11 +1341,11 @@ window.console.log("HERE...");
 
 
 /********************* sliprate INTERFACE function **************************/
-        this.setupEGDInterface = function() {
+        this.setupGSRDInterface = function() {
 
             var $result_table = $('#result-table');
             $result_table.floatThead('destroy');
-            $("#result-table").html(makeResultTable(egd_sliprate_site_data));
+            $("#result-table").html(makeResultTable(gsrd_sliprate_site_data));
             $result_table.floatThead({
                  scrollContainer: function ($table) {
                      return $table.closest('div#result-table-container');
@@ -1355,8 +1355,8 @@ window.console.log("HERE...");
             let elt=document.getElementById("dataset_sliprate");
             elt.click();
 
-            $("#egd-controlers-container").css('display','');
-            $("#egd-sliprate-controlers-container").css('display','none');
+            $("#gsrd-controlers-container").css('display','');
+            $("#gsrd-sliprate-controlers-container").css('display','none');
 
             $("div.mapData div.map-container").css('padding-left','30px');
 
@@ -1372,11 +1372,11 @@ window.console.log("HERE...");
 
             this.activateData();
 
-            if(this.egd_markerLocations.length == 0) {
+            if(this.gsrd_markerLocations.length == 0) {
 window.console.log("BAD.. no markers ???");
               } else {
                 viewermap.invalidateSize();
-                let bounds = L.latLngBounds(this.egd_markerLocations);
+                let bounds = L.latLngBounds(this.gsrd_markerLocations);
 window.console.log("fit bounds to all marker");
                 viewermap.fitBounds(bounds);
             }
@@ -1393,64 +1393,64 @@ window.console.log(center, zoom);
             $("#slider-minrate-range").slider({ 
               range:true, 
               step:0.001,
-              min:this.egd_minrate_min, 
-              max:this.egd_minrate_max, 
-              values:[this.egd_minrate_min, this.egd_minrate_max],
+              min:this.gsrd_minrate_min, 
+              max:this.gsrd_minrate_max, 
+              values:[this.gsrd_minrate_min, this.gsrd_minrate_max],
               slide: function( event, ui ) {
-                           $("#egd-minMinrateSliderTxt").val(ui.values[0]);
-                           $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
-                           EGD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
+                           $("#gsrd-minMinrateSliderTxt").val(ui.values[0]);
+                           $("#gsrd-maxMinrateSliderTxt").val(ui.values[1]);
+                           GSRD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
-                           $("#egd-minMinrateSliderTxt").val(ui.values[0]);
-                           $("#egd-maxMinrateSliderTxt").val(ui.values[1]);
-                           EGD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
+                           $("#gsrd-minMinrateSliderTxt").val(ui.values[0]);
+                           $("#gsrd-maxMinrateSliderTxt").val(ui.values[1]);
+                           GSRD_SLIPRATE.setMinrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
-                           let searchType = EGD_SLIPRATE.searchType.minrate;
-                           EGD_SLIPRATE.search(searchType, ui.values);
+                           let searchType = GSRD_SLIPRATE.searchType.minrate;
+                           GSRD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
-                          $("#egd-minMinrateSliderTxt").val(this.egd_minrate_min);
-                          $("#egd-maxMinrateSliderTxt").val(this.egd_minrate_max);
+                          $("#gsrd-minMinrateSliderTxt").val(this.gsrd_minrate_min);
+                          $("#gsrd-maxMinrateSliderTxt").val(this.gsrd_minrate_max);
                     }
             });
-            $('#slider-minrate-range').slider("option", "min", this.egd_minrate_min);
-            $('#slider-minrate-range').slider("option", "max", this.egd_minrate_max);
+            $('#slider-minrate-range').slider("option", "min", this.gsrd_minrate_min);
+            $('#slider-minrate-range').slider("option", "max", this.gsrd_minrate_max);
 
 /* setup  sliders */
             $("#slider-maxrate-range").slider({ 
               range:true, 
               step:0.001,
-              min:this.egd_maxrate_min,
-              max:this.egd_maxrate_max,
-              values:[this.egd_maxrate_min, this.egd_maxrate_max],
+              min:this.gsrd_maxrate_min,
+              max:this.gsrd_maxrate_max,
+              values:[this.gsrd_maxrate_min, this.gsrd_maxrate_max],
               slide: function( event, ui ) {
 //window.console.log("in maxrate slider..-- change");
-                           $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
-                           $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+                           $("#gsrd-minMaxrateSliderTxt").val(ui.values[0]);
+                           $("#gsrd-maxMaxrateSliderTxt").val(ui.values[1]);
+                           //GSRD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
 //window.console.log("in maxrate slider..-- change");
-                           $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
-                           $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
-                           //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
+                           $("#gsrd-minMaxrateSliderTxt").val(ui.values[0]);
+                           $("#gsrd-maxMaxrateSliderTxt").val(ui.values[1]);
+                           //GSRD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
 //window.console.log("in maxrate slider..-- stop");
-                           let searchType = EGD_SLIPRATE.searchType.maxrate;
-                           EGD_SLIPRATE.search(searchType, ui.values);
+                           let searchType = GSRD_SLIPRATE.searchType.maxrate;
+                           GSRD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
 //window.console.log("in maxrate slider..-- create");
-                          $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
-                          $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
+                          $("#gsrd-minMaxrateSliderTxt").val(this.gsrd_maxrate_min);
+                          $("#gsrd-maxMaxrateSliderTxt").val(this.gsrd_maxrate_max);
                     }
             });
 //window.console.log("setting up the maxrate slider ..");
-            $('#slider-maxrate-range').slider("option", "min", this.egd_maxrate_min);
-            $('#slider-maxrate-range').slider("option", "max", this.egd_maxrate_max);
+            $('#slider-maxrate-range').slider("option", "min", this.gsrd_maxrate_min);
+            $('#slider-maxrate-range').slider("option", "max", this.gsrd_maxrate_max);
     };
 
 /******************  Result table functions **************************/
@@ -1459,13 +1459,13 @@ window.console.log(center, zoom);
         var html="<tbody id=\"result-table-body\">";
         var sz=json.length;
 
-//onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")
+//onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")
         var tmp="";
         for( var i=0; i< sz; i++) {
            var s=json[i];
            var gid=parseInt(s.gid);
            var name=s.faultname + " | " +s.sitename;
-           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\" onmouseover=EGD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=EGD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")>" + name + "</label></td></tr>";
+           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the fault\" onclick=GSRD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\" onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("+gid+") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("+gid+ ")>" + name + "</label></td></tr>";
            tmp=tmp+t;
         }
         html=html+ tmp + "</tbody>";
@@ -1480,11 +1480,11 @@ window.console.log(center, zoom);
 
         for( var i=0; i< sz; i++) {
            let gid=glist[i];
-           let layer=EGD_SLIPRATE.getLayerByGid(gid);
+           let layer=GSRD_SLIPRATE.getLayerByGid(gid);
            let s=layer.scec_properties;
            let name= s.fault_name + " | " +s.site_name;
 
-           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the site\" onclick=EGD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
+           var t="<tr id=\"row_"+gid+"\"><td style=\"width:25px\"><button class=\"btn btn-sm cxm-small-btn\" id=\"button_"+gid+"\" title=\"highlight the site\" onclick=GSRD_SLIPRATE.toggleSiteSelectedByGid("+gid+")><span id=\"sliprate-result-gid_"+gid+"\" class=\"glyphicon glyphicon-unchecked\"></span></button></td><td><label for=\"button_"+gid+"\">" + name + "</label></td></tr>";
            html=html+t;
         }
 
@@ -1497,7 +1497,7 @@ window.console.log(center, zoom);
         html+=`
 <thead>
 <tr>
-   <th class='text-center'><button id=\"egd-allBtn\" class=\"btn btn-sm cxm-small-btn\" title=\"select all visible sliprate sites\" onclick=\"EGD_SLIPRATE.toggleSelectAll();\"><span class=\"glyphicon glyphicon-unchecked\"></span></button></th>
+   <th class='text-center'><button id=\"gsrd-allBtn\" class=\"btn btn-sm cxm-small-btn\" title=\"select all visible sliprate sites\" onclick=\"GSRD_SLIPRATE.toggleSelectAll();\"><span class=\"glyphicon glyphicon-unchecked\"></span></button></th>
 <th class='myheader'>Slip Rate Site ( fault | site )</th>
 </tr>
 </thead>`;
@@ -1511,7 +1511,7 @@ window.console.log(center, zoom);
     this.downloadURLsAsZip = function(ftype) {
 window.console.log("calling download..");
         var nzip=new JSZip();
-        var layers=EGD_SLIPRATE.egd_active_layers.getLayers();
+        var layers=GSRD_SLIPRATE.gsrd_active_layers.getLayers();
         let timestamp=$.now();
         let mlist=[];
       
@@ -1525,13 +1525,13 @@ window.console.log("calling download..");
 
           if(ftype == "metadata" || ftype == "all") {
           // create metadata from layer.scec_properties
-            let m=createMetaData(egd_sliprate_site_data[layer.scec_properties.idx]);
+            let m=createMetaData(gsrd_sliprate_site_data[layer.scec_properties.idx]);
             mlist.push(m);
           }
       
 /***** this is for downloading some generated file from the result directory..
           if(ftype == "extra") {
-            let downloadURL = getDataDownloadURL(layer.scec_properties.egd_id);
+            let downloadURL = getDataDownloadURL(layer.scec_properties.gsrd_id);
             let dname=downloadURL.substring(downloadURL.lastIndexOf('/')+1);
             let promise = $.get(downloadURL);
             nzip.file(dname,promise);
@@ -1541,7 +1541,7 @@ window.console.log("calling download..");
 
         if(mlist.length != 0) {
           var data=getCSVFromMeta(mlist);
-          saveAsCSVBlobFile("EGD_sliprate_", data, timestamp);
+          saveAsCSVBlobFile("GSRD_sliprate_", data, timestamp);
         }
     };
 

@@ -1,17 +1,17 @@
 /**
 
-   egd_cmap.js
+   gsrd_cmap.js
 
 **/
 
 /* How many segments to chunk a set of csm data */
-const EGD_DEFAULT_DATA_SEGMENT_COUNT= 12;
+const GSRD_DEFAULT_DATA_SEGMENT_COUNT= 12;
 
 /* there are 2 different log scale set.. */
 var sliprateHighRateSegments=[];
 var sliprateLowRateSegments=[];
 
-var egd_cmap_tb={
+var gsrd_cmap_tb={
     sliprate_rgb:[ "rgb(52,16,60)",
                    "rgb(59,91,169)",
                    "rgb(78,132,196)",
@@ -30,7 +30,7 @@ var egd_cmap_tb={
 function cmapGetSliprateLowRateColor(v) {
    let idx=cmapGetSliprateLowRateIndex(v);
 
-   let cset=egd_cmap_tb.sliprate_rgb;
+   let cset=gsrd_cmap_tb.sliprate_rgb;
    let color=cset[idx];
 
    return color;
@@ -39,7 +39,7 @@ function cmapGetSliprateLowRateColor(v) {
 function cmapGetSliprateHighRateColor(v) {
    let idx=cmapGetSliprateHighRateIndex(v);
 
-   let cset=egd_cmap_tb.sliprate_rgb;
+   let cset=gsrd_cmap_tb.sliprate_rgb;
    let color=cset[idx];
 
    return color;
@@ -106,7 +106,7 @@ function _logscale(ea, eb, N) {
 // log = y, linear = x
 function cmapSetupSliprateSegments(lrmin,lrmax,hrmin,hrmax) {
 window.console.log(" ---- calling cmapSetupSliprateSegments!!!");
-   let N=EGD_DEFAULT_DATA_SEGMENT_COUNT;
+   let N=GSRD_DEFAULT_DATA_SEGMENT_COUNT;
 
 //window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);
 //window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
@@ -121,14 +121,14 @@ window.console.log(" ---- calling cmapSetupSliprateSegments!!!");
 
 // whole set
 function cmapGetSegmentColors() {
-  return egd_cmap_tb.sliprate_rgb;
+  return gsrd_cmap_tb.sliprate_rgb;
 }
 
 // not in use 
 function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
   var minidx,maxidx=0; 
 
-  if(searchtype == EGD_SLIPRATE.searchType.minrate) {
+  if(searchtype == GSRD_SLIPRATE.searchType.minrate) {
      minidx=cmapGetSliprateLowRateIndex(minval);
      maxidx=cmapGetSliprateLowRateIndex(maxval);
      } else {
@@ -139,9 +139,9 @@ function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
 
   let clist=[];
 	// dup head and tail by 1 term to extend beyond the handlers
-  clist.push(egd_cmap_tb.sliprate_rgb[minidx]);
+  clist.push(gsrd_cmap_tb.sliprate_rgb[minidx]);
   for(let i=minidx;i<maxidx;i++) {
-      let color=egd_cmap_tb.sliprate_rgb[i];
+      let color=gsrd_cmap_tb.sliprate_rgb[i];
       clist.push(color);
   }
   let t=clist.length;
@@ -151,12 +151,12 @@ function cmapGetSegmentColorsChunk(searchtype,minval, maxval) {
 
 function cmapFindSegmentProperties(searchType) {
   var info={};
-  if(searchType == EGD_SLIPRATE.searchType.minrate) {
+  if(searchType == GSRD_SLIPRATE.searchType.minrate) {
     info.labels=sliprateLowRateSegments;
-    info.colors=egd_cmap_tb.sliprate_rgb;
+    info.colors=gsrd_cmap_tb.sliprate_rgb;
     } else {
       info.labels=sliprateHighRateSegments;
-      info.colors=egd_cmap_tb.sliprate_rgb;
+      info.colors=gsrd_cmap_tb.sliprate_rgb;
   }
   return info;
 }

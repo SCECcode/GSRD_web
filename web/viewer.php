@@ -1,9 +1,9 @@
 <?php
 require_once("php/navigation.php");
-require_once("php/EGD_SLIPRATE.php");
+require_once("php/GSRD_SLIPRATE.php");
 $header = getHeader("Explorer");
 
-$egd_sliprate = new SLIPRATE();
+$gsrd_sliprate = new SLIPRATE();
 
 ?>
 <!DOCTYPE html>
@@ -71,12 +71,12 @@ $egd_sliprate = new SLIPRATE();
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/edit/handler/Edit.CircleMarker.js"></script>
     <script type='text/javascript' src="js/vendor/plugin/Leaflet.draw/edit/handler/Edit.Circle.js"></script>
 
-<!-- egd js -->
-    <script type="text/javascript" src="js/egd_ui.js?v=1"></script>
-    <script type="text/javascript" src="js/egd_main.js?v=1"></script>
-    <script type="text/javascript" src="js/egd_leaflet.js?v=1"></script>
-    <script type="text/javascript" src="js/egd_sliprate.js?v=1"></script>
-    <script type="text/javascript" src="js/egd_cmap.js?v=1"></script>
+<!-- gsrd js -->
+    <script type="text/javascript" src="js/gsrd_ui.js?v=1"></script>
+    <script type="text/javascript" src="js/gsrd_main.js?v=1"></script>
+    <script type="text/javascript" src="js/gsrd_leaflet.js?v=1"></script>
+    <script type="text/javascript" src="js/gsrd.js?v=1"></script>
+    <script type="text/javascript" src="js/gsrd_cmap.js?v=1"></script>
 
 <!-- cxm js -->
     <script type="text/javascript" src="js/cxm_kml.js?v=1"></script>
@@ -115,7 +115,7 @@ $egd_sliprate = new SLIPRATE();
 <body>
 <?php echo $header; ?>
 
-<div class="container main" id="egdMain">
+<div class="container main" id="gsrdMain">
 
 <!-- trace dumping buttons 
     <div style="display:none">
@@ -147,7 +147,7 @@ usage instructions.<br></p>
 
 <!-- top-control -->
    <div id="top-control" class="row">
-      <div id="egd-controls-container" class="col" >
+      <div id="gsrd-controls-container" class="col" >
 <!-- control-row-1 -->
         <div id="top-control-row-1" class="col-12">
 
@@ -164,9 +164,9 @@ usage instructions.<br></p>
           </div>
 
 <!-- SLIPRATE select -->
-          <div id="egd-sliprate-search-control" class="row mt-1 container-control" style="margin-left:-30px">
+          <div id="gsrd-sliprate-search-control" class="row mt-1 container-control" style="margin-left:-30px">
             <div class="col-4 input-group filters mb-2">
-              <select id="egd-search-type" class="custom-select">
+              <select id="gsrd-search-type" class="custom-select">
                   <option value="">Search the Slip Rate Sites</option>
                   <option value="faultname">Fault Name</option>
                   <option value="sitename">Site Name</option>
@@ -175,7 +175,7 @@ usage instructions.<br></p>
                   <option value="maxrate">High Rate</option>
               </select>
 	      <div class="input-group-append">
-                  <button id="refresh-all-button" onclick="EGD_SLIPRATE.reset();"
+                  <button id="refresh-all-button" onclick="GSRD_SLIPRATE.reset();"
                            class="btn btn-dark pl-4 pr-4" type="button">Reset</button>
               </div>
             </div>
@@ -183,32 +183,32 @@ usage instructions.<br></p>
 <!-- SLIPRATE option expand -->
             <div class="col-8">
               <ul>
-                <li id='egd-fault-name' class='navigationLi' style="display:none">
+                <li id='gsrd-fault-name' class='navigationLi' style="display:none">
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="egd-faultnameTxt" placeholder="Enter Fault Name Followed by Enter Key" type="text"
+                           <input id="gsrd-faultnameTxt" placeholder="Enter Fault Name Followed by Enter Key" type="text"
                                   onfocus="this.value=''"
-				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-faultname-item').mouseout();"
-                                  class="egd-faultname-item form-control">
+				  onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-faultname-item').mouseout();"
+                                  class="gsrd-faultname-item form-control">
                       </div>
                     </div>
                   </div>
                 </li>
-                <li id='egd-site-name' class='navigationLi ' style="display:none">
+                <li id='gsrd-site-name' class='navigationLi ' style="display:none">
                   <div class='menu row justify-content-center'>
                     <div class="col-12">
                       <div class="d-flex">
-                           <input id="egd-sitenameTxt" placeholder="Enter Site Name Followed by Enter Key" type="text"
+                           <input id="gsrd-sitenameTxt" placeholder="Enter Site Name Followed by Enter Key" type="text"
                                   onfocus="this.value=''"
-				  onkeypress="javascript:if (event.key == 'Enter') $('.egd-sitename-item').mouseout();"
-                                  class="egd-sitename-item form-control">
+				  onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-sitename-item').mouseout();"
+                                  class="gsrd-sitename-item form-control">
                       </div>
                     </div>
                   </div>
                 </li>
-                <li id='egd-latlon' class='navigationLi ' style="display:none">
-                  <div id='egd-latlonMenu' class='menu'>
+                <li id='gsrd-latlon' class='navigationLi ' style="display:none">
+                  <div id='gsrd-latlonMenu' class='menu'>
                     <div class="row">
                       <div class="col-4">
                           <p style="margin-bottom:0;">Draw a rectangle on the map or enter latitudes and longitudes</p>
@@ -217,28 +217,28 @@ usage instructions.<br></p>
                         <div class="form-inline latlon-input-boxes">
                             <input type="text"
                                    placeholder="Min Latitude"
-                                   id="egd-firstLatTxt"
+                                   id="gsrd-firstLatTxt"
                                    title="first lat"
-onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
-                                   class="egd-latlon-item form-control">
+onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout();"
+                                   class="gsrd-latlon-item form-control">
                             <input type="text" 
                                    placeholder='Min Longitude' 
-                                   id="egd-firstLonTxt" 
+                                   id="gsrd-firstLonTxt" 
                                    title="first lon"
-onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
-                                   class="egd-latlon-item form-control">
+onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout();"
+                                   class="gsrd-latlon-item form-control">
                             <input type="text"
-                                   id="egd-secondLatTxt"
+                                   id="gsrd-secondLatTxt"
                                    title="second lat"
                                    placeholder='Max Latitude'
-onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
-                                   class="egd-latlon-item form-control">
+onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout();"
+                                   class="gsrd-latlon-item form-control">
                             <input type="text"
-                                   id="egd-secondLonTxt"
+                                   id="gsrd-secondLonTxt"
                                    title="second lon"
                                    placeholder='Max Longitude'
-onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
-                                   class="egd-latlon-item form-control">
+onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout();"
+                                   class="gsrd-latlon-item form-control">
                         </div>
                       </div>
                     </div>
@@ -246,8 +246,8 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                 </li>
 
 <!-- minrate slider -->
-                <li id='egd-minrate-slider' class='navigationLi' style="display:none;">
-                  <div id='egd-minrate-sliderMenu' class='menu'>
+                <li id='gsrd-minrate-slider' class='navigationLi' style="display:none;">
+                  <div id='gsrd-minrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-5">
                           <p style="margin-bottom:0">Select a range on the Low Rate slider or enter the two boundaries in mm/yr</p>
@@ -255,10 +255,10 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                       <div class="col-7">
                         <div class="form-inline vector-slider-input-boxes">
                           <input type="text"
-                              id="egd-minMinrateSliderTxt"
+                              id="gsrd-minMinrateSliderTxt"
                               title="min minrate slider"
-			      class="egd-minrate-item form-control"
-                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-minrate-item').mouseout();">
+			      class="gsrd-minrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-minrate-item').mouseout();">
                           <div class="col-5">
 			    <div id="slider-minrate-range" style="border:1px solid black">
 		              <div id="min-minrate-handle" class="ui-slider-handle"></div>
@@ -266,18 +266,18 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                             </div>
                           </div>
                           <input type="text"
-                              id="egd-maxMinrateSliderTxt"
+                              id="gsrd-maxMinrateSliderTxt"
                               title="max minrate slider"
-			      class="egd-minrate-item form-control"
-                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-minrate-item').mouseout();">
+			      class="gsrd-minrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-minrate-item').mouseout();">
                         </div>
                       </div>
                     </div>
                   </div>
                 </li>
 <!-- maxrate slider -->
-                <li id='egd-maxrate-slider' class='navigationLi' style="display:none">
-                  <div id='egd-maxrate-sliderMenu' class='menu'>
+                <li id='gsrd-maxrate-slider' class='navigationLi' style="display:none">
+                  <div id='gsrd-maxrate-sliderMenu' class='menu'>
                     <div class="row">
                       <div class="col-5">
                           <p style="margin-bottom:0">Select a range on the High Rate slider or enter the two boundaries in mm/yr</p>
@@ -285,10 +285,10 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                       <div class="col-7">
                         <div class="form-inline vector-slider-input-boxes">
                           <input type="text"
-                              id="egd-minMaxrateSliderTxt"
+                              id="gsrd-minMaxrateSliderTxt"
                               title="min maxrate slider"
-                              class="egd-maxrate-item form-control"
-                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-maxrate-item').mouseout();">
+                              class="gsrd-maxrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-maxrate-item').mouseout();">
                           <div class="col-5">
 			    <div id="slider-maxrate-range" style="border:1px solid black">
 		              <div id="min-maxrate-handle" class="ui-slider-handle"></div>
@@ -296,10 +296,10 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                             </div>
                           </div>
                           <input type="text"
-                              id="egd-maxMaxrateSliderTxt"
+                              id="gsrd-maxMaxrateSliderTxt"
                               title="max maxrate slider"
-			      class="egd-maxrate-item form-control"
-                              onkeypress="javascript:if (event.key == 'Enter') $('.egd-maxrate-item').mouseout();">
+			      class="gsrd-maxrate-item form-control"
+                              onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-maxrate-item').mouseout();">
                         </div>
                       </div>
                     </div>
@@ -307,7 +307,7 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
                 </li>
               </ul>
             </div> <!-- SLIPRATE option expand -->
-         </div> <!-- egd-sliprate-search-control -->
+         </div> <!-- gsrd-sliprate-search-control -->
 
         </div> <!-- top-control-row-1 -->
 
@@ -317,18 +317,18 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
           <div id='model-options' class="form-check-inline">
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
-                               for="egd-model-cfm">
+                               for="gsrd-model-cfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"
-			       id="egd-model-cfm" value="1" />CFM6.0
+			       id="gsrd-model-cfm" value="1" />CFM6.0
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
-                               for="egd-model-gfm">
+                               for="gsrd-model-gfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"
-			       id="egd-model-gfm" value="1" />GFM
+			       id="gsrd-model-gfm" value="1" />GFM
                 </label>
             </div>
           </div>
@@ -364,7 +364,7 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
           </div>
         </div> <!-- top-control-row-2 -->
 
-      </div> <!-- egd-controls-container -->
+      </div> <!-- gsrd-controls-container -->
     </div> <!-- top-control -->
 
 <!-- map space -->
@@ -382,22 +382,22 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
       </div>
 
       <div id="top-map" class="col-7 pl-1">
-        <div class="w-100 mb-1" id='EGD_plot'
+        <div class="w-100 mb-1" id='GSRD_plot'
              style="position:relative;border:solid 1px #ced4da; height:576px;">
 
 <!-- spinner -->
              <div class="spinDialog" style="position:absolute;top:40%;left:50%; z-index:9999;">
-               <div id="egd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
+               <div id="gsrd-wait-spin" align="center" style="display:none;"><i class="glyphicon glyphicon-cog fa-spin" style="color:red"></i></div>
              </div>
 
 <!-- color legend -->
-	     <div id="egd-main-legend" class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);display:none;">
+	     <div id="gsrd-main-legend" class="main-legend geometry top center" style="bottom:10%;background-color: rgba(255,255,255,0.5);display:none;">
 	       <div class="col" style="color:tansparent">
                  <div class="row" style="margin:0px 2px 0px -20px">
-                    <div class="legend mt-2" id="egd-legend-color"></div>
-                    <div class="legend" id="egd-legend-label"></div>
+                    <div class="legend mt-2" id="gsrd-legend-color"></div>
+                    <div class="legend" id="gsrd-legend-label"></div>
                  </div>
-                 <div id="egd-legend-title" align="center" class="legend content mt-1" style="border-top:2px solid grey">mm/y</div>
+                 <div id="gsrd-legend-title" align="center" class="legend content mt-1" style="border-top:2px solid grey">mm/y</div>
                </div>
              </div>
 
@@ -456,7 +456,7 @@ onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout(
 <!--call php directly-->
     <script type="text/javascript">
             window.console.log("GRAB the station data..");
-            egd_sliprate_site_data = <?php print $egd_sliprate->getAllStationData()->outputJSON(); ?>;
+            gsrd_sliprate_site_data = <?php print $gsrd_sliprate->getAllStationData()->outputJSON(); ?>;
     </script>
 </body>
 </html>

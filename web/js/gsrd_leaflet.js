@@ -1,7 +1,7 @@
 /***
-   egd_leaflet.js
+   gsrd_leaflet.js
 
-This is leaflet specific utilities for EGD
+This is leaflet specific utilities for GSRD
 ***/
 
 var use_markerCluster = 0;
@@ -33,8 +33,8 @@ var mylegend;
 
 var currentLayerString;
 
-var egd_latlon_area_list=[];
-var egd_latlon_point_list=[];
+var gsrd_latlon_area_list=[];
+var gsrd_latlon_point_list=[];
 
 /*****************************************************************/
 
@@ -115,7 +115,7 @@ function make_markerGroup(enableCluster=true) {
       use_markerCluster=false;
       window.console.log(" ==== creating a marker feature group ===");
       var group=new L.FeatureGroup();
-      group.egd_cluster_cnt=0;
+      group.gsrd_cluster_cnt=0;
       return group;
   }
 
@@ -145,7 +145,7 @@ function make_markerGroup(enableCluster=true) {
            let selected=false;
            for(let i=0; i<sz; i++) {
 	      let marker=markerlist[i];	 
-              if( EGD_SLIPRATE.isSiteSelected(marker) == true) {
+              if( GSRD_SLIPRATE.isSiteSelected(marker) == true) {
                 selected=true;
                 break;
               }
@@ -156,14 +156,14 @@ function make_markerGroup(enableCluster=true) {
              clusterIcon=L.divIcon(
 		{
 		 html: '',
-	  	 className: 'egd-cluster-highlight',
+	  	 className: 'gsrd-cluster-highlight',
 		 iconSize: L.point(iconsize,iconsize)
 		});
              } else {
                clusterIcon=L.divIcon(
                 {
                 html: '',
-		className: 'egd-cluster',
+		className: 'gsrd-cluster',
 		iconSize: L.point(iconsize,iconsize)
 		});
            }
@@ -194,7 +194,7 @@ window.console.log("OPEN tooltip for a cluster..");
                     //myev.propagatedFrom.unbindTooltip();
                     });
 
-   group.egd_cluster_cnt=marker_cluster_cnt;
+   group.gsrd_cluster_cnt=marker_cluster_cnt;
    return group;
 }
 
@@ -250,7 +250,7 @@ function setup_viewer()
 
 
 // ==> mymap <==
-  mymap = L.map('EGD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true, maxZoom:16 } );
+  mymap = L.map('GSRD_plot', { zoomSnap: 0.25, drawControl:false, zoomControl:true, maxZoom:16 } );
 
   mymap.setView(init_map_coordinates, init_map_zoom_level);
   mymap.attributionControl.addAttribution(scecAttribution);
@@ -284,7 +284,7 @@ function setup_viewer()
   L.control.scale({metric: 'false', imperial:'false', position: 'bottomleft'}).addTo(mymap);
 
   function onMapMouseOver(e) {
-    if(EGD_SLIPRATE.toDraw()) {
+    if(GSRD_SLIPRATE.toDraw()) {
       drawRectangle();
     }
   }
@@ -292,7 +292,7 @@ function setup_viewer()
   function onMapZoom(e) { 
     var zoom=mymap.getZoom();
 window.console.log("map got zoomed..>>",zoom);
-    EGD_SLIPRATE.gotZoomed(zoom);
+    GSRD_SLIPRATE.gotZoomed(zoom);
   }
 
   mymap.on('mouseover', onMapMouseOver);
@@ -316,12 +316,12 @@ window.console.log("map got zoomed..>>",zoom);
 // ??? CHECK, the rectangle created on the mapview does not seem to 'confirm'
 // like hand inputed rectangle. Maybe some property needs to be set
 // For now, just redraw the rectangle
-        EGD_SLIPRATE.searchLatlon(1,latlngs);        
+        GSRD_SLIPRATE.searchLatlon(1,latlngs);        
     }
   });
 
 // enable the expand view key
-$("#EGD_plot").prepend($("#expand-view-key-container").html());
+$("#GSRD_plot").prepend($("#expand-view-key-container").html());
 
 // should  only have 1, adjust the attribution's location
 let v= document.getElementsByClassName("leaflet-control-attribution")[0];
@@ -429,13 +429,13 @@ function add_bounding_rectangle(a,b,c,d) {
   remove_bounding_rectangle_layer();
   var layer=addRectangleLayer(a,b,c,d);
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]};
-  egd_latlon_area_list.push(tmp);
+  gsrd_latlon_area_list.push(tmp);
   return layer;
 }
 
 function remove_bounding_rectangle_layer() {
-   if(egd_latlon_area_list.length == 1) {
-     var area=egd_latlon_area_list.pop();
+   if(gsrd_latlon_area_list.length == 1) {
+     var area=gsrd_latlon_area_list.pop();
      var l=area["layer"];
      viewermap.removeLayer(l);
    }
@@ -445,12 +445,12 @@ function add_bounding_rectangle_layer(layer, a,b,c,d) {
   // remove old one and add a new one
   remove_bounding_rectangle_layer();
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b},{"lat":c,"lon":d}]};
-  egd_latlon_area_list.push(tmp);
+  gsrd_latlon_area_list.push(tmp);
 }
 
 function get_bounding_rectangle_latlngs() {
-   if(egd_latlon_area_list.length == 1) {
-     let latlngs=egd_latlon_area_list[0].latlngs;
+   if(gsrd_latlon_area_list.length == 1) {
+     let latlngs=gsrd_latlon_area_list[0].latlngs;
      return latlngs;
    }
    return undefined;
@@ -461,13 +461,13 @@ function add_marker_point(a,b) {
   remove_marker_point_layer();
   var layer=addMarkerLayer(a,b);
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b}]};
-  egd_latlon_point_list.push(tmp);
+  gsrd_latlon_point_list.push(tmp);
   return layer;
 }
 
 function remove_marker_point_layer() {
-   if(egd_latlon_point_list.length == 1) {
-     var point=egd_latlon_point_list.pop();
+   if(gsrd_latlon_point_list.length == 1) {
+     var point=gsrd_latlon_point_list.pop();
      var l=point["layer"];
      viewermap.removeLayer(l);
    }
@@ -477,7 +477,7 @@ function add_marker_point_layer(layer, a,b) {
   // remove old one and add a new one
   remove_marker_point_layer();
   var tmp={"layer":layer, "latlngs":[{"lat":a,"lon":b}]};
-  egd_latlon_point_list.push(tmp);
+  gsrd_latlon_point_list.push(tmp);
 }
 
 

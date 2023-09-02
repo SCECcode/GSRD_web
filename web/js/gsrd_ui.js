@@ -1,5 +1,5 @@
 /***
-   egd_ui.js
+   gsrd_ui.js
 ***/
 
 var showing_key = false;
@@ -22,7 +22,7 @@ let h=576+c_height;
 
 $('#top-intro').css("display", "none");
 $('#searchResult').css("display", "none");
-$('#EGD_plot').css("height", h);
+$('#GSRD_plot').css("height", h);
 $('.leaflet-control-attribution').css("width", "70rem");
 $('#infoData').removeClass('col-5').addClass('col-0');
 $('#top-map').removeClass('col-7').addClass('row');
@@ -52,8 +52,8 @@ let h = height - c_height-4.5;
 let w = width - 15;
 //window.console.log( "height: %d, %d > %d \n",height, c_height,h);
 //window.console.log( "width: %d, %d  \n",width, w);
-$('#EGD_plot').css("height", h);
-$('#EGD_plot').css("width", w);
+$('#GSRD_plot').css("height", h);
+$('#GSRD_plot').css("width", w);
 resize_map();
 }
 
@@ -61,8 +61,8 @@ function _toNormalView()
 {
 $('#top-control').css("display", "");
 $('#top-select').css("display", "");
-$('#EGD_plot').css("height", "576px");
-$('#EGD_plot').css("width", "635px");
+$('#GSRD_plot').css("height", "576px");
+$('#GSRD_plot').css("width", "635px");
 $('.navbar').css("margin-bottom", "20px");
 
 $('.container').css("max-width", "1140px");

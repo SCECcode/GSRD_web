@@ -1,5 +1,5 @@
 /***
-   egd_main.js
+   gsrd_main.js
 ***/
 
 var initial_page_load = true;
@@ -9,7 +9,7 @@ const Products = {
 };
 
 var activeProduct = Products.SLIPRATE;
-var egd_sliprate_site_data=null;
+var gsrd_sliprate_site_data=null;
 
 var viewermap;
 
@@ -32,58 +32,58 @@ jQuery(document).ready(function() {
 
   viewermap=setup_viewer();
 
-  $('.egd-minrate-item').on("focus", function() {
-     $('.egd-minrate-item').on("blur mouseout", function() {
-       $('.egd-minrate-item').off("mouseout");
-       $('.egd-minrate-item').off("blur");
+  $('.gsrd-minrate-item').on("focus", function() {
+     $('.gsrd-minrate-item').on("blur mouseout", function() {
+       $('.gsrd-minrate-item').off("mouseout");
+       $('.gsrd-minrate-item').off("blur");
 window.console.log("minrate-item got updated ...HERE..");
        if( $(this).val() != '' ) {
-         EGD_SLIPRATE.refreshMinrateSlider();
+         GSRD_SLIPRATE.refreshMinrateSlider();
        }
        $(this).blur();
      });
   });
 
-  $('.egd-maxrate-item').on("focus", function() {
-     $('.egd-maxrate-item').on("blur mouseout", function() {
-       $('.egd-maxrate-item').off("mouseout");
-       $('.egd-maxrate-item').off("blur");
+  $('.gsrd-maxrate-item').on("focus", function() {
+     $('.gsrd-maxrate-item').on("blur mouseout", function() {
+       $('.gsrd-maxrate-item').off("mouseout");
+       $('.gsrd-maxrate-item').off("blur");
        if( $(this).val() != '' ) {
-         EGD_SLIPRATE.refreshMaxrateSlider();
+         GSRD_SLIPRATE.refreshMaxrateSlider();
        }
        $(this).blur();
      });
   });
 
-  $('.egd-latlon-item').on("focus", function() {
-     $('.egd-latlon-item').on("blur mouseout", function() {
-       $('.egd-latlon-item').off("mouseout");
-       $('.egd-latlon-item').off("blur");
+  $('.gsrd-latlon-item').on("focus", function() {
+     $('.gsrd-latlon-item').on("blur mouseout", function() {
+       $('.gsrd-latlon-item').off("mouseout");
+       $('.gsrd-latlon-item').off("blur");
        if( $(this).val() != '' ) {
          window.console.log(" need to call search by latlon ");
-         EGD_SLIPRATE.searchLatlon(0, []);
+         GSRD_SLIPRATE.searchLatlon(0, []);
        }
        $(this).blur();
      });
   });
 
-  $('.egd-sitename-item').on("focus", function() {
-     $('.egd-sitename-item').on("blur mouseout", function() {
-       $('.egd-sitename-item').off("mouseout");
-       $('.egd-sitename-item').off("blur");
+  $('.gsrd-sitename-item').on("focus", function() {
+     $('.gsrd-sitename-item').on("blur mouseout", function() {
+       $('.gsrd-sitename-item').off("mouseout");
+       $('.gsrd-sitename-item').off("blur");
        if( $(this).val() != '' ) {
 	 let criteria = [];
          criteria.push($(this).val());
-         EGD_SLIPRATE.search(EGD_SLIPRATE.searchType.sitename, criteria);
+         GSRD_SLIPRATE.search(GSRD_SLIPRATE.searchType.sitename, criteria);
        }
        $(this).blur();
      });
   });
 
-  $('.egd-faultname-item').on("focus", function() {
-     $('.egd-faultname-item').on("blur mouseout", function() {
-       $('.egd-faultname-item').off("mouseout");
-       $('.egd-faultname-item').off("blur");
+  $('.gsrd-faultname-item').on("focus", function() {
+     $('.gsrd-faultname-item').on("blur mouseout", function() {
+       $('.gsrd-faultname-item').off("mouseout");
+       $('.gsrd-faultname-item').off("blur");
 window.console.log("            trigger a call..on faultname..");
        if( $(this).val() != '' ) {
 window.console.log("            with("+$(this).val()+")");
@@ -91,35 +91,35 @@ window.console.log("            with("+$(this).val()+")");
          let str=trimFaultString($(this).val());
          criteria.push(str);
 window.console.log("        again with("+str+")");
-         EGD_SLIPRATE.search(EGD_SLIPRATE.searchType.faultname, criteria);
+         GSRD_SLIPRATE.search(GSRD_SLIPRATE.searchType.faultname, criteria);
        }
  //      $(this).blur();
      });
   });
 
 
-  $("#egd-search-type").on('change', function () {
+  $("#gsrd-search-type").on('change', function () {
       let type=$(this).val();
   window.console.log( "Initiate a search session...",type);
       if(type != "") {
-        EGD_SLIPRATE.freshSearch(type);
+        GSRD_SLIPRATE.freshSearch(type);
         } else {
-          EGD_SLIPRATE.pauseSearch();
+          GSRD_SLIPRATE.pauseSearch();
       }
 
   });
 
 
-  $("#egd-model-cfm").change(function() {
-      if ($("#egd-model-cfm").prop('checked')) {
+  $("#gsrd-model-cfm").change(function() {
+      if ($("#gsrd-model-cfm").prop('checked')) {
           CXM.showCFMFaults(viewermap);
           } else {
               CXM.hideCFMFaults(viewermap);
       }
   });
 
-  $("#egd-model-gfm").change(function() {
-      if ($("#egd-model-gfm").prop('checked')) {
+  $("#gsrd-model-gfm").change(function() {
+      if ($("#gsrd-model-gfm").prop('checked')) {
           CXM.showGFMRegions(viewermap);
           } else {
               CXM.hideGFMRegions(viewermap);
@@ -132,8 +132,8 @@ window.console.log("        again with("+str+")");
 // MAIN SETUP
 
 // load the data from backend and setup layers
-  EGD_SLIPRATE.generateLayers();
+  GSRD_SLIPRATE.generateLayers();
 // setup the interface 
-  EGD_SLIPRATE.setupEGDInterface();
+  GSRD_SLIPRATE.setupGSRDInterface();
 
 }); // end of MAIN
