@@ -94,7 +94,6 @@ function refresh_markerGroup(markers) {
 }
 
 function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
-
   if(use_markerCluster) {
     let cluster = myMarkerGroup.getVisibleParent(myMarker);
     if(cluster != null) {
@@ -104,7 +103,7 @@ function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
 }
 function _unbindClusterTooltip(ev) {
   ev.propagatedFrom.unbindTooltip();
-window.console.log("CLOSE tooltip for a cluster..");
+//window.console.log("CLOSE tooltip for a cluster..");
 }
 
 function make_markerGroup(enableCluster=true) {
@@ -187,7 +186,7 @@ function make_markerGroup(enableCluster=true) {
 //cluster.refreshiconOptions( { iconsize:L.point(20,20) }, true);
                     let desc = "contains "+cluster.getAllChildMarkers().length + " slip rate sites,<br>click to expand";
                     myev.propagatedFrom.bindTooltip(desc,{sticky:true}).openTooltip();
-window.console.log("OPEN tooltip for a cluster..");
+//window.console.log("OPEN tooltip for a cluster..");
 		    setTimeout(function() {_unbindClusterTooltip(myev)},1000);
                     });
          group.on('clustermouseout', 

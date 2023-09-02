@@ -573,6 +573,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
 // select from currently active sites
     this.toggleSiteSelected = function(layer, clickFromMap=false) {
 
+window.console.log("toggleSiteSelected");
         if (typeof layer.scec_properties.selected === 'undefined') {
             layer.scec_properties.selected = true;
         } else {
@@ -589,9 +590,6 @@ window.console.log("flyingBounds --recreateActiveLayer");
         } else {
             this.unselectSiteByLayer(layer);
         }
-
-        refresh_markerGroupCluster(this.gsrd_active_layers, layer);
-
         return layer.scec_properties.selected;
     };
 
@@ -611,6 +609,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
     };
 
     this.selectSiteByLayer = function (layer, moveTableRow=false) {
+window.console.log("selectSiteByLayer..");
         layer.scec_properties.selected = true;
 // XXX radius have to match the zoom
         layer.setStyle(site_marker_style.selected);
@@ -637,11 +636,14 @@ window.console.log("flyingBounds --recreateActiveLayer");
         if ($elt) {
             $elt.addClass('glyphicon-check').removeClass('glyphicon-unchecked');
         }
+
+        refresh_markerGroupCluster(this.gsrd_active_layers, layer);
     };
 
     this.unselectSiteByLayer = function (layer) {
+window.console.log("unselectSiteByLayer..");
         layer.scec_properties.selected = false;
-     this.replaceLayerColor(layer);
+        this.replaceLayerColor(layer);
 
         let gid = layer.scec_properties.gid;
 
@@ -657,9 +659,11 @@ window.console.log("flyingBounds --recreateActiveLayer");
         if ($elt) {
             $elt.addClass('glyphicon-unchecked').removeClass('glyphicon-check');
         }
+        refresh_markerGroupCluster(this.gsrd_active_layers, layer);
     };
 
     this.unselectSiteByGid = function (gid) {
+window.console.log(" HERE  unselect ");
         let layer = this.getLayerByGid(gid);
         return this.unselectSiteByLayer(layer);
     };
