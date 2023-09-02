@@ -3,7 +3,7 @@
 # Earthquake Geology Database
 
 
-### https://www.scec.org/research/egd
+### https://www.scec.org/research/gsrd
 
 ## EGD web tool
 
@@ -11,13 +11,13 @@ A 2D web tool based on Leaflet, an open-source JavaScript library for interactiv
 https://leafletjs.com, map data services from OpenStreetMap, https://www.openstreetmap.org,
 OpenTopoMap, https://www.opentopomap.org and leaflet esri plugin,
 https://esri.github.io/esri-leaflet, for Ersi basemap from ArcGIS and the EGD 
-from https://www.scec.org/research/egd.
+from https://www.scec.org/research/gsrd.
 
 ### Screen Capture
 
-Website URL: https://www.scec.org/research/egd-viewer/
+Website URL: https://www.scec.org/research/gsrd-viewer/
 
-![](doc/egd-viewer.png)
+![](doc/gsrd-viewer.png)
 
 
 ## EGD data service

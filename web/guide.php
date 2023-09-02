@@ -82,7 +82,7 @@ $header = getHeader("User Guide");
 	    <p><i>To report any bugs or issues, please see the <a href="contact">contact page</a>
                or contact <a href="mailto:software@scec.org">software@scec.org</a>.</i></p>
 
-            <h4><strong>Searching/Querying the Slip Rate Database</strong></h4>
+            <h4><strong>Searching/Querying the Geologic Slip Rate Database</strong></h4>
 
 	    <p>The Geologic Slip Rate Database Explorer provides several search criteria,
                including fault name,
