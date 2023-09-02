@@ -9,7 +9,7 @@ $egd_sliprate = new SLIPRATE();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Geologic Slip Rate Database Explorer (Provisional)</title>
+    <title>Geologic Slip Rate Database Explorer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/vendor/font-awesome.min.css">
@@ -126,13 +126,14 @@ $egd_sliprate = new SLIPRATE();
 
 <!-- top-intro -->
    <div id="top-intro" style="display:">
-<p>The <a href="https://www.scec.org/research/gsrd">SCEC Geologic Slip Rate Datase(GSRD) Explorer</a>
+<p>The <a href="https://www.scec.org/research/gsrd">SCEC Geologic Slip Rate Datase Explorer</a>
 currently consists of a set of georegistered sites where geologic estimates of fault slip rates 
-have been estimated. To simplify browsing and downloading the Slip Rate Database, the explorer below provide
-a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database can be queried based on fault or site name,
-and minimum/maximum slip rate, or by individually clicking on points on the map. Once sites are 
-selected, they are added to the list below the map interface with selected metadata shown. The 
-complete metadata for all selected sites can be downloaded (in .csv format) with the 
+have been estimated. To simplify browsing and downloading the Slip Rate Database, the explorer
+below provide a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database
+can be queried based on fault or site name, and minimum/maximum slip rate, or by individually
+clicking on points on the map. Once sites are selected, they are added to the list below the 
+map interface with selected metadata shown.
+The complete 28 columns of metadata for all selected sites can be downloaded (in .csv format) with the 
 "Download All Data" button. Refer to the <a href="guide">user guide</a> for more details and 
 usage instructions.<br></p>
    </div>

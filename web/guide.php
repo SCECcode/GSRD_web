@@ -31,33 +31,36 @@ $header = getHeader("User Guide");
     <div class="row">
         <div class="col-12">
             <figure class="cxm-interface figure float-lg-right">
-                <img src="img/egd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
+                <img src="img/gsrd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
                 <figcaption class="figure-caption">Screen capture of Geologic Slip Rate Database Explorer interface</figcaption>
             </figure>
             <h4><strong>Geologic Slip Rate Database Explorer Overview</strong></h4>
 
-	    <p>The Geologic Slip Rate Database Explorer provide interactive map-based views of the Slip Rate Database 
-	       source data. The explorer allow users to search and view the Slip Rate Database
-	       archive using the pull-down menu near the top left of the interface 
-	       without having to download the entire Slip Rate Database archive. The pages on 
-	       this site include the main
+	    <p>The Geologic Slip Rate Database Explorer provide interactive map-based views of
+               the database source data. The explorers allow users to search and view the
+               Slip Rate Database archive using the pull-down menu near the top left of the
+               interface without having to download the entire Slip Rate Database archive.
+               The pages on this site include the main
                <a href="<?php echo $host_site_actual_path; ?>">Geologic Slip Rate Database Explorer page</a>, 
                this user guide, <a href="disclaimer">a disclaimer</a>, and a 
                <a href="contact">contact information</a> page.</p>
 
-	    <p>The main Slip Rate Database Explorer interface is on the explorer page. When first loaded, 
-	       all Slip Rate Database sites are listed on the left side of the screen (labeled by
+	    <p>The main Geologic Slip Rate Database Explorer interface is on the explorer page. 
+               When first loaded, 
+	       all sites in the database are listed on the left side of the screen (labeled by
 	       fault name | site name) and shown on the interactive map interface 
 	       (with blue circles) on the right side of the page. Users can click
-	       on the checkboxes in the Slip Rate Database site table to select specific sites or 
+	       on the checkboxes in the "Slip Rate Site Location" table to select specific sites or 
 	       click on sites directly on the map (See Viewing and Downloading Metadata 
 	       below for more details). Sites can be removed from the list at the 
 	       bottom of the interface by clicking on the trash can icon, or all 
 	       sites can be cleared by clicking on the “reset” button near the top
-               left of the interface.</p>
+               left of the interface. Note that some of the database locations refer to 
+               multiple studies. These are indicated with squares on the map interface.
+               Clicking on a square expands the sites to show the individual database sites.</p>
 
 	    <p>The interactive map on the right displays the geographic location of 
-	       each Slip Rate Database site. In the top right corner of the interactive map, there 
+	       each database site. In the top right corner of the interactive map, there 
 	       is a pull-down menu that allows the basemap to be changed. By default,
 	       the basemap shown is
 	       <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ESRI Topographic</a>, but
@@ -81,8 +84,9 @@ $header = getHeader("User Guide");
 
             <h4><strong>Searching/Querying the Slip Rate Database</strong></h4>
 
-	    <p>The Geologic Slip Rate Database Explorer provide several search criteria, including fault name,
-	       latitude/longitude, low rate, and high rate. Most Slip Rate Database sites do not have 
+	    <p>The Geologic Slip Rate Database Explorer provides several search criteria,
+               including fault name,
+	       latitude/longitude, low rate, and high rate. Most database sites do not have 
 	       a “preferred” rate, so there is no search by preferred rate option. 
 	       Once a search type is selected, additional controls will appear in the form 
 	       of text input boxes, or sliders. Note that due to the large range in slip
@@ -93,7 +97,7 @@ $header = getHeader("User Guide");
 	       Users can either enter the latitude/longitude values in the text boxes 
 	       (bottom left first, followed by top right corners of a bounding rectangle),
 	       or simply click and drag on the map to draw a bounding rectangle. In either
-	       case, any portion of an Slip Rate Database site that lies within the bounding rectangle will
+	       case, any portion of a database site that lies within the bounding rectangle will
 	       appear in the search results at the left side of the interface. These search 
 	       results can be added to the download table at the bottom of the interface by
 	       clicking on the checkbox next to the site name, or all sites can be added by
@@ -104,17 +108,20 @@ $header = getHeader("User Guide");
 
             <h4><strong>Downloading and Using Data</strong></h4>
 
-	    <p>Slip Rate Database metadata files in CSV format are available for download from this site. 
-	       First, select the desired Slip Rate Database sites by clicking on individual circles on the 
+	    <p>Geologic Slip Rate Database metadata files in CSV format are available for
+               download from this site. 
+	       First, select the desired database sites by clicking on individual circles on the 
 	       map, or using the search methods discussed earlier in this guide. Selected 
 	       sites are highlighted in red on the map when clicked and key metadata for 
 	       the selected site(s) appears in the table at the bottom of the interface. 
-	       When available, references for the Slip Rate Database are provided as clickable hyperlinks 
+	       When available, references for the Geologic Slip Rate Database are provided as 
+               clickable hyperlinks 
 	       that link directly to the source publications/resources. Click on the 
 	       “DOWNLOAD ALL DATA” button to download a CSV file with the complete metadata 
-	       for every selected site. CSV files are plain text (ASCII) and can also be directly
+	       (the full 28 columns) for every selected site. CSV files are plain text (ASCII)
+               and can also be directly
 	       opened by Microsoft Excel, or Google Sheets. For more information about the 
-               complete metadata contents, refer to the Slip Rate Database Zenodo archive.</p>
+               complete metadata contents, refer to the Geologic Slip Rate Database Zenodo archive.</p>
 
             <h4><strong>KML/KMZ Uploader</strong></h4>
 
