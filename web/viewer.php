@@ -219,21 +219,25 @@ usage instructions.<br></p>
                                    placeholder="Min Latitude"
                                    id="egd-firstLatTxt"
                                    title="first lat"
+onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
                                    class="egd-latlon-item form-control">
                             <input type="text" 
                                    placeholder='Min Longitude' 
                                    id="egd-firstLonTxt" 
                                    title="first lon"
+onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLatTxt"
                                    title="second lat"
                                    placeholder='Max Latitude'
+onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
                                    class="egd-latlon-item form-control">
                             <input type="text"
                                    id="egd-secondLonTxt"
                                    title="second lon"
                                    placeholder='Max Longitude'
+onkeypress="javascript:if (event.key == 'Enter') $('.egd-latlon-item').mouseout();"
                                    class="egd-latlon-item form-control">
                         </div>
                       </div>

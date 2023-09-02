@@ -139,7 +139,7 @@ function make_markerGroup(enableCluster=true) {
                       iconsize= (Math.round( t * 100))/100; 
                 }
            }
-window.console.log( "I am a cluster at >>"+marker_cluster_cnt++);
+//window.console.log( "I am a cluster at >>"+marker_cluster_cnt++);
            let markerlist=cluster.getAllChildMarkers();
            let sz=markerlist.length;
            let selected=false;

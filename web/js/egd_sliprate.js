@@ -82,7 +82,7 @@ fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
 state: 'State',
 site_name: 'Site Name',
-egd_id: 'Site ID',
+egd_id: 'ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
 latitud: 'Latitude',
@@ -951,7 +951,7 @@ window.console.log( "BAD, unknown search type \n");
     // fromWhere=1 from drawRectangle call
     this.searchLatlon = function (fromWhere, rect) {
         let criteria = [];
-        if( fromWhere == 0) {
+        if( fromWhere == 0) { 
             let lat1=$("#egd-firstLatTxt").val();
             let lon1=$("#egd-firstLonTxt").val();
             let lat2=$("#egd-secondLatTxt").val();
@@ -959,6 +959,7 @@ window.console.log( "BAD, unknown search type \n");
             if(lat1=='' || lon1=='' || lat2=='' || lon2=='') return;
             remove_bounding_rectangle_layer();
             add_bounding_rectangle(lat1,lon1,lat2,lon2);
+
             criteria.push(lat1);
             criteria.push(lon1);
             criteria.push(lat2);
@@ -977,8 +978,14 @@ window.console.log( "BAD, unknown search type \n");
                 $("#egd-secondLatTxt").val( parseFloat(criteria[2]).toFixed(5));
                 $("#egd-secondLonTxt").val( parseFloat(criteria[3]).toFixed(5));
         }
-                 
+                
         this.search(EGD_SLIPRATE.searchType.latlon, criteria);
+        
+        if( fromWhere == 0) { // fake a zoom ?? to resize the radius to the zoom 
+window.console.log(" fromWHERE.. force a getZoom");
+          let zoom=viewermap.getZoom();
+          this.gotZoomed(zoom);
+	}
 
         let markerLocations = [];
         markerLocations.push(L.latLng(criteria[0],criteria[1]));
@@ -1108,7 +1115,7 @@ window.console.log("generateMetadataTable..");
 <tr>
         <th class="text-center button-container" style="width:2rem">
         </th>
-        <th class="hoverColor" style="width:2rem" >ID<span></span></th>
+        <th class="hoverColor" style="width:4rem" >ID<span></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(2,'a')" style="width:8rem">Fault Name&nbsp;<span id='sortCol_2' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(3,'a')" style="width:8rem">Site Name&nbsp;<span id='sortCol_3' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:6rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
@@ -1419,29 +1426,29 @@ window.console.log(center, zoom);
               max:this.egd_maxrate_max,
               values:[this.egd_maxrate_min, this.egd_maxrate_max],
               slide: function( event, ui ) {
-window.console.log("in maxrate slider..-- change");
+//window.console.log("in maxrate slider..-- change");
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               change: function( event, ui ) {
-window.console.log("in maxrate slider..-- change");
+//window.console.log("in maxrate slider..-- change");
                            $("#egd-minMaxrateSliderTxt").val(ui.values[0]);
                            $("#egd-maxMaxrateSliderTxt").val(ui.values[1]);
                            //EGD_SLIPRATE.setMaxrateRangeColor(ui.values[0],ui.values[1]);
                      },
               stop: function( event, ui ) {
-window.console.log("in maxrate slider..-- stop");
+//window.console.log("in maxrate slider..-- stop");
                            let searchType = EGD_SLIPRATE.searchType.maxrate;
                            EGD_SLIPRATE.search(searchType, ui.values);
                      },
               create: function() {
-window.console.log("in maxrate slider..-- create");
+//window.console.log("in maxrate slider..-- create");
                           $("#egd-minMaxrateSliderTxt").val(this.egd_maxrate_min);
                           $("#egd-maxMaxrateSliderTxt").val(this.egd_maxrate_max);
                     }
             });
-window.console.log("setting up the maxrate slider ..");
+//window.console.log("setting up the maxrate slider ..");
             $('#slider-maxrate-range').slider("option", "min", this.egd_maxrate_min);
             $('#slider-maxrate-range').slider("option", "max", this.egd_maxrate_max);
     };

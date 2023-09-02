@@ -108,14 +108,14 @@ function cmapSetupSliprateSegments(lrmin,lrmax,hrmin,hrmax) {
 window.console.log(" ---- calling cmapSetupSliprateSegments!!!");
    let N=EGD_DEFAULT_DATA_SEGMENT_COUNT;
 
-window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);
-window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
+//window.console.log("lr val RANGE :  "+lrmin+" to "+lrmax);
+//window.console.log("hr val RANGE :  "+hrmin+" to "+hrmax);
 
    sliprateLowRateSegments=_logscale(Math.log10(lrmin),Math.log10(lrmax), N);
    sliprateHighRateSegments=_logscale(Math.log10(hrmin),Math.log10(hrmax), N);
 
-window.console.log("lr log", sliprateLowRateSegments.toString());
-window.console.log("hr log", sliprateHighRateSegments.toString());
+//window.console.log("lr log", sliprateLowRateSegments.toString());
+//window.console.log("hr log", sliprateHighRateSegments.toString());
 }
 
 

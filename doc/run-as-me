@@ -2,7 +2,7 @@
 
    yum install git
 
-   git clone https://github.com/sceccode/EGD_web.git
+   git clone https://github.com/sceccode/EGD_web.git GSRD_web
 
 ## echo "!!! running doc/run-as-me !!!'
 
