@@ -1,7 +1,7 @@
 FROM mdillon/postgis:10-alpine
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=SLIPRATE_db
-ENV PGDATA=/home/postgres/egd_db
+ENV PGDATA=/home/postgres/gsrd_db
 
 WORKDIR /app
 
@@ -11,6 +11,6 @@ RUN mkdir /home/postgres
 RUN chown postgres /home/postgres
 RUN su postgres -c /app/doc/run-as-postgres
 
-RUN echo "host all  all    0.0.0.0/0  trust" >> /home/postgres/egd_db/pg_hba.conf
+RUN echo "host all  all    0.0.0.0/0  trust" >> /home/postgres/gsrd_db/pg_hba.conf
 
 

@@ -16,21 +16,21 @@ PWD=`pwd`
 
 if [ $TOGGLE_S1 == 1 ]
 then
-  EGDPATH=${PWD}"/../EGD_1_slip_rates/"
-  EGDTYPE="EGD1_sliprates"
-  EXCEL_NM="EGD_SlipRatesSites"
+  GSRDPATH=${PWD}"/../GSRD_slip_rates/"
+  GSRDTYPE="GSRD_sliprates"
+  EXCEL_NM="GSRD_SlipRatesSites"
   DATATYPE="sliprate"
-  EXCEL_NM_SHEET="EGD1 Slip Rates"
-#  EXCEL_NM_FILE=${EGDPATH}"/EGD_SlipRates.xlsx"
+  EXCEL_NM_SHEET="GSRD Slip Rates"
+#  EXCEL_NM_FILE=${GSRDPATH}"/GSRD_SlipRates.xlsx"
 fi
 
 if [ $TOGGLE_C1 == 1 ]
 then
-  EGDPATH=${PWD}"/../EGD_1_chronology/"
-  EGDTYPE="EGD1_chronology"
-  EXCEL_NM="EGD1_Metadata_C"
-  DATATYPE="chronology1"
-  EXCEL_NM_SHEET="EGD1 Chronology"
-  EXCEL_NM_FILE=${PWD}"/EGD_Chronology_Metadata.xlsx"
+  GSRDPATH=${PWD}"/../GSRD_chronology/"
+  GSRDTYPE="GSRD_chronology"
+  EXCEL_NM="GSRD_Metadata_C"
+  DATATYPE="chronology"
+  EXCEL_NM_SHEET="GSRD Chronology"
+  EXCEL_NM_FILE=${PWD}"/GSRD_Chronology_Metadata.xlsx"
 fi
 

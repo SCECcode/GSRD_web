@@ -4,10 +4,10 @@ set -e
 export PGUSER="$POSTGRES_USER"
 
 # Carve out db space
-initdb /home/postgres/egd_db
+initdb /home/postgres/gsrd_db
 
 # Start PostgreSQL server
-pg_ctl -D /home/postgres/egd_db -l /home/postgres/logfile start
+pg_ctl -D /home/postgres/gsrd_db -l /home/postgres/logfile start
 
 /app/schema/load_db_setup
 /app/schema/load_sliprate_db_up

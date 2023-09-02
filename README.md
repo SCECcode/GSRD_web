@@ -5,12 +5,12 @@
 
 ### https://www.scec.org/research/gsrd
 
-## EGD web tool
+## Geologic Slip Rate Database Explorer
 
 A 2D web tool based on Leaflet, an open-source JavaScript library for interactive maps,
 https://leafletjs.com, map data services from OpenStreetMap, https://www.openstreetmap.org,
 OpenTopoMap, https://www.opentopomap.org and leaflet esri plugin,
-https://esri.github.io/esri-leaflet, for Ersi basemap from ArcGIS and the EGD 
+https://esri.github.io/esri-leaflet, for Ersi basemap from ArcGIS and the GSRD 
 from https://www.scec.org/research/gsrd.
 
 ### Screen Capture
@@ -20,7 +20,7 @@ Website URL: https://www.scec.org/research/gsrd-viewer/
 ![](doc/gsrd-viewer.png)
 
 
-## EGD data service
+## GSRD data service
 
 Software stack at the backend server node when postgres and postgis are
 being built from source:
