@@ -573,7 +573,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
 // select from currently active sites
     this.toggleSiteSelected = function(layer, clickFromMap=false) {
 
-window.console.log("toggleSiteSelected");
+//window.console.log("toggleSiteSelected");
         if (typeof layer.scec_properties.selected === 'undefined') {
             layer.scec_properties.selected = true;
         } else {
@@ -609,9 +609,8 @@ window.console.log("toggleSiteSelected");
     };
 
     this.selectSiteByLayer = function (layer, moveTableRow=false) {
-window.console.log("selectSiteByLayer..");
+//window.console.log("selectSiteByLayer..");
         layer.scec_properties.selected = true;
-// XXX radius have to match the zoom
         layer.setStyle(site_marker_style.selected);
         let gid = layer.scec_properties.gid;
 
@@ -641,7 +640,7 @@ window.console.log("selectSiteByLayer..");
     };
 
     this.unselectSiteByLayer = function (layer) {
-window.console.log("unselectSiteByLayer..");
+//window.console.log("unselectSiteByLayer..");
         layer.scec_properties.selected = false;
         this.replaceLayerColor(layer);
 
@@ -663,7 +662,7 @@ window.console.log("unselectSiteByLayer..");
     };
 
     this.unselectSiteByGid = function (gid) {
-window.console.log(" HERE  unselect ");
+//window.console.log(" HERE  unselect ");
         let layer = this.getLayerByGid(gid);
         return this.unselectSiteByLayer(layer);
     };
