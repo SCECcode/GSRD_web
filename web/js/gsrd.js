@@ -15,6 +15,7 @@ var GSRD_SLIPRATE = new function () {
 
     // searched layers being actively looked at -- result of a search
     this.gsrd_active_layers = make_markerGroup();
+    _setupLayerActions(this.gsrd_active_layers);
     this.gsrd_active_markerLocations = [];
     this.gsrd_active_gid = [];
 
@@ -200,6 +201,27 @@ window.console.log("setting up color legend..");
         return rc;
     }
 
+    function _setupLayerActions(activelayers) { 
+        activelayers.on('click', function(event) {
+            if(activeProduct == Products.SLIPRATE) {
+               let layer=event.layer;
+               layer.unbindTooltip();
+               GSRD_SLIPRATE.toggleSiteSelected(event.layer, true);
+            }
+        });
+
+        activelayers.on('mouseover', function(event) {
+            let layer = event.layer;
+            layer.setRadius(site_marker_style.hover.radius);
+        });
+
+        activelayers.on('mouseout', function(event) {
+            let layer = event.layer;
+            layer.setRadius(site_marker_style.normal.radius);
+        });
+    }
+
+
 // gsrd_sliprate_site_data is from viewer.php, which is the JSON 
 // result from calling php getAllSiteData script
     this.generateLayers = function () {
@@ -213,7 +235,8 @@ window.console.log( "generate the initial gsrd_layers");
         for (const index in gsrd_sliprate_site_data) {
           if (gsrd_sliprate_site_data.hasOwnProperty(index)) {
                 let gid = gsrd_sliprate_site_data[index].gid;
-                let gsrd_id = gsrd_sliprate_site_data[index].gsrdid;
+// XXX  needs to update after egd->gsrd name change in schema
+                let gsrd_id = gsrd_sliprate_site_data[index].egdid;
                 let sliprate_id = gsrd_sliprate_site_data[index].sliprateid;
                 let longitude = parseFloat(gsrd_sliprate_site_data[index].longitude);
                 let latitude = parseFloat(gsrd_sliprate_site_data[index].latitude);
@@ -315,8 +338,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 
         };
 
-         
-
+/***
         this.gsrd_active_layers.on('click', function(event) {
             if(activeProduct == Products.SLIPRATE) { 
                let layer=event.layer;
@@ -334,6 +356,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
             let layer = event.layer;
             layer.setRadius(site_marker_style.normal.radius);
         });
+***/
 
         // now update the scec_properties's color
         this.fillAllLayersColors();
@@ -343,6 +366,8 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
 // glist is a sorted ascending list
 // this.gsrd_layers should be also ascending
     this.createActiveLayerGroupWithGids = function(glist) {
+
+window.console.log("createActiveLayer with gid +",glist.length);
 
         // remove the old ones and remove from result table
         this.clearAllSelections()
@@ -359,6 +384,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         }
 
         this.gsrd_active_layers= make_markerGroup(enableCluster);
+        _setupLayerActions(this.gsrd_active_layers);
         this.gsrd_active_gid=[];
         this.gsrd_active_markerLocations = [];
 
@@ -462,6 +488,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
         }
 
         this.gsrd_active_layers= make_markerGroup(enableCluster);
+        _setupLayerActions(this.gsrd_active_layers);
         this.gsrd_active_gid=[];
         
         for (let i=0; i< this.gsrd_layers.length; i++) {
@@ -478,6 +505,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
              this.gsrd_active_markerLocations.push(marker.getLatLng())                      
           }
         }
+
         replaceResultTableBodyWithGids(this.gsrd_active_gid);
         this.gsrd_active_layers.addTo(viewermap);
 window.console.log("flyingBounds --recreateActiveLayer");
@@ -492,6 +520,7 @@ window.console.log("flyingBounds --recreateActiveLayer");
                || this.searchingType == this.searchType.minrate
                || this.searchingType == this.searchType.maxrate) {
           this.gsrd_active_layers= make_markerGroup();
+          _setupLayerActions(this.gsrd_active_layers);
           this.gsrd_active_gid=[];
         
           for (let i=0; i< this.gsrd_layers.length; i++) {
@@ -1038,7 +1067,7 @@ fullreferences
         meta.fault_id = properties.faultid;
         meta.state = properties.state;
         meta.site_name = properties.sitename;
-        meta.gsrd_id= properties.gsrdid;
+        meta.gsrd_id= properties.egdid;
         meta.sliprate_id= properties.sliprateid;
         meta.longitude = properties.longitude;
         meta.latitude = properties.latitude;

@@ -5,11 +5,12 @@ This is leaflet specific utilities for GSRD
 ***/
 
 var use_markerCluster = 0;
+var force_no_markerCluster=false;
 
 var init_map_zoom_level = 6;
 var init_map_coordinates =  [37.73, -119.89];
 var drawing_rectangle = false;
-var marker_cluster_cnt=0;
+var marker_cluster_uid=0;
 
 var scecAttribution ='<a href="https://www.scec.org">SCEC</a>';
 
@@ -97,7 +98,7 @@ function refresh_markerGroupCluster(myMarkerGroup, myMarker) {
   if(use_markerCluster) {
     let cluster = myMarkerGroup.getVisibleParent(myMarker);
     if(cluster != null) {
-      myMarkerGroup.refreshClusters(myMarker);
+      myMarkerGroup.refreshClusters(cluster);
     }
   }
 }
@@ -109,7 +110,7 @@ window.console.log("CLOSE tooltip for a cluster..");
 function make_markerGroup(enableCluster=true) {
 
   window.console.log(" ===> a new markerGroup =====");
-  if(enableCluster) {
+  if(enableCluster && !force_no_markerCluster) {
     use_markerCluster=true;
     } else {
       use_markerCluster=false;
@@ -121,7 +122,6 @@ function make_markerGroup(enableCluster=true) {
 
   window.console.log(" ==== creating a marker cluster group ===");
   let iconsize=7;
-  marker_cluster_cnt=0;
   var group=new L.markerClusterGroup(
         {
          maxClusterRadius: 1,
@@ -153,20 +153,23 @@ function make_markerGroup(enableCluster=true) {
 
            var clusterIcon;
            if(selected) {
+             var classname="gsrd-cluster-highlight gsrd-cluster-"+marker_cluster_uid;
              clusterIcon=L.divIcon(
 		{
 		 html: '',
-	  	 className: 'gsrd-cluster-highlight',
+	  	 className: classname,
 		 iconSize: L.point(iconsize,iconsize)
 		});
              } else {
+               var classname="gsrd-cluster gsrd-cluster-"+marker_cluster_uid;
                clusterIcon=L.divIcon(
                 {
                 html: '',
-		className: 'gsrd-cluster',
+		className: classname,
 		iconSize: L.point(iconsize,iconsize)
 		});
            }
+           marker_cluster_uid++;
            return clusterIcon;
          },
 //	 disableClusteringAtZoom: 8,
@@ -194,7 +197,6 @@ window.console.log("OPEN tooltip for a cluster..");
                     //myev.propagatedFrom.unbindTooltip();
                     });
 
-   group.gsrd_cluster_cnt=marker_cluster_cnt;
    return group;
 }
 
