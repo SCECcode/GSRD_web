@@ -118,7 +118,7 @@ $header = getHeader("User Guide");
                clickable hyperlinks 
 	       that link directly to the source publications/resources. Click on the 
 	       “DOWNLOAD ALL DATA” button to download a CSV file with the complete metadata 
-	       (the full 28 columns) for every selected site. CSV files are plain text (ASCII)
+	       (the full 27 columns) for every selected site. CSV files are plain text (ASCII)
                and can also be directly
 	       opened by Microsoft Excel, or Google Sheets. For more information about the 
                complete metadata contents, refer to the Geologic Slip Rate Database Zenodo archive.</p>
