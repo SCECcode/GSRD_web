@@ -1076,7 +1076,7 @@ fullreferences
         meta.latitude = properties.latitude;
         meta.dist_to_cfmfault = properties.disttocfmfault;
         meta.cfm6_objectname = properties.cfm6objectname;
-        meta.data_type = properties.datatype;
+//no need        meta.data_type = properties.datatype;
         meta.observation = properties.observation;
         meta.pref_rate = properties.prefrate;
         meta.low_rate = properties.lowrate;
