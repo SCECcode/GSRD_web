@@ -115,7 +115,9 @@ $gsrd_sliprate = new SLIPRATE();
 <body>
 <?php echo $header; ?>
 
-<div class="container main" id="gsrdMain">
+<div class="container">
+
+<div class=main" id="gsrdMain">
 
 <!-- trace dumping buttons 
     <div style="display:none">
@@ -431,7 +433,6 @@ onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout
   </div>
 </div>
 
-
 <!-- modal list -->
 <!--Modal: Model (modalkmlselect) -->
 <div class="modal" id="modalkmlselect" tabindex="-1" style="z-index:9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -453,11 +454,14 @@ onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout
   </div>
 </div> <!--Modal: modalkmlselect-->
 
+</div> <!-- container -->
+
 <!--call php directly-->
-    <script type="text/javascript">
+<script type="text/javascript">
             window.console.log("GRAB the station data..");
             gsrd_sliprate_site_data = <?php print $gsrd_sliprate->getAllStationData()->outputJSON(); ?>;
-    </script>
+</script>
+
 </body>
 </html>
 
