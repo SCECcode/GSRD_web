@@ -129,7 +129,7 @@ $gsrd_sliprate = new SLIPRATE();
 <p>The <a href="https://www.scec.org/research/gsrd">SCEC Geologic Slip Rate Database Explorer</a>
 currently consists of a set of georegistered sites where geologic estimates of fault slip rates 
 have been estimated. To simplify browsing and downloading the Slip Rate Database, the explorer
-below provide a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database
+below provides a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database
 can be queried based on fault or site name, and minimum/maximum slip rate, or by individually
 clicking on points on the map. Once sites are selected, they are added to the list below the 
 map interface with selected metadata shown.
