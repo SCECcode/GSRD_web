@@ -15,9 +15,9 @@ from https://www.scec.org/research/gsrd.
 
 ### Screen Capture
 
-Website URL: https://www.scec.org/research/gsrd-viewer/
+Website URL: https://www.scec.org/research/gsrd-explorer/
 
-![](doc/gsrd-viewer.png)
+![](web/img/gsrd-explorer.png)
 
 
 ## GSRD data service
