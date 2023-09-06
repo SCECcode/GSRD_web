@@ -31,7 +31,7 @@ $header = getHeader("User Guide");
     <div class="row">
         <div class="col-12">
             <figure class="cxm-interface figure float-lg-right">
-                <img src="img/gsrd-viewer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
+                <img src="img/gsrd-explorer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
                 <figcaption class="figure-caption">Screen capture of Geologic Slip Rate Database Explorer interface</figcaption>
             </figure>
             <h4><strong>Geologic Slip Rate Database Explorer Overview</strong></h4>
