@@ -1,11 +1,11 @@
-version: '1.0'
+version: '2.2'
 
 services:
 
   db:
-    mem_limit: 5g
-    cpus: 3
+    mem_limit: 500m
+    cpus: 1
 
   web:
-    mem_limit: 5g
-    cpus: 3
+    mem_limit: 500m
+    cpus: 1
