@@ -2,7 +2,8 @@
 // this site will be hosted by reverse proxy so for some links we need to know
 // the path we're actually hosted on
 $host_site_actual_path = "/";
-if (isset($_SERVER['HTTP_X_FORWARDED_SERVER'])) {
+if (isset($_SERVER['HTTP_X_FORWARDED_SERVER']) ||
+	isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 	// check that we're behind a proxy
 	$host_site_actual_path = "/research/gsrd-explorer/";
 }
