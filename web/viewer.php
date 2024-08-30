@@ -1,7 +1,7 @@
 <?php
 require_once("php/navigation.php");
 require_once("php/GSRD_SLIPRATE.php");
-$header = getHeader("Explorer");
+$header = getHeader("explorer");
 
 $gsrd_sliprate = new SLIPRATE();
 
@@ -110,7 +110,9 @@ $gsrd_sliprate = new SLIPRATE();
         });
 
     </script>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
 <?php echo $header; ?>
@@ -127,8 +129,14 @@ $gsrd_sliprate = new SLIPRATE();
 -->
 
 <!-- top-intro -->
-   <div id="top-intro" style="display:">
-<p>The <a href="https://www.scec.org/research/gsrd">SCEC Geologic Slip Rate Database Explorer</a>
+   <div id="top-intro" class="row">
+               <div class="col-1 links d-none d-md-block align-self-end">
+            <div>
+                <a href="https://www.scec.org/about">About SCEC</a>
+                <a href="https://www.scec.org/science/cem">About CEM</a>
+            </div>
+        </div>
+<p class="col-11 intro-text">The <a href="https://www.scec.org/research/gsrd">SCEC Geologic Slip Rate Database Explorer</a>
 currently consists of a set of georegistered sites where geologic estimates of fault slip rates 
 have been estimated. To simplify browsing and downloading the Slip Rate Database, the explorer
 below provides a two-dimensional map-based view of the Slip Rate Database. The Slip Rate Database
