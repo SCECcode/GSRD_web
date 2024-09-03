@@ -14,11 +14,11 @@ might need cxm_misc_util.js
 **/
 var CXM = new function () {
 
-  const CFM_FNAME="CFM6.0_geoJson.txt";
+  const CFM_FNAME="CFM7.0_geoJson.txt";
   const CTM_FNAME="CTM_geoJson.txt";
   const CRM_FNAME="CRM_geoJson.txt";
 
-  const CFM_URL="data/CFM6.0_geoJson.txt";
+  const CFM_URL="data/CFM7.0_geoJson.txt";
   const CTM_URL="data/CTM_geoJson.txt";
   const CRM_URL="data/CRM_geoJson.txt";
   const CRM_POLYGON_URL="data/CRM_polygons_points_with_corrected_Rift_names_Mar112019.csv";

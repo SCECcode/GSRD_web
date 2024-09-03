@@ -2,7 +2,7 @@
    gsrd_main.js
 ***/
 
-var initial_page_load = true;
+var initial_page_load = false;
 
 const Products = {
     SLIPRATE: 'sliprate',
@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
 //if (navigator.userAgentData.mobile) { // do something }
 
   if( screen.width <= 480 ) {
-    window.console.log("OH NO.. I am on Mini.."+screen_width);
+    window.console.log("OH NO.. I am on Mini.."+screen.width);
     //location.href = '/mobile.html';
   }
 
@@ -126,14 +126,14 @@ window.console.log("        again with("+str+")");
       }
   });
 
-  $.event.trigger({ type: "page-ready", "message": "completed", });
-
-
 // MAIN SETUP
 
 // load the data from backend and setup layers
   GSRD_SLIPRATE.generateLayers();
 // setup the interface 
   GSRD_SLIPRATE.setupGSRDInterface();
+
+  initial_page_load = true;
+  $.event.trigger({ type: "page-ready", "message": "completed", });
 
 }); // end of MAIN

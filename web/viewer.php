@@ -327,14 +327,16 @@ onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout
           <div id='model-options' class="form-check-inline">
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
+                               title="Show Community Fault Model v7.0 traces on map"
                                for="gsrd-model-cfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"
-			       id="gsrd-model-cfm" value="1" />CFM6.0
+			       id="gsrd-model-cfm" value="1" />CFM7.0
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <label class='form-check-label ml-1 mini-option'
+                               title="Show the Geologic Framework Model regions on map"
                                for="gsrd-model-gfm">
                 <input class='form-check-inline mr-1'
                                type="checkbox"

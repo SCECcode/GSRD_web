@@ -1412,14 +1412,6 @@ window.console.log("BAD.. no markers ???");
 window.console.log("fit bounds to all marker");
                 viewermap.fitBounds(bounds);
             }
-/*
-{
-let center=viewermap.getCenter();
-let zoom=viewermap.getZoom();
-window.console.log(center, zoom);
-}
-*/
-
 
 /* setup  sliders */
             $("#slider-minrate-range").slider({ 

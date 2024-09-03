@@ -15,14 +15,9 @@ function trimFaultString(str) {
 
 function _toMedView()
 {
-let elt = document.getElementById('banner-container');
-let celt = document.getElementById('top-intro');
-let c_height = elt.clientHeight+(celt.clientHeight/2);
-let h=576+c_height;
-
-$('#top-intro').css("display", "none");
+//$('#top-intro').css("display", "none");
+//$('#GSRD_plot').css("height", h);
 $('#searchResult').css("display", "none");
-$('#GSRD_plot').css("height", h);
 $('.leaflet-control-attribution').css("width", "70rem");
 $('#infoData').removeClass('col-5').addClass('col-0');
 $('#top-map').removeClass('col-7').addClass('row');
@@ -36,22 +31,25 @@ function _toMinView()
 let height=window.innerHeight;
 let width=window.innerWidth;
 
+let belt = document.getElementById('banner-container');
+let b_height = belt.clientHeight;
+let telt = document.getElementById('top-intro');
+let t_height = telt.clientHeight;
+
 $('#top-control').css("display", "none");
 $('#top-select').css("display", "none");
 $('.navbar').css("margin-bottom", "0px");
 
 $('.container').css("max-width", "100%");
-$('.leaflet-control-attribution').css("width", "100rem");
+$('.leaflet-control-attribution').css("width", "70rem");
 
-$('.container').css("padding-left", "0px");
-$('.container').css("padding-right", "0px");
+$('.container').css("padding-left", "2px");
+$('.container').css("padding-right", "2px");
+
 // minus the height of the container top 
-let elt = document.getElementById('banner-container');
-let c_height = elt.clientHeight;
-let h = height - c_height-4.5;
-let w = width - 15;
-//window.console.log( "height: %d, %d > %d \n",height, c_height,h);
-//window.console.log( "width: %d, %d  \n",width, w);
+let h = height - b_height - t_height - 80;
+let w = width - 100;
+
 $('#GSRD_plot').css("height", h);
 $('#GSRD_plot').css("width", w);
 resize_map();
@@ -71,7 +69,6 @@ $('.leaflet-control-attribution').css("width", "35rem");
 $('.container').css("padding-left", "15px");
 $('.container').css("padding-right", "15px");
 
-$('#top-intro').css("display", "");
 $('#searchResult').css("display", "");
 $('#infoData').addClass('col-5').removeClass('col-0');
 $('#top-map').removeClass('row').addClass('col-7');
