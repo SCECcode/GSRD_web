@@ -1,7 +1,7 @@
 CREATE TABLE SLIPRATE_tb (
    gid           serial PRIMARY KEY,
    SliprateID    VARCHAR(10) UNIQUE NOT NULL,
-   EGDID         VARCHAR(10) UNIQUE NOT NULL,
+   SCECID         VARCHAR(10) UNIQUE NOT NULL,
    Longitude     float DEFAULT 0.0,  
    Latitude      float DEFAULT 0.0,  
    FaultName     VARCHAR(200) NOT NULL,
@@ -9,8 +9,7 @@ CREATE TABLE SLIPRATE_tb (
    State         VARCHAR(10) NOT NULL,
    SiteName      VARCHAR(100) NOT NULL,
    DistToCFMFault float DEFAULT 0.0,
-   CFM6ObjectName VARCHAR(100) NOT NULL,
-   DataType      VARCHAR(100) NOT NULL,
+   CFM7ObjectName VARCHAR(100) NOT NULL,
    Observation   VARCHAR(1000),
    PrefRate      VARCHAR(50),
    LowRate       float default 0.0,

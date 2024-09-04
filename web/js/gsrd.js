@@ -83,13 +83,12 @@ fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
 state: 'State',
 site_name: 'Site Name',
-gsrd_id: 'ID',
+scec_id: 'ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
 latitud: 'Latitude',
 dist_to_cfmfault: 'Distance To Nearest CFM Fault (km)',
-cfm6_objectname: 'CFM6.0 Object Name',
-data_type: 'Data Type',
+cfm7_objectname: 'CFM7.0 Object Name',
 observation: 'Observation',
 pref_rate: 'Preferred Rate',
 low_rate: 'Low Rate',
@@ -236,12 +235,12 @@ window.console.log( "generate the initial gsrd_layers");
           if (gsrd_sliprate_site_data.hasOwnProperty(index)) {
                 let gid = gsrd_sliprate_site_data[index].gid;
 // XXX  needs to update after egd->gsrd name change in schema
-                let gsrd_id = gsrd_sliprate_site_data[index].egdid;
+                let scec_id = gsrd_sliprate_site_data[index].scecid;
                 let sliprate_id = gsrd_sliprate_site_data[index].sliprateid;
                 let longitude = parseFloat(gsrd_sliprate_site_data[index].longitude);
                 let latitude = parseFloat(gsrd_sliprate_site_data[index].latitude);
                 let fault_name = gsrd_sliprate_site_data[index].faultname;
-                let cfm_name = gsrd_sliprate_site_data[index].cfm6objectname;
+                let cfm_name = gsrd_sliprate_site_data[index].cfm7objectname;
                 let state = gsrd_sliprate_site_data[index].state;
                 let site_name = gsrd_sliprate_site_data[index].sitename;
                 let rate_type = gsrd_sliprate_site_data[index].ratetype;
@@ -266,7 +265,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                     active: true,
                     selected: false,
                     gid: gid,
-                    gsrd_id: gsrd_id,
+                    scec_id: scec_id,
                     sliprate_id:sliprate_id,
                     longitude: longitude,
                     latitude: latitude,
@@ -915,7 +914,7 @@ window.console.log("sliprate --- calling freshSearch..");
 
     this.getMarkerBySiteId = function (site_id) {
         for (const index in gsrd_sliprate_site_data) {
-            if (gsrd_sliprate_site_data[index].gsrd_id == site_id) {
+            if (gsrd_sliprate_site_data[index].scec_id == site_id) {
                 return gsrd_sliprate_site_data[index];
             }
         }
@@ -1030,7 +1029,7 @@ window.console.log("flyingBounds --latlon");
 
 /********** metadata  functions *********************/
 /* create a metadata list using selected gid list
-FaultName,FaultID,State,SiteName,GSRDId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM6ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
+FaultName,FaultID,State,SiteName,SCECId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM7ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
 UCERF3AppB
 ShortReferences,Links,FullReferences
 
@@ -1039,13 +1038,12 @@ faultname
 faultid
 state
 sitename
-gsrdid
+scecid
 sliprateid
 longitude
 latitud
 disttocfmfault
-cfm6objectname
-datatype
+cfm7objectname
 observation
 prefrate
 lowrate
@@ -1070,7 +1068,7 @@ fullreferences
         meta.fault_id = properties.faultid;
         meta.state = properties.state;
         meta.site_name = properties.sitename;
-        meta.gsrd_id= properties.egdid;
+        meta.scec_id= properties.scecid;
         meta.sliprate_id= properties.sliprateid;
         meta.longitude = properties.longitude;
         meta.latitude = properties.latitude;
@@ -1126,7 +1124,7 @@ fullreferences
         html += `<tr sliprate-metadata-gid="${layer.scec_properties.gid}">`;
 
         html += `<td><button class=\"btn btn-sm cxm-small-btn\" id=\"button_meta_${layer.scec_properties.gid}\" title=\"remove the site\" onclick=GSRD_SLIPRATE.unselectSiteByGid("${layer.scec_properties.gid}") onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}") ><span id=\"sliprate_metadata_${layer.scec_properties.gid}\" class=\"glyphicon glyphicon-trash\"></span></button></td>`;
-        html += `<td class="meta-data">${layer.scec_properties.gsrd_id}</td>`;
+        html += `<td class="meta-data">${layer.scec_properties.scec_id}</td>`;
         html += `<td class="meta-data" onmouseover=GSRD_SLIPRATE.hoverSiteSelectedByGid("${layer.scec_properties.gid}") onmouseout=GSRD_SLIPRATE.unhoverSiteSelectedByGid("${layer.scec_properties.gid}")>${layer.scec_properties.fault_name} </td>`;
         html += `<td class="meta-data">${layer.scec_properties.site_name}</td>`;
 
@@ -1153,7 +1151,7 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" onClick="sortMetadataTableByRow(4,'a')" style="width:6rem;">Rate Type&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:16rem">CFM6 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:16rem">CFM7 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:2rem; border-right-color:transparent;">&nbsp;&nbsp;References&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
         <th style="width:13rem;border-left-color:transparent;"><div class="text-center">
 <!--download all -->
@@ -1555,7 +1553,7 @@ window.console.log("calling download..");
       
 /***** this is for downloading some generated file from the result directory..
           if(ftype == "extra") {
-            let downloadURL = getDataDownloadURL(layer.scec_properties.gsrd_id);
+            let downloadURL = getDataDownloadURL(layer.scec_properties.scec_id);
             let dname=downloadURL.substring(downloadURL.lastIndexOf('/')+1);
             let promise = $.get(downloadURL);
             nzip.file(dname,promise);
