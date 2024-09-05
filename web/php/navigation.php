@@ -18,6 +18,7 @@ function getHeader($this_page) {
 	$all_pages = [
 		$host_site_actual_path => "GSRD Explorer",
 		"guide" => "User Guide",
+		"cite" => "How to Cite",
 		"disclaimer" => "Disclaimer",
 		"contact" => "Contact"
 	];

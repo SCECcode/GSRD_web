@@ -19,7 +19,7 @@ $header = getHeader("User Guide");
     <script type='text/javascript' src='js/vendor/jquery.min.js'></script>
     <script type='text/javascript' src='js/vendor/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/vendor/jquery-ui.js'></script>
-    <title>Earthquake Geology Data Web Tool: User Guide</title>
+    <title>Geologic Slip Rate Database Explorer: User Guide</title>
 </head>
 <body>
 <?php echo $header; ?>
@@ -34,7 +34,7 @@ $header = getHeader("User Guide");
                 <img src="img/gsrd-explorer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
                 <figcaption class="figure-caption">Screen capture of Geologic Slip Rate Database Explorer interface</figcaption>
             </figure>
-            <h4><strong>Geologic Slip Rate Database Explorer Overview</strong></h4>
+            <h4><strong>Overview</strong></h4>
 
 	    <p>The Geologic Slip Rate Database Explorer provide interactive map-based views of
                the database source data. The explorers allow users to search and view the
@@ -42,7 +42,7 @@ $header = getHeader("User Guide");
                interface without having to download the entire Slip Rate Database archive.
                The pages on this site include the main
                <a href="<?php echo $host_site_actual_path; ?>">Geologic Slip Rate Database Explorer page</a>, 
-               this user guide, <a href="disclaimer">a disclaimer</a>, and a 
+               this user guide, <a href="cite">citing usage of this dataset</a>, <a href="disclaimer">a disclaimer</a>, and a
                <a href="contact">contact information</a> page.</p>
 
 	    <p>The main Geologic Slip Rate Database Explorer interface is on the explorer page. 
