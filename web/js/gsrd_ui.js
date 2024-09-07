@@ -31,11 +31,6 @@ function _toMinView()
 let height=window.innerHeight;
 let width=window.innerWidth;
 
-let belt = document.getElementById('banner-container');
-let b_height = belt.clientHeight;
-let telt = document.getElementById('top-intro');
-let t_height = telt.clientHeight;
-
 $('#top-control').css("display", "none");
 $('#top-select').css("display", "none");
 $('.navbar').css("margin-bottom", "0px");
@@ -43,15 +38,17 @@ $('.navbar').css("margin-bottom", "0px");
 $('.container').css("max-width", "100%");
 $('.leaflet-control-attribution').css("width", "70rem");
 
-$('.container').css("padding-left", "2px");
-$('.container').css("padding-right", "2px");
+let belt = document.getElementById('banner-container');
+let b_height = belt.clientHeight;
+let b_width = belt.clientWidth;
 
-// minus the height of the container top 
-let h = height - b_height - t_height - 25;
-let w = width - 100;
+let telt = document.getElementById('top-intro');
+let t_height = telt.clientHeight;
 
-$('#GSRD_plot').css("height", h);
+let w = b_width;
 $('#GSRD_plot').css("width", w);
+let h = height - b_height - t_height - 40 - 20;
+$('#GSRD_plot').css("height", h);
 resize_map();
 }
 
