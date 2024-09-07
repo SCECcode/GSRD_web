@@ -629,7 +629,8 @@ input[type=text] {
 }
 
 #top-intro {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    margin-top: 40px;
 }
 
 #top-intro div.links {

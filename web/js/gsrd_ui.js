@@ -47,7 +47,7 @@ $('.container').css("padding-left", "2px");
 $('.container').css("padding-right", "2px");
 
 // minus the height of the container top 
-let h = height - b_height - t_height - 80;
+let h = height - b_height - t_height - 25;
 let w = width - 100;
 
 $('#GSRD_plot').css("height", h);
