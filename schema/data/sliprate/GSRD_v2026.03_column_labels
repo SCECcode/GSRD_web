@@ -1,0 +1,28 @@
+  1: Fault Name
+  2: NSHM23 Fault ID
+  3: Last Update
+  4: SCEC ID
+  5: NSHM23 Rate ID
+  6: State
+  7: Site Name
+  8: Longitude
+  9: Latitude
+ 10: Distance To Nearest CFM Fault (km)
+ 11: CFM 7.0 Object Name
+ 12: Observation
+ 13: Preferred Rate
+ 14: Low Rate
+ 15: High Rate
+ 16: Rate Uncertainty
+ 17: Rate Type
+ 18: Reported or Reinterpreted
+ 19: Offset Type
+ 20: Age Type
+ 21: Num Events
+ 22: Rate Age
+ 23: Qbin Min
+ 24: Qbin Max
+ 25: UCERF3 AppB
+ 26: Short Reference
+ 27: DOI/Web Link
+ 28: Full Reference

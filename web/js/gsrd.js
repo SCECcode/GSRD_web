@@ -5,6 +5,8 @@ http://leaflet.github.io/Leaflet.markercluster/#examples
 https://stackoverflow.com/questions/22168558/multiple-markers-on-the-exact-same-position-on-a-leaflet-map
 ***/
 
+const NA_SLIPRATE= -9999;
+
 var GSRD_SLIPRATE = new function () {
     window.console.log("in GSRD_SLIPRATE..");
 
@@ -81,12 +83,13 @@ var GSRD_SLIPRATE = new function () {
     var sliprate_csv_keys= {
 fault_name: 'Fault Name',
 fault_id: 'NSHM23 Fault ID',
+last_update: 'Last Update',
 state: 'State',
 site_name: 'Site Name',
 scec_id: 'ID',
 sliprate_id: 'NSHM23 Slip Rate ID',
 longitude: 'Longitude',
-latitud: 'Latitude',
+latitude: 'Latitude',
 dist_to_cfmfault: 'Distance To Nearest CFM Fault (km)',
 cfm7_objectname: 'CFM7.0 Object Name',
 observation: 'Observation',
@@ -103,9 +106,9 @@ rate_age: 'Rate Age',
 q_bin_min: 'Qbin Min',
 q_bin_max: 'Qbin Max',
 ucerf3_appb: 'UCERF3 AppB',
-short_references: 'Short References',
+short_reference: 'Short Reference',
 links: 'DOI/Web Links',
-full_references: 'Full References'
+full_reference: 'Full Reference'
         };
 
     this.searchingType=this.searchType.none;
@@ -174,7 +177,7 @@ window.console.log("setting up color legend..");
 }
 
 /********** show layer/select functions *********************/
-    function _makeLinksWithReferences(links,refs) {
+    function _makeLinksWithReference(links,refs) {
         let rc="<div class=\'col\' style=\"max-width:30rem\">";
         let terms=links.split("; ");
         let rterms=refs.split(";");
@@ -220,7 +223,6 @@ window.console.log("setting up color legend..");
         });
     }
 
-
 // gsrd_sliprate_site_data is from viewer.php, which is the JSON 
 // result from calling php getAllSiteData script
     this.generateLayers = function () {
@@ -230,24 +232,36 @@ window.console.log( "generate the initial gsrd_layers");
         this.gsrd_markerLocations = [];
         this.gsrd_active_markerLocations = [];
 
+/* from PHP,
+gid,faultname,nshm23faultid,lastupdate,scecid,nshm23rateid,state,siteNnme,longitude,
+latitude,disttocfmfault,cfm7objectname,observation,prefrate,lowrate,highrate,rateunct,
+ratetype,reptreint,offsettype,agetype,numevents,rateage,qbinmin,qbinmax,ucerf3appb,
+shortreference,links,fullreference
+*/
 // SELECT * FROM tb ORDER BY gid ASC;
         for (const index in gsrd_sliprate_site_data) {
           if (gsrd_sliprate_site_data.hasOwnProperty(index)) {
                 let gid = gsrd_sliprate_site_data[index].gid;
-// XXX  needs to update after egd->gsrd name change in schema
                 let scec_id = gsrd_sliprate_site_data[index].scecid;
-                let sliprate_id = gsrd_sliprate_site_data[index].sliprateid;
+                let sliprate_id = gsrd_sliprate_site_data[index].nshm23rateid;
+                let fault_id = gsrd_sliprate_site_data[index].nshm23faultid;
                 let longitude = parseFloat(gsrd_sliprate_site_data[index].longitude);
                 let latitude = parseFloat(gsrd_sliprate_site_data[index].latitude);
                 let fault_name = gsrd_sliprate_site_data[index].faultname;
+                let last_update = gsrd_sliprate_site_data[index].lastupdate;
                 let cfm_name = gsrd_sliprate_site_data[index].cfm7objectname;
                 let state = gsrd_sliprate_site_data[index].state;
                 let site_name = gsrd_sliprate_site_data[index].sitename;
                 let rate_type = gsrd_sliprate_site_data[index].ratetype;
                 let low_rate = parseFloat(gsrd_sliprate_site_data[index].lowrate);
+                if (low_rate === NA_SLIPRATE) {
+window.console.log("XXX");
+                    } else {
+window.console.log("YYY");
+                }
                 let high_rate = parseFloat(gsrd_sliprate_site_data[index].highrate);
                 let links = gsrd_sliprate_site_data[index].links;
-                let short_references = gsrd_sliprate_site_data[index].shortreferences;
+                let short_reference = gsrd_sliprate_site_data[index].shortreference;
 
                 let marker = makeLeafletCircleMarker([latitude, longitude], site_marker_style.normal);
 
@@ -256,9 +270,13 @@ window.console.log( "generate the initial gsrd_layers");
                 marker.bindTooltip(site_info).openTooltip();
 
 //https://stackoverflow.com/questions/23874561/leafletjs-marker-bindpopup-with-options
-                let reflinkstr= _makeLinksWithReferences(links,short_references);
+                let reflinkstr= _makeLinksWithReference(links,short_reference);
 
-marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
+                if(low_rate == NA_SLIPRATE ) {
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Reference: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>N/A<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
+                    } else {
+marker.bindPopup("<strong>"+site_info+"</strong><br><strong>Reference: </strong><br>"+reflinkstr+"<strong>Rate Type: </strong>"+rate_type+"<br><strong>Low Rate: </strong>"+low_rate+"<br><strong>High Rate: </strong>"+high_rate, {maxWidth: 500});
+                }
 
                 marker.scec_properties = {
                     idx: index,
@@ -267,6 +285,8 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                     gid: gid,
                     scec_id: scec_id,
                     sliprate_id:sliprate_id,
+                    fault_id:fault_id,
+                    last_update:last_update,
                     longitude: longitude,
                     latitude: latitude,
                     fault_name: fault_name,
@@ -276,7 +296,7 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                     low_rate: low_rate,
                     high_rate: high_rate,
                     rate_type: rate_type,
-                    short_references: short_references,
+                    short_reference: short_reference,
                     links: links
           };
 
@@ -288,16 +308,18 @@ marker.bindPopup("<strong>"+site_info+"</strong><br><strong>References: </strong
                 this.gsrd_active_gid.push(gid);
                 this.gsrd_active_markerLocations.push(marker.getLatLng())                      
 
-                if(this.gsrd_minrate_min == undefined) {
+// low_rate could be null because it started with N/A
+
+                if(low_rate != NA_SLIPRATE &&  this.gsrd_minrate_min == undefined ) {
                    this.gsrd_minrate_min = low_rate;
                    this.gsrd_minrate_max = low_rate;
-                  } else {
-                    if(low_rate != 0 && low_rate < this.gsrd_minrate_min) {
-                      this.gsrd_minrate_min=low_rate;  
-                    }
-                    if(low_rate > this.gsrd_minrate_max) {
-                      this.gsrd_minrate_max=low_rate;
-                    }
+                   } else {
+                      if(low_rate !=0 && low_rate != NA_SLIPRATE && low_rate < this.gsrd_minrate_min) {
+                          this.gsrd_minrate_min=low_rate;  
+                      }
+                      if(low_rate > this.gsrd_minrate_max) {
+                          this.gsrd_minrate_max=low_rate;
+                      }
                 }
                 if(this.gsrd_maxrate_min == undefined) {
                    this.gsrd_maxrate_min = high_rate;
@@ -405,16 +427,18 @@ window.console.log("createActiveLayer with gid +",glist.length);
                   let lr=layer.scec_properties.low_rate;
                   let hr=layer.scec_properties.high_rate;
 
-                  if(minrate_min == undefined) {
-                     minrate_min = lr;
-                     minrate_max = lr;
-                     } else {
-                       if(lr != 0 && lr  < minrate_min) {
-                          minrate_min=lr;
-                       }
-                       if(lr > minrate_max) {
-                          minrate_max=lr;
-                       }
+                  if(lr != null) {
+                     if(minrate_min == undefined) {
+                       minrate_min = lr;
+                       minrate_max = lr;
+                       } else {
+                         if(lr != 0 && lr != NA_SLIPRATE && lr  < minrate_min) {
+                            minrate_min=lr;
+                         }
+                         if(lr > minrate_max) {
+                            minrate_max=lr;
+                         }
+                     }
                   }
                   if(maxrate_min == undefined) {
                     maxrate_min = hr;
@@ -1029,19 +1053,21 @@ window.console.log("flyingBounds --latlon");
 
 /********** metadata  functions *********************/
 /* create a metadata list using selected gid list
-FaultName,FaultID,State,SiteName,SCECId,SliprateId,Longitude,Latitude,DistToCFMFault,CFM7ObjectName,DataType,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,
-UCERF3AppB
-ShortReferences,Links,FullReferences
+FaultName,NSHM23FaultId,LastUpdate,SCECId,NSHM23RateId,State,SiteName,Longitude,Latitude,
+DistToCFMFault,CFM7ObjectName,Observation,PrefRate,LowRate,HighRate,RateUnct,RateType,
+ReptReint,OffsetType,AgeType,NumEvents,RateAge,QbinMin,QbinMax,UCERF3AppB,
+ShortReference,Links,FullReference
 
 gid
 faultname
-faultid
+nshm23faultid
 state
+lastupdate
 sitename
 scecid
-sliprateid
+nshm23rateid
 longitude
-latitud
+latitude
 disttocfmfault
 cfm7objectname
 observation
@@ -1058,23 +1084,23 @@ rateage
 qbinmin
 qbinmax
 ucerf3appb
-shortreferences
+shortreference
 links
-fullreferences
+fullreference
 */
     function createMetaData(properties) {
         var meta={};
         meta.fault_name = properties.faultname;
-        meta.fault_id = properties.faultid;
+       meta.fault_id = properties.nshm23faultid;
+        meta.last_update = properties.lastupdate;
         meta.state = properties.state;
         meta.site_name = properties.sitename;
         meta.scec_id= properties.scecid;
-        meta.sliprate_id= properties.sliprateid;
+        meta.sliprate_id= properties.nshm23rateid;
         meta.longitude = properties.longitude;
         meta.latitude = properties.latitude;
         meta.dist_to_cfmfault = properties.disttocfmfault;
-        meta.cfm6_objectname = properties.cfm6objectname;
-//no need        meta.data_type = properties.datatype;
+        meta.cfm7_objectname = properties.cfm7objectname;
         meta.observation = properties.observation;
         meta.pref_rate = properties.prefrate;
         meta.low_rate = properties.lowrate;
@@ -1089,9 +1115,9 @@ fullreferences
         meta.q_bin_min = properties.qbinmin;
         meta.q_bin_max = properties.qbinmax;
         meta.ucerf3_appb = properties.ucerf3appb;
-        meta.short_references = properties.shortreferences;
+        meta.short_reference = properties.shortreference;
         meta.links = properties.links;
-        meta.full_references = properties.fullreferences;
+        meta.full_reference = properties.fullreference;
         return meta;
     }
 
@@ -1119,7 +1145,7 @@ fullreferences
     var generateMetadataTableRow = function(layer) {
         let $table = $("#metadata-table");
         let html = "";
-        let reflinkstr= _makeLinksWithReferences(layer.scec_properties.links,layer.scec_properties.short_references);
+        let reflinkstr= _makeLinksWithReference(layer.scec_properties.links,layer.scec_properties.short_reference);
 
         html += `<tr sliprate-metadata-gid="${layer.scec_properties.gid}">`;
 
@@ -1152,7 +1178,7 @@ window.console.log("generateMetadataTable..");
         <th class="hoverColor" onClick="sortMetadataTableByRow(5,'n')" style="width:4rem;">Low Rate<br>(mm/yr)&nbsp;<span id='sortCol_6' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(6,'n')" style="width:4rem">High Rate<br>(mm/yr)&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
         <th class="hoverColor" onClick="sortMetadataTableByRow(7,'a')" style="width:16rem">CFM7 Object&nbsp;<span id='sortCol_7' class="fas fa-angle-down"></span></th>
-        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:2rem; border-right-color:transparent;">&nbsp;&nbsp;References&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
+        <th class="hoverColor" onClick="sortMetadataTableByRow(8,'a')" style="width:2rem; border-right-color:transparent;">&nbsp;&nbsp;Reference&nbsp;<span id='sortCol_8' class="fas fa-angle-down"></span></th>
         <th style="width:13rem;border-left-color:transparent;"><div class="text-center">
 <!--download all -->
                 <div class="btn-group download-now">
@@ -1402,13 +1428,15 @@ window.console.log("HERE...");
 
             this.activateData();
 
-            if(this.gsrd_markerLocations.length == 0) {
-window.console.log("BAD.. no markers ???");
-              } else {
-                viewermap.invalidateSize();
-                let bounds = L.latLngBounds(this.gsrd_markerLocations);
+            if(this.gsrd_markerLocations != undefined) {
+                if(this.gsrd_markerLocations.length == 0) {
+    window.console.log("BAD.. no markers ???");
+                  } else {
+                    viewermap.invalidateSize();
+                    let bounds = L.latLngBounds(this.gsrd_markerLocations);
 window.console.log("fit bounds to all marker");
-                viewermap.fitBounds(bounds);
+                    viewermap.fitBounds(bounds);
+                }
             }
 
 /* setup  sliders */

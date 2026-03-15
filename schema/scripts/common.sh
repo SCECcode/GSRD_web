@@ -16,11 +16,12 @@ PWD=`pwd`
 
 if [ $TOGGLE_S1 == 1 ]
 then
-  GSRDPATH=${PWD}"/../GSRD_slip_rates/"
+  GSRDPATH=${PWD}"/../GSRD_slip_rates_v2026_03/"
   GSRDTYPE="GSRD_sliprates"
-  EXCEL_NM="GSRD_SlipRatesSites"
+  EXCEL_NM="GSRD_v2026.03"
   DATATYPE="sliprate"
   EXCEL_NM_SHEET="GSRD Slip Rates"
+  LABEL_CNT=28
 #  EXCEL_NM_FILE=${GSRDPATH}"/GSRD_SlipRates.xlsx"
 fi
 
