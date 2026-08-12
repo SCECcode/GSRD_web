@@ -16,9 +16,9 @@ PWD=`pwd`
 
 if [ $TOGGLE_S1 == 1 ]
 then
-  GSRDPATH=${PWD}"/../GSRD_slip_rates_v2026_03/"
+  GSRDPATH=${PWD}"/../GSRD_slip_rates_v2026_08/"
   GSRDTYPE="GSRD_sliprates"
-  EXCEL_NM="GSRD_v2026.03"
+  EXCEL_NM="GSRD_v2026.08"
   DATATYPE="sliprate"
   EXCEL_NM_SHEET="GSRD Slip Rates"
   LABEL_CNT=28

@@ -20,8 +20,8 @@ csvcut -n ${EXCEL_NM}.csv > ${EXCEL_NM}_column_labels
 #"> my_tb.csv 
 
 #csvcut -c "27" ${EXCEL_NM}.csv |csvcut -K 1 | sort -n|uniq | sed "1i\\
-csvcut -c "4,14,15" ${EXCEL_NM}.csv |csvcut -K 1 | sed "1i\\
-id,lowRate,highRate
+csvcut -c "4,13,14,15" ${EXCEL_NM}.csv |csvcut -K 1 | sed "1i\\
+id,prefRate,lowRate,highRate
 "> id_test_tb.csv 
 
 #### this is for 2024

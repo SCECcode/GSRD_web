@@ -13,7 +13,7 @@ CREATE TABLE SLIPRATE_tb (
    CFM7ObjectName  VARCHAR(100) NOT NULL,
    Observation     VARCHAR(2000),
    PrefRate        VARCHAR(50),
-   LowRate         float default 0.0,
+   LowRate         VARCHAR(50),
    HighRate        float default 0.0,
    RateUnct        VARCHAR(400) NOT NULL,
    RateType        VARCHAR(400) NOT NULL,

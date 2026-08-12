@@ -1,3 +1,6 @@
+## 2026-08-12  Mei-Hui Su <mei@usc.edu>
+* Release 2026.08, updated sliprate dataset with 6 new slip rate sites
+
 ## 2026-04-09  Mei-Hui Su <mei@usc.edu>
 * Release 2026.04, updated sliprate dataset with 94 new slip rate sites
   and 5 updates sites spanning CA, NV, and northern Mexico

@@ -253,11 +253,10 @@ shortreference,links,fullreference
                 let state = gsrd_sliprate_site_data[index].state;
                 let site_name = gsrd_sliprate_site_data[index].sitename;
                 let rate_type = gsrd_sliprate_site_data[index].ratetype;
-                let low_rate = parseFloat(gsrd_sliprate_site_data[index].lowrate);
-                if (low_rate === NA_SLIPRATE) {
-window.console.log("XXX");
-                    } else {
-window.console.log("YYY");
+                let low_rate_string = gsrd_sliprate_site_data[index].ratetype;
+                let low_rate=NA_SLIPRATE;
+                if(low_rate_string !== "N/A") {
+                    low_rate = parseFloat(gsrd_sliprate_site_data[index].lowrate);
                 }
                 let high_rate = parseFloat(gsrd_sliprate_site_data[index].highrate);
                 let links = gsrd_sliprate_site_data[index].links;
