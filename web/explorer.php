@@ -143,7 +143,7 @@ below provides a two-dimensional map-based view of the Slip Rate Database. The S
 can be queried based on fault or site name, and minimum/maximum slip rate, or by individually
 clicking on points on the map. Once sites are selected, they are added to the list below the 
 map interface with selected metadata shown.
-The complete 28 columns of metadata for all selected sites can be downloaded (in .csv format) with the 
+The complete data/metadata for all selected sites can be downloaded (in .csv format) with the 
 "Download All Data" button. Refer to the <a href="guide">user guide</a> for more details and 
 usage instructions.<br></p>
    </div>
@@ -427,7 +427,7 @@ onkeypress="javascript:if (event.key == 'Enter') $('.gsrd-latlon-item').mouseout
               </thead>    
               <tbody>
                 <tr id="placeholder-row">
-                  <td colspan="10">A subset of metadata for selected slip rate sites will appear here.<br>Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete 27 columns of metadata for all selected sites in .csv format</td>
+                  <td colspan="10">A subset of metadata for selected slip rate sites will appear here.<br>Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete data/metadata for all selected sites in .csv format</td>
                 </tr>
             </table>
          </div>
