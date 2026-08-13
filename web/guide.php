@@ -26,7 +26,7 @@ $header = getHeader("User Guide");
 
 <div class="container info-page-container scec-main-container guide">
 
-    <h1>Geologic Slip Rate Database Explorer User Guide</h1>
+    <h1>GSRD Explorer User Guide</h1>
 
     <div class="row">
         <div class="col-12">
@@ -34,7 +34,7 @@ $header = getHeader("User Guide");
                 <img src="img/gsrd-explorer.png" class="figure-img img-fluid" alt="Screen capture of Geologic Slip Rate Database Explorer interface">
                 <figcaption class="figure-caption">Screen capture of Geologic Slip Rate Database Explorer interface</figcaption>
             </figure>
-            <h4><strong>Overview</strong></h4>
+            <h4><strong>Geologic Slip Rate Database (GSRD) Explorer Overview</strong></h4>
 
 	    <p>The Geologic Slip Rate Database Explorer provide interactive map-based views of
                the database source data. The explorers allow users to search and view the
@@ -117,9 +117,8 @@ $header = getHeader("User Guide");
 	       When available, references for the Geologic Slip Rate Database are provided as 
                clickable hyperlinks 
 	       that link directly to the source publications/resources. Click on the 
-	       “DOWNLOAD ALL DATA” button to download a CSV file with the complete metadata 
-	       (the full 28 columns) for every selected site. CSV files are plain text (ASCII)
-               and can also be directly
+	       “DOWNLOAD ALL DATA” button to download a CSV file with the complete data/metadata 
+	       for every selected site. CSV files are plain text (ASCII) and can also be directly
 	       opened by Microsoft Excel, or Google Sheets. For more information about the 
                complete metadata contents, refer to the Geologic Slip Rate Database Zenodo archive.</p>
 
