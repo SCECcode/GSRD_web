@@ -114,7 +114,7 @@ full_reference: 'Full Reference'
     this.searchingType=this.searchType.none;
 
     var tablePlaceholderRow = `<tr id="placeholder-row">
-                        <td colspan="10">A subset of metadata for selected slip rate sites will appear here. <br>Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete 27 columns of metadata for all selected sites in .csv format</td>
+                        <td colspan="10">A subset of metadata for selected slip rate sites will appear here. <br>Once sites are selected, click "DOWNLOAD ALL DATA" to download the complete data/metadata for all selected sites in .csv format</td>
                     </tr>`;
 
     this.activateData = function() {

@@ -80,7 +80,7 @@ $header = getHeader("User Guide");
                used when querying the model for download.</p>
 
 	    <p><i>To report any bugs or issues, please see the <a href="contact">contact page</a>
-               or contact <a href="mailto:software@scec.org">software@scec.org</a>.</i></p>
+               or contact <a href="mailto:scec-software@usc.edu">scec-software@usc.edu</a>.</i></p>
 
             <h4><strong>Searching/Querying the Geologic Slip Rate Database</strong></h4>
 
@@ -129,7 +129,7 @@ $header = getHeader("User Guide");
 	       their own data to the Slip Rate Database. The kml/kmz uploader currently supports point/line 
 	       data (kml/kmz), image overlays (kmz only), and remote links in kml/kmz file 
 	       are not supported. If you discover a kml/kmz file that will not display 
-               correctly, please contact us at <a href="mailto:software@scec.org">software@scec.org</a>.</p>
+               correctly, please contact us at <a href="mailto:scec-software@usc.edu">scec-software@usc.edu</a>.</p>
 
             <h4><strong>Browser Requirements</strong></h4>
 	    <p>This site supports the latest versions of
