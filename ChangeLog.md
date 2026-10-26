@@ -1,5 +1,5 @@
 ## 2026-10-26  Mei-Hui Su <mei@usc.edu>
-* Release 2026.10, update amazonlinux2023 and php8+
+* Release 2026.10, update amazonlinux2023 and php8.3
 
 ## 2026-08-12  Mei-Hui Su <mei@usc.edu>
 * Release 2026.08, updated sliprate dataset with 6 new slip rate sites
