@@ -1,9 +1,7 @@
-#
+pid=`docker ps | grep gsrd_web_web | cut -f 1 -d ' '`
+docker container exec -it $pid /bin/bash
 
-#docker container exec -it gsrd_web_web_1 /bin/bash
-#docker container exec -it $1 /bin/bash
 
-docker container exec -it gsrd_web_db_1 /bin/bash
-docker container exec -it $1 /bin/bash
+
 #psql SLIPRATE_db  -U webonly
 #psql SLIPRATE_db  -U postgres
